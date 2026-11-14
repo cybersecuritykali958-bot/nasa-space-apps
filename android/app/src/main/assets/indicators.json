@@ -58,11 +58,11 @@
       "unit": "bpm",
       "system": "cardiovascular",
       "bands": [
-        {"status": "red", "max": 40},
-        {"status": "yellow", "min": 40, "max": 50},
+        {"status": "red", "max": 41},
+        {"status": "yellow", "min": 41, "max": 50},
         {"status": "green", "min": 50, "max": 100},
-        {"status": "yellow", "min": 100, "max": 120},
-        {"status": "red", "min": 120}
+        {"status": "yellow", "min": 100, "max": 131},
+        {"status": "red", "min": 131}
       ],
       "baselineDeviationPct": {"yellow": 15, "red": 30},
       "howToMeasure": "Right after waking, before getting out of the sleep station. Wearable, finger sensor or the camera pulse scan.",
@@ -75,9 +75,11 @@
       "riskIds": ["cardiovascular", "sleep"],
       "sources": [
         {"title": "AHA: All about heart rate (pulse); normal resting 60-100 bpm, trained athletes down to about 40", "url": "https://www.heart.org/en/health-topics/high-blood-pressure/the-facts-about-high-blood-pressure/all-about-heart-rate-pulse"},
+        {"title": "Royal College of Physicians 2017, National Early Warning Score (NEWS2): pulse <=40 and >=131 score 3, temperature <=35.0 score 3", "url": "https://www.rcp.ac.uk/media/ctulqqbn/news2-executive-summary_0.pdf"},
+        {"title": "Buchheit 2014, Monitoring training status with HR measures: typical day-to-day error of resting HR about 10%", "url": "https://doi.org/10.3389/fphys.2014.00073"},
         {"title": "NASA HRP: Risks of human spaceflight", "url": "https://humanresearchroadmap.nasa.gov/risks/"}
       ],
-      "verified": false
+      "verified": true
     },
     {
       "id": "glucose",
@@ -112,10 +114,10 @@
       "unit": "°C",
       "system": "immune",
       "bands": [
-        {"status": "red", "max": 35.0},
-        {"status": "yellow", "min": 35.0, "max": 36.0},
-        {"status": "green", "min": 36.0, "max": 37.3},
-        {"status": "yellow", "min": 37.3, "max": 38.0},
+        {"status": "red", "max": 35.1},
+        {"status": "yellow", "min": 35.1, "max": 35.7},
+        {"status": "green", "min": 35.7, "max": 37.4},
+        {"status": "yellow", "min": 37.4, "max": 38.0},
         {"status": "red", "min": 38.0}
       ],
       "howToMeasure": "Oral or ear thermometer, at rest, not right after exercise.",
@@ -129,11 +131,13 @@
       "sources": [
         {"title": "CDC: Definitions of signs and symptoms of ill travelers (fever: 38 °C / 100.4 °F or higher)", "url": "https://www.cdc.gov/port-health/php/definitions-symptoms-reportable-illness/index.html"},
         {"title": "Brown et al. 2012, Accidental hypothermia (core temperature below 35 °C)", "url": "https://doi.org/10.1056/NEJMra1114208"},
+        {"title": "Obermeyer et al. 2017, Individual differences in normal body temperature: mean 36.6 °C, 95% range 35.7-37.3 °C", "url": "https://doi.org/10.1136/bmj.j5468"},
+        {"title": "Royal College of Physicians 2017, National Early Warning Score (NEWS2): pulse <=40 and >=131 score 3, temperature <=35.0 score 3", "url": "https://www.rcp.ac.uk/media/ctulqqbn/news2-executive-summary_0.pdf"},
         {"title": "Crucian et al. 2018, Immune system dysregulation during spaceflight", "url": "https://doi.org/10.3389/fimmu.2018.01437"},
         {"title": "Stahn et al. 2017, Increased core body temperature in astronauts during long-duration space missions", "url": "https://doi.org/10.1038/s41598-017-15560-w"},
         {"title": "NASA HRP: Risks of human spaceflight", "url": "https://humanresearchroadmap.nasa.gov/risks/"}
       ],
-      "verified": false
+      "verified": true
     },
     {
       "id": "sleep_hours",
@@ -155,9 +159,10 @@
       "riskIds": ["sleep", "behavioral"],
       "sources": [
         {"title": "Watson et al. 2015, Recommended amount of sleep for a healthy adult (AASM/SRS)", "url": "https://doi.org/10.5664/jcsm.4758"},
-        {"title": "Barger et al. 2014, Sleep deficiency in astronauts before, during and after spaceflight (ISS average about 6 h)", "url": "https://doi.org/10.1016/S1474-4422(14)70122-X"}
+        {"title": "Barger et al. 2014, Sleep deficiency in astronauts before, during and after spaceflight (ISS average about 6 h)", "url": "https://doi.org/10.1016/S1474-4422(14)70122-X"},
+        {"title": "Van Dongen et al. 2003, The cumulative cost of additional wakefulness: 6 h or less per night for 14 days impairs like up to 2 nights without sleep", "url": "https://doi.org/10.1093/sleep/26.2.117"}
       ],
-      "verified": false
+      "verified": true
     },
     {
       "id": "mood",
@@ -219,7 +224,7 @@
         {"status": "red", "min": 540}
       ],
       "howToMeasure": "Personal dosimeter reading, summed over the mission.",
-      "whySpace": "NASA limits career effective dose to 600 mSv. Yellow starts at half of the limit, red at 90% of it. Beyond Earth's magnetic field the daily dose rises several times.",
+      "whySpace": "NASA limits career effective dose to 600 mSv and requires doses as low as reasonably achievable (ALARA). Yellow starts at half of the limit, red at 90% of it. Beyond Earth's magnetic field the daily dose rises several times.",
       "actions": {
         "green": "No action.",
         "yellow": "Minimize time in low-shielded modules, sleep in the shielded quarters.",
@@ -230,7 +235,7 @@
         {"title": "NASA OCHMO: Radiation protection technical brief, NASA-STD-3001 Vol. 1 [V1 4030] career limit below 600 mSv", "url": "https://www.nasa.gov/wp-content/uploads/2023/03/radiation-protection-technical-brief-ochmo.pdf"},
         {"title": "CSA: Monitoring radiation for astronaut health", "url": "https://www.asc-csa.gc.ca/eng/news/articles/2026/2026-02-26-monitoring-radiation-astronaut-health.asp"}
       ],
-      "verified": false
+      "verified": true
     }
   ]
 }
