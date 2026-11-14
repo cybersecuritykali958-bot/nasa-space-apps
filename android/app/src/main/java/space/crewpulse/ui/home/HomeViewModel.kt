@@ -21,6 +21,8 @@ data class HomeUiState(
     val error: String? = null,
     val astronaut: String = "",
     val missionDay: Int = 0,
+    val environmentName: String = "",
+    val commDelayMin: Double? = null,
     val systems: List<SystemStatus> = emptyList(),
     val risks: List<Risk> = emptyList(),
 ) {
@@ -28,10 +30,6 @@ data class HomeUiState(
         systems.asSequence().flatMap { it.evaluations }.firstOrNull { it.indicator.id == indicatorId }
 }
 
-/**
- * Skeleton data flow: assets -> StatusEngine -> UI.
- * For now it shows the last day of the demo mission. Check-in data from Room comes next.
- */
 class HomeViewModel(private val container: AppContainer) : ViewModel() {
 
     private val _state = MutableStateFlow(HomeUiState())
@@ -46,6 +44,7 @@ class HomeViewModel(private val container: AppContainer) : ViewModel() {
             val indicators = container.assets.indicators()
             val mission = container.assets.demoMission()
             val risks = container.assets.risks()
+            val env = container.assets.environments().find { it.id == mission.environmentId }
             val today = mission.days.maxBy { it.day }
 
             val evaluations = indicators.mapNotNull { indicator ->
@@ -60,7 +59,9 @@ class HomeViewModel(private val container: AppContainer) : ViewModel() {
                 loading = false,
                 astronaut = mission.astronaut,
                 missionDay = today.day,
-                systems = systems,
+                environmentName = env?.name ?: mission.environmentId,
+                commDelayMin = env?.commDelayMinOneWay,
+                systems = systems.sortedBy { it.systemId },
                 risks = risks,
             )
         }.onSuccess { _state.value = it }

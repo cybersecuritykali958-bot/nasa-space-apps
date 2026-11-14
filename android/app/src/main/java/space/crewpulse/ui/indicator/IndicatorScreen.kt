@@ -2,80 +2,118 @@ package space.crewpulse.ui.indicator
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import space.crewpulse.data.model.Risk
+import space.crewpulse.data.model.Source
+import space.crewpulse.domain.BodySystems
 import space.crewpulse.domain.Evaluation
-import space.crewpulse.ui.components.StatusDot
+import space.crewpulse.ui.components.CrewCard
+import space.crewpulse.ui.components.CrewScaffold
+import space.crewpulse.ui.components.StatusLabel
+import space.crewpulse.ui.theme.CrewColors
+import space.crewpulse.ui.theme.StatusColors
 
-/** The "Why?" card: what the value means, how to measure it, what to do, and the source. */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun IndicatorScreen(evaluation: Evaluation?, risks: List<Risk>, onBack: () -> Unit) {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(evaluation?.indicator?.name ?: "Indicator") },
-                navigationIcon = { TextButton(onClick = onBack) { Text("Back") } },
-            )
-        },
-    ) { padding ->
+    CrewScaffold(
+        title = "Why?",
+        subtitle = evaluation?.indicator?.name ?: "Indicator",
+        onBack = onBack,
+    ) { paddingModifier ->
         if (evaluation == null) {
-            Text("No data", Modifier.padding(padding).padding(16.dp))
-            return@Scaffold
+            Text(
+                "No reading for this indicator. Complete check-in or open a value from Home.",
+                Modifier.padding(16.dp).then(paddingModifier),
+            )
+            return@CrewScaffold
         }
         val ind = evaluation.indicator
         Column(
             Modifier
                 .fillMaxSize()
-                .padding(padding)
-                .padding(16.dp)
-                .verticalScroll(rememberScrollState()),
+                .then(paddingModifier)
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 16.dp, vertical = 8.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                StatusDot(evaluation.status, 22.dp)
-                Text(
-                    "${"%.1f".format(evaluation.value)} ${ind.unit}",
-                    style = MaterialTheme.typography.headlineMedium,
-                    modifier = Modifier.padding(start = 12.dp),
-                )
+            CrewCard(accent = StatusColors.of(evaluation.status)) {
+                Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                    Text(BodySystems.label(ind.system), style = MaterialTheme.typography.titleSmall, color = CrewColors.missionAccent)
+                    Text(formatValue(ind.id, evaluation.value, ind.unit), style = MaterialTheme.typography.displaySmall)
+                    StatusLabel(evaluation.status)
+                    evaluation.deviationPct?.let { pct ->
+                        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+                        Text("Baseline deviation: ${"%+.0f".format(pct)}%", style = MaterialTheme.typography.bodyLarge)
+                    }
+                }
             }
-            evaluation.deviationPct?.let {
-                Text("Deviation from your pre-flight baseline: ${"%+.0f".format(it)}%")
+            ActionCard(evaluation)
+            CrewCard { SectionText("Why it matters in space", ind.whySpace) }
+            CrewCard { SectionText("How to measure", ind.howToMeasure) }
+            risks.filter { it.id in ind.riskIds }.takeIf { it.isNotEmpty() }?.let { linked ->
+                CrewCard {
+                    SectionText(
+                        "NASA HRP risks",
+                        linked.joinToString("\n\n") { "• ${it.name}\n  ${it.summary}" },
+                    )
+                }
             }
-            Section("What to do", ind.actions[evaluation.status] ?: "—")
-            Section("Why it matters in space", ind.whySpace)
-            Section("How to measure", ind.howToMeasure)
-            val linked = risks.filter { it.id in ind.riskIds }
-            if (linked.isNotEmpty()) {
-                Section("NASA HRP risks", linked.joinToString("\n") { "• ${it.name}" })
-            }
-            Section("Sources", ind.sources.joinToString("\n") { "• ${it.title}\n  ${it.url}" })
+            SourcesCard(ind.sources)
             if (!ind.verified) {
-                Text("Thresholds pending science review", color = MaterialTheme.colorScheme.error)
+                Text("Thresholds pending science review", color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.labelLarge)
             }
         }
     }
 }
 
 @Composable
-private fun Section(title: String, body: String) {
-    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-        Text(title, style = MaterialTheme.typography.titleSmall)
-        Text(body, style = MaterialTheme.typography.bodyMedium)
+private fun ActionCard(evaluation: Evaluation) {
+    val ind = evaluation.indicator
+    CrewCard(accent = StatusColors.of(evaluation.status)) {
+        SectionText("What to do", ind.actions[evaluation.status] ?: "No guidance for this status.")
     }
+}
+
+@Composable
+private fun SectionText(title: String, body: String) {
+    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+        Text(title, style = MaterialTheme.typography.titleSmall)
+        Text(body, style = MaterialTheme.typography.bodyLarge)
+    }
+}
+
+@Composable
+private fun SourcesCard(sources: List<Source>) {
+    val uriHandler = LocalUriHandler.current
+    CrewCard {
+        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+            Text("Sources", style = MaterialTheme.typography.titleSmall)
+            sources.forEach { source ->
+                TextButton(onClick = { uriHandler.openUri(source.url) }, modifier = Modifier.fillMaxWidth()) {
+                    Column(Modifier.fillMaxWidth()) {
+                        Text(source.title, style = MaterialTheme.typography.bodyMedium)
+                        Text(source.url, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.primary)
+                    }
+                }
+            }
+        }
+    }
+}
+
+private fun formatValue(indicatorId: String, value: Double, unit: String): String = when (indicatorId) {
+    "mood" -> "${value.toInt()} / 5"
+    "sleep_hours" -> "%.1f h".format(value)
+    else -> "%.1f $unit".format(value)
 }
