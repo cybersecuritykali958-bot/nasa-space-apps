@@ -110,18 +110,31 @@ Short answers for the 5-minute defense. Every claim points to a source in this f
 | 10 | How do you handle Moon and Mars gravity? | We assume losses scale with unloading (1 − g). There are no human data at 0.16 g or 0.38 g; rat studies show bone loss grows as loading decreases (Ko 2020). We say this is an assumption. |
 | 11 | What about radiation on a Mars mission? | NASA's career limit is 600 mSv. With MSL RAD rates, a 180-day transit is ~330 mSv, and a full mission (2 × 180 days transit + 500 days on the surface) is ~980 mSv, above the limit. The app shows days left to the limit and an approximate cancer-risk equivalent (600 mSv ≈ 3 % REID). |
 | 12 | Does the phone measure radiation? | No. Dose comes from the crew dosimeter or from published daily rates for the current environment, plus solar particle events. |
-| 13 | Won't the app give too many false alarms? | We chose cut-offs to avoid alarm fatigue: for example, AHA "elevated" blood pressure (120–129) stays green, and the baseline rule requires a change larger than measurement noise. On the synthetic 180-day mission, red alerts appear only during the scripted sleep-loss week (days 40–46) and the fever (days 120–121); the blood-pressure drift and the dose after the solar event show as yellow, and a few isolated yellow days come from normal day-to-day variation, such as one short night. |
+| 13 | Won't the app give too many false alarms? | Two layers. **Statuses:** cut-offs avoid alarm fatigue, e.g. AHA "elevated" blood pressure (120–129) stays green and the baseline rule needs a change larger than measurement noise. On the synthetic 180-day mission, red appears only in the scripted sleep-loss week (days 40–46) and the fever (days 120–121). **Early warning** (EWMA/CUSUM trends): replayed day by day on the same mission, the engine caught 10 of 14 events (an event = at least 2 days in a row off green), 5 of them before the threshold with a mean lead of 16.6 days, and raised 6 false alarms across 9 indicators in 180 days (an alert with no event in the next 30 days), about one per month. Sudden events such as a bad night cannot be predicted and are caught on the day. The data are synthetic, so these numbers must be re-checked on real data (`docs/BACKEND.md`, section 5). |
 | 14 | Is the mood scale validated? | No. It is a single screening question. Validated tools used in isolation studies are the Mental Health Checklist, PANAS and POMS; replacing our item with a short validated scale is future work. |
 | 15 | Is this a medical device? | No. It is a research prototype for self-monitoring that supports the crew medical officer and the flight surgeon, not replaces them. |
 
 ## Engine methods (backend, see `docs/BACKEND.md`)
-| Method | Parameters | Source | Verified |
+
+Science review 2026-11-14 (@LoranSent). Rules live in `android/app/src/main/assets/engine_rules.json`; each rule carries its sources and `verified` flag.
+
+| Method / rule | Parameters | Source | Verified |
 |---|---|---|---|
-| CUSUM | k = 0.5σ, h = 5σ, restarted when an episode ends | Page 1954, doi:10.1093/biomet/41.1-2.100 | ☐ |
-| EWMA | λ = 0.2, L = 3.0 | Roberts 1959, doi:10.1080/00401706.1959.10489860; Lucas & Saccucci 1990, doi:10.1080/00401706.1990.10484583 | ☐ |
-| Triage response window | red 30 min, yellow 24 h, ground handling 10 min | team assumption | ☐ needs a source or rationale |
-| Space weather | SEP within 48 h → shelter, fast CME ≥1000 km/s within 72 h → watch | NASA DONKI | ☐ |
-| Patterns and GO / NO-GO | `engine_rules.json` | see `sources` on each rule | ☐ |
+| CUSUM | k = 0.5σ, h = 5σ, restarted when an episode ends | Page 1954, doi:10.1093/biomet/41.1-2.100. Our Monte Carlo check (normal data): a false signal every ~465 readings, a 1σ shift detected in ~10 readings; matches the Siegmund approximation (469 / 10.3) | ☑ |
+| EWMA | λ = 0.2, L = 3.0 | Roberts 1959, doi:10.1080/00401706.1959.10489860; Lucas & Saccucci 1990, doi:10.1080/00401706.1990.10484583. Our Monte Carlo check: a false signal every ~555 readings, a 1σ shift in ~10 readings | ☑ |
+| Triage: red window | 30 min | ACEM Australasian Triage Scale, category 3 "urgent": within 30 minutes | ☑ |
+| Triage: yellow window, ground handling | 24 h; 10 min | Team assumptions. Yellow 24 h matches the "re-measure tomorrow" actions and `attentionIntervalDays = 1`. Sensitivity: at the typical Mars delay (12 min one way) Earth needs 24 + handling minutes, so any handling time above 6 min gives "onboard protocol"; at the closest Mars distance (3 min) Earth answers in time. ISS and Moon stay "flight surgeon" for any handling time below 30 min | ◐ |
+| Space weather: CME watch | fast CME ≥ 1000 km/s within 72 h | Schwenn et al. 2005, doi:10.5194/angeo-23-1033-2005: transit time ≈ 203 − 20.77 ln V hours → ~60 h at 1000 km/s, inside the 72 h window (formula uses expansion speed, so it is an estimate) | ◐ |
+| Space weather: SEP shelter, X-flare watch | 48 h | NASA DONKI events; NRC 2000 (EVA timing vs solar particle events). The 48 h windows are team assumptions | ◐ |
+| Pattern: possible infection | temperature ≥ yellow and heart rate ≥ +10 % of baseline | Karjalainen 1986: +8.5 bpm per 1 °C of fever, so +0.8 °C (our yellow, 37.4 vs 36.6) ≈ +7 bpm ≈ +11 % at 62 bpm; Radin 2020: resting HR above baseline flags influenza-like illness | ☑ |
+| Pattern: cardiovascular strain | heart rate ≥ yellow **and** (systolic or diastolic ≥ yellow, or a blood-pressure early warning) | NASA HRP cardiovascular risk; AHA. **Bug fixed:** before, "2 of 4" counted conditions, so systolic yellow + systolic early warning alone matched the rule that says "blood pressure and heart rate" | ☑ |
+| Pattern: fatigue | 2 of {sleep, PVT, mood} ≥ yellow | Basner 2011/2015, Pilcher & Huffcutt 1996 (mood is hit hardest by sleep loss), NASA HRP sleep risk | ☐ waits for PVT and mood indicators |
+| Pattern: self-report discordance | mood green and 2 of {PVT +15 %, sleep ≥ yellow, HR +15 %} | Van Dongen 2003: under chronic sleep restriction performance kept falling while subjective sleepiness levelled off | ☐ waits for PVT and mood indicators |
+| Readiness: landing | BP, HR, sleep gates | NASA HRP cardiovascular risk; Lee 2020: >60 % of astronauts could not complete a 10-min tilt test on landing day | ☑ |
+| Readiness: EVA | sleep, PVT, temperature (NO-GO at yellow), BP, HR, glucose; space weather gate | NRC 2000 for the space weather gate; individual gates are team assumptions | ☐ |
+| Schedule, gamification | intervals, points, levels | product decisions, not science | – |
+
+**Note for the backend (@jarororoor):** `PatternMatcher` counts matched *conditions* in `any`, not distinct indicators. The JSON is fixed for `cardiovascular_strain`, but counting distinct indicators in code would prevent the same mistake in new rules.
 
 **Engine self-validation on the demo mission:** 10 of 14 events caught, 5 before the threshold (mean lead 16.6 days), 6 false alarms over 180 days (`docs/BACKEND.md`, section 5). Re-run after threshold changes: `./gradlew testDebugUnitTest --tests '*EngineBenchmarkTest*' -i`.
 

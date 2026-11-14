@@ -22,6 +22,10 @@
       {
         "title": "Lucas & Saccucci 1990, Exponentially weighted moving average control schemes, Technometrics",
         "url": "https://doi.org/10.1080/00401706.1990.10484583"
+      },
+      {
+        "title": "CrewPulse check (Monte Carlo, normal data): CUSUM k=0.5, h=5 gives a false signal every ~465 readings and detects a 1 SD shift in ~10; EWMA lambda=0.2, L=3 gives ~555 and ~10",
+        "url": "https://github.com/cybersecuritykali958-bot/nasa-space-apps/blob/main/docs/SCIENCE.md"
       }
     ]
   },
@@ -39,8 +43,12 @@
     "groundHandlingMin": 10,
     "sources": [
       {
-        "title": "Team assumption pending science review",
-        "url": ""
+        "title": "ACEM Policy P06, Australasian Triage Scale: category 3 (urgent) within 30 minutes; used for a red finding",
+        "url": "https://acem.org.au/getmedia/484b39f1-7c99-427b-b46e-005b0cd6ac64/P06_Policy_Australasian_Triage_Scale"
+      },
+      {
+        "title": "Yellow 24 h and ground handling 10 min: team assumptions, see docs/SCIENCE.md (Engine methods)",
+        "url": "https://github.com/cybersecuritykali958-bot/nasa-space-apps/blob/main/docs/SCIENCE.md"
       }
     ],
     "verified": false
@@ -74,6 +82,18 @@
         {
           "title": "Basner et al. 2015, Cognition test battery for spaceflight",
           "url": "https://doi.org/10.3357/AMHP.4343.2015"
+        },
+        {
+          "title": "Basner, Mollicone, Dinges 2011, brief PVT (PVT-B) sensitivity to sleep loss",
+          "url": "https://doi.org/10.1016/j.actaastro.2011.07.015"
+        },
+        {
+          "title": "Pilcher & Huffcutt 1996, meta-analysis: mood is more affected by sleep deprivation than cognitive or motor performance",
+          "url": "https://doi.org/10.1093/sleep/19.4.318"
+        },
+        {
+          "title": "NASA HRP: Risk of sleep loss, circadian desynchronization and work overload",
+          "url": "https://humanresearchroadmap.nasa.gov/Risks/?i=100"
         }
       ],
       "verified": false
@@ -98,11 +118,19 @@
       "advice": "Rest, fluids, re-measure temperature in 4 hours, tell the crew medical officer.",
       "sources": [
         {
-          "title": "NASA HRP: Risks of human spaceflight",
-          "url": "https://www.nasa.gov/hrp/risks/"
+          "title": "Karjalainen & Viitasalo 1986: heart rate rises ~8.5 bpm per 1 °C of fever",
+          "url": "https://doi.org/10.1001/archinte.1986.00360180179026"
+        },
+        {
+          "title": "Radin et al. 2020: resting heart rate above the personal baseline flags influenza-like illness",
+          "url": "https://doi.org/10.1016/S2589-7500(19)30222-5"
+        },
+        {
+          "title": "NASA HRP: Risk of altered immune response",
+          "url": "https://humanresearchroadmap.nasa.gov/Risks/?i=85"
         }
       ],
-      "verified": false
+      "verified": true
     },
     {
       "id": "cardiovascular_strain",
@@ -122,22 +150,32 @@
           "hasAlert": true
         },
         {
-          "indicator": "heart_rate",
-          "minStatus": "yellow"
+          "indicator": "diastolic_bp",
+          "hasAlert": true
         }
       ],
-      "minAny": 2,
+      "minAny": 1,
       "riskIds": [
         "cardiovascular"
       ],
       "advice": "Repeat measurements tomorrow morning, review salt and fluid intake, keep planned cardio exercise.",
       "sources": [
         {
-          "title": "NASA HRP: Risks of human spaceflight",
-          "url": "https://www.nasa.gov/hrp/risks/"
+          "title": "NASA HRP: Risk of cardiovascular adaptations",
+          "url": "https://humanresearchroadmap.nasa.gov/Risks/?i=179"
+        },
+        {
+          "title": "AHA: Understanding blood pressure readings",
+          "url": "https://www.heart.org/en/health-topics/high-blood-pressure/understanding-blood-pressure-readings"
         }
       ],
-      "verified": false
+      "verified": true,
+      "all": [
+        {
+          "indicator": "heart_rate",
+          "minStatus": "yellow"
+        }
+      ]
     },
     {
       "id": "self_report_discordance",
@@ -171,6 +209,10 @@
       ],
       "advice": "Take an honest second look at how you feel. Consider a private check-in with the crew medical officer.",
       "sources": [
+        {
+          "title": "Van Dongen et al. 2003: with chronic sleep restriction, performance kept declining while subjective sleepiness levelled off",
+          "url": "https://doi.org/10.1093/sleep/26.2.117"
+        },
         {
           "title": "NASA: 5 Hazards of Human Spaceflight (isolation and confinement)",
           "url": "https://www.nasa.gov/hrp/hazards/"
@@ -207,8 +249,12 @@
       ],
       "sources": [
         {
-          "title": "Team assumption pending science review",
-          "url": ""
+          "title": "National Research Council 2000, Radiation and the International Space Station: EVA timing relative to solar particle events",
+          "url": "https://nap.nationalacademies.org/read/9725/chapter/4"
+        },
+        {
+          "title": "Gates for sleep, PVT, temperature, blood pressure, heart rate and glucose: team assumption",
+          "url": "https://github.com/cybersecuritykali958-bot/nasa-space-apps/blob/main/docs/SCIENCE.md"
         }
       ],
       "verified": false,
@@ -233,11 +279,15 @@
       ],
       "sources": [
         {
-          "title": "NASA HRP: Risks of human spaceflight (orthostatic intolerance)",
-          "url": "https://www.nasa.gov/hrp/risks/"
+          "title": "NASA HRP: Risk of cardiovascular adaptations",
+          "url": "https://humanresearchroadmap.nasa.gov/Risks/?i=179"
+        },
+        {
+          "title": "Lee et al. 2020: more than 60 % of astronauts could not complete a 10-min tilt test on landing day after long-duration flight",
+          "url": "https://doi.org/10.3389/fphys.2020.00784"
         }
       ],
-      "verified": false
+      "verified": true
     }
   ],
   "schedule": {
@@ -298,12 +348,20 @@
         "url": "https://api.nasa.gov/"
       },
       {
-        "title": "NASA-STD-3001 Vol. 1, Crew Health (career radiation limit)",
-        "url": "https://standards.nasa.gov/standard/NASA/NASA-STD-3001-VOL-1"
+        "title": "NASA OCHMO: Radiation protection technical brief, NASA-STD-3001 Vol. 1 career limit below 600 mSv",
+        "url": "https://www.nasa.gov/wp-content/uploads/2023/03/radiation-protection-technical-brief-ochmo.pdf"
       },
       {
         "title": "CSA: Monitoring radiation for astronaut health",
         "url": "https://www.asc-csa.gc.ca/eng/news/articles/2026/2026-02-26-monitoring-radiation-astronaut-health.asp"
+      },
+      {
+        "title": "Schwenn et al. 2005: CME transit time to Earth vs speed; a 1000 km/s CME arrives in ~2.5 days, inside the 72 h watch",
+        "url": "https://doi.org/10.5194/angeo-23-1033-2005"
+      },
+      {
+        "title": "National Research Council 2000, Radiation and the International Space Station: EVA timing relative to solar particle events",
+        "url": "https://nap.nationalacademies.org/read/9725/chapter/4"
       }
     ]
   },
