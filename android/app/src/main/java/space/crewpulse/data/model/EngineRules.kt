@@ -121,6 +121,8 @@ data class ScheduleConfig(
     val attentionIntervalDays: Double = 1.0,
     /** Re-check delay after a red value. */
     val redRecheckHours: Double = 1.0,
+    /** Natural time of day for each measurement, "HH:mm" local time (e.g. resting heart rate right after waking). */
+    val timeOfDay: Map<String, String> = emptyMap(),
 )
 
 @Serializable

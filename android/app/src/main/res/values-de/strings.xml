@@ -213,6 +213,12 @@
     <string name="home_subtitle_live">%1$s · Tag %2$d · Echtzeitverbindung zur Erde</string>
     <string name="tomorrow_at">Morgen, %1$s</string>
     <string name="done_today_next">Heute erledigt · nächste morgen, %1$s</string>
+    <string name="part_morning">Morgen</string>
+    <string name="part_day">Nachmittag</string>
+    <string name="part_evening">Abend</string>
+    <string name="overdue_at">%1$s · überfällig</string>
+    <string name="done_today_count">Heute erledigt: %1$d</string>
+    <string name="next_tomorrow">Nächste Messungen morgen ab %1$s</string>
     <string name="ind_systolic_bp">Systolischer Druck</string>
     <string name="ind_diastolic_bp">Diastolischer Druck</string>
     <string name="ind_heart_rate">Ruhepuls</string>

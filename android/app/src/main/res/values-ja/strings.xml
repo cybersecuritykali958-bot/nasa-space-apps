@@ -213,6 +213,12 @@
     <string name="home_subtitle_live">%1$s · %2$d日目 · 地球とリアルタイム通信</string>
     <string name="tomorrow_at">明日 %1$s</string>
     <string name="done_today_next">今日は完了 · 次は明日 %1$s</string>
+    <string name="part_morning">朝</string>
+    <string name="part_day">昼</string>
+    <string name="part_evening">夜</string>
+    <string name="overdue_at">%1$s · 期限切れ</string>
+    <string name="done_today_count">今日完了: %1$d</string>
+    <string name="next_tomorrow">次の測定は明日 %1$s から</string>
     <string name="ind_systolic_bp">収縮期血圧</string>
     <string name="ind_diastolic_bp">拡張期血圧</string>
     <string name="ind_heart_rate">安静時心拍数</string>

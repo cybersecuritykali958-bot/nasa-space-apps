@@ -31,6 +31,11 @@ class SettingsStore(context: Context) {
         prefs.edit().putString(KEY_LANGUAGE, code).commit()
     }
 
+    /** Layout version of the demo data stored on this device (see DemoSeeder). */
+    var demoSeedVersion: Int
+        get() = prefs.getInt(KEY_DEMO_SEED, 0)
+        set(value) { prefs.edit().putInt(KEY_DEMO_SEED, value).apply() }
+
     fun setProfile(profile: Profile) {
         prefs.edit().putString(KEY_PROFILE, profile.name).apply()
         _profile.value = profile
@@ -40,6 +45,7 @@ class SettingsStore(context: Context) {
         const val KEY_PROFILE = "profile"
         const val KEY_ENVIRONMENT = "environment"
         const val KEY_LANGUAGE = "language"
+        const val KEY_DEMO_SEED = "demo_seed_version"
         const val DEFAULT_LANGUAGE = "en"
         const val DEFAULT_ENVIRONMENT = "mars_transit"
     }

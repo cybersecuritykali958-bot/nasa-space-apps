@@ -21,5 +21,5 @@ class AppContainer(context: Context) {
     val baselines: BaselineRepository by lazy { BaselineRepository(database.baselineDao(), readings) }
     val spaceWeather: SpaceWeatherRepository by lazy { SpaceWeatherRepository(appContext, BuildConfig.NASA_API_KEY) }
     val reportBuilder: ReportBuilder by lazy { ReportBuilder(assets, readings, baselines, settings, spaceWeather) }
-    val demoSeeder: DemoSeeder by lazy { DemoSeeder(assets, database.readingDao(), baselines) }
+    val demoSeeder: DemoSeeder by lazy { DemoSeeder(assets, database.readingDao(), baselines, settings) }
 }

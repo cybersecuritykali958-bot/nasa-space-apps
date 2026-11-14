@@ -145,28 +145,7 @@ private fun Briefing(state: HomeUiState, onIndicator: (String) -> Unit, onNaviga
         }
         DayRing(done, total)
     }
-    if (plan == null || plan.next24h.isEmpty()) {
-        Text(stringResource(R.string.all_done), color = MaterialTheme.colorScheme.onSurfaceVariant)
-    } else {
-        val time = DateFormat.getTimeInstance(DateFormat.SHORT)
-        val dayEnd = startOfToday() + DAY_MS
-        plan.next24h.forEach { task ->
-            val ind = state.evaluation(task.indicatorId)?.indicator
-            val doneToday = state.history[task.indicatorId].orEmpty().any { it.timestampMillis >= startOfToday() }
-            val at = time.format(Date(task.dueAtMillis))
-            CardRow(
-                title = ind?.let { indicatorName(it) } ?: task.indicatorName,
-                subtitle = when {
-                    doneToday && task.dueAtMillis >= dayEnd -> stringResource(R.string.done_today_next, at)
-                    task.dueAtMillis >= dayEnd -> stringResource(R.string.tomorrow_at, at)
-                    else -> at
-                },
-                icon = CrewIcons.indicator(task.indicatorId),
-                trailing = if (doneToday) ({ StatusMark(Status.GREEN) }) else null,
-                onClick = { onNavigate(if (task.indicatorId == "pvt_mean_rt") Routes.PVT else Routes.CHECKIN) },
-            )
-        }
-    }
+    if (plan != null) PlanByPartOfDay(state, onNavigate)
 
     Text(
         stringResource(R.string.demo_data_note),
@@ -201,16 +180,89 @@ private fun greeting(): String = stringResource(
 /** Typical durations, for the route picture only (a Mars transfer usually takes 6 to 9 months). */
 private val PLANNED_DAYS = mapOf("mars_transit" to 260, "iss" to 180)
 
-/** Scheduled measurements done today vs due today (or already done today). */
-private fun todayProgress(state: HomeUiState): Pair<Int, Int> {
-    val plan = state.report.plan ?: return 0 to 0
+/** Today's scheduled measurements: done today, and still to do today (overdue included). */
+private data class TodayPlan(
+    val done: List<space.crewpulse.domain.MeasurementTask>,
+    val remaining: List<space.crewpulse.domain.MeasurementTask>,
+    val next: space.crewpulse.domain.MeasurementTask?,
+)
+
+private fun todayPlan(state: HomeUiState): TodayPlan {
+    val plan = state.report.plan ?: return TodayPlan(emptyList(), emptyList(), null)
     val dayStart = startOfToday()
     val dayEnd = dayStart + DAY_MS
-    val tasks = plan.next24h + plan.later
-    val measured = tasks.map { it.indicatorId }.filter { id -> state.history[id].orEmpty().any { it.timestampMillis >= dayStart } }.toSet()
-    val dueToday = tasks.filter { it.dueAtMillis < dayEnd }.map { it.indicatorId }.toSet()
-    val all = measured + dueToday
-    return measured.size to all.size
+    val tasks = (plan.next24h + plan.later).sortedBy { it.dueAtMillis }
+    val doneIds = tasks.map { it.indicatorId }.filter { id -> state.history[id].orEmpty().any { it.timestampMillis >= dayStart } }.toSet()
+    val done = tasks.filter { it.indicatorId in doneIds }
+    val remaining = tasks.filter { it.indicatorId !in doneIds && it.dueAtMillis < dayEnd }
+    val next = tasks.firstOrNull { it.dueAtMillis >= dayEnd }
+    return TodayPlan(done, remaining, next)
+}
+
+private fun todayProgress(state: HomeUiState): Pair<Int, Int> {
+    val p = todayPlan(state)
+    return p.done.size to (p.done.size + p.remaining.size)
+}
+
+private enum class PartOfDay { MORNING, DAY, EVENING }
+
+private fun partOf(millis: Long): PartOfDay = when (Calendar.getInstance().apply { timeInMillis = millis }.get(Calendar.HOUR_OF_DAY)) {
+    in 0..11 -> PartOfDay.MORNING
+    in 12..16 -> PartOfDay.DAY
+    else -> PartOfDay.EVENING
+}
+
+/** Plan grouped into morning / day / evening; done items collapse into one row. */
+@Composable
+private fun PlanByPartOfDay(state: HomeUiState, onNavigate: (String) -> Unit) {
+    val p = todayPlan(state)
+    val time = DateFormat.getTimeInstance(DateFormat.SHORT)
+    val now = System.currentTimeMillis()
+
+    p.remaining.groupBy { partOf(it.dueAtMillis) }.toSortedMap().forEach { (part, tasks) ->
+        Text(
+            stringResource(
+                when (part) {
+                    PartOfDay.MORNING -> R.string.part_morning
+                    PartOfDay.DAY -> R.string.part_day
+                    PartOfDay.EVENING -> R.string.part_evening
+                },
+            ),
+            style = MaterialTheme.typography.titleSmall,
+            color = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.padding(top = 4.dp),
+        )
+        tasks.forEach { task ->
+            val ind = state.evaluation(task.indicatorId)?.indicator
+            val at = time.format(Date(task.dueAtMillis))
+            val overdue = task.dueAtMillis < now - 30 * 60 * 1000
+            CardRow(
+                title = ind?.let { indicatorName(it) } ?: indicatorName(task.indicatorId, task.indicatorName),
+                subtitle = if (overdue) stringResource(R.string.overdue_at, at) else at,
+                icon = CrewIcons.indicator(task.indicatorId),
+                iconTint = if (overdue) StatusColors.yellow else MaterialTheme.colorScheme.primary,
+                onClick = { onNavigate(if (task.indicatorId == "pvt_mean_rt") Routes.PVT else Routes.CHECKIN) },
+            )
+        }
+    }
+
+    if (p.done.isNotEmpty()) {
+        CardRow(
+            title = stringResource(R.string.done_today_count, p.done.size),
+            subtitle = p.done.map { t -> state.evaluation(t.indicatorId)?.indicator?.let { indicatorName(it) } ?: indicatorName(t.indicatorId, t.indicatorName) }.joinToString(" · "),
+            leading = { StatusMark(Status.GREEN) },
+            onClick = { onNavigate(Routes.HEALTH) },
+        )
+    }
+    if (p.remaining.isEmpty()) {
+        p.next?.let {
+            Text(
+                stringResource(R.string.next_tomorrow, time.format(Date(it.dueAtMillis))),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+    }
 }
 
 private const val DAY_MS = 24L * 60 * 60 * 1000

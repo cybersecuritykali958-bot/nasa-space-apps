@@ -213,6 +213,12 @@
     <string name="home_subtitle_live">%1$s · День %2$d · Зв’язок із Землею в реальному часі</string>
     <string name="tomorrow_at">Завтра, %1$s</string>
     <string name="done_today_next">Виконано сьогодні · наступне завтра, %1$s</string>
+    <string name="part_morning">Ранок</string>
+    <string name="part_day">День</string>
+    <string name="part_evening">Вечір</string>
+    <string name="overdue_at">%1$s · прострочено</string>
+    <string name="done_today_count">Виконано сьогодні: %1$d</string>
+    <string name="next_tomorrow">Наступні вимірювання завтра з %1$s</string>
     <string name="ind_systolic_bp">Систолічний тиск</string>
     <string name="ind_diastolic_bp">Діастолічний тиск</string>
     <string name="ind_heart_rate">Пульс у спокої</string>

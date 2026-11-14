@@ -1,5 +1,8 @@
 package space.crewpulse.domain
 
+import java.time.Instant
+import java.time.LocalTime
+import java.time.ZoneId
 import space.crewpulse.data.model.Indicator
 import space.crewpulse.data.model.ScheduleConfig
 import space.crewpulse.data.model.Status
@@ -38,6 +41,7 @@ object MeasurementPlanner {
         report: EngineReport,
         nowMillis: Long,
         config: ScheduleConfig,
+        zone: ZoneId = ZoneId.systemDefault(),
     ): MeasurementPlan {
         val hour = 3_600_000L
         val tasks = indicators.filter { it.id in config.intervalDays }.map { ind ->
@@ -65,6 +69,12 @@ object MeasurementPlanner {
                     "Routine check, stable", TaskPriority.LOW, minutes,
                 )
             }
+        }.map { task ->
+            // Routine and attention checks move to the measurement's natural time of day;
+            // urgent ones (no data, red re-check, stale) stay as they are.
+            val time = config.timeOfDay[task.indicatorId]?.let { runCatching { LocalTime.parse(it) }.getOrNull() }
+            if (time == null || task.priority == TaskPriority.HIGH) task
+            else task.copy(dueAtMillis = alignToTimeOfDay(task.dueAtMillis, time, zone))
         }.sortedWith(compareBy<MeasurementTask> { it.priority }.thenBy { it.dueAtMillis })
 
         val (soon, later) = tasks.partition { it.dueAtMillis <= nowMillis + DAY_MILLIS }
@@ -74,5 +84,12 @@ object MeasurementPlanner {
             minutesNext24h = soon.sumOf { it.minutes },
             minutesIfAllDaily = tasks.sumOf { it.minutes },
         )
+    }
+
+    /** Same calendar day as [millis], at [time]; a time already passed by more than 12 h moves to the next day. */
+    fun alignToTimeOfDay(millis: Long, time: LocalTime, zone: ZoneId): Long {
+        val day = Instant.ofEpochMilli(millis).atZone(zone).toLocalDate()
+        val aligned = day.atTime(time).atZone(zone).toInstant().toEpochMilli()
+        return if (aligned < millis - DAY_MILLIS / 2) aligned + DAY_MILLIS else aligned
     }
 }
