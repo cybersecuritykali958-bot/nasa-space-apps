@@ -45,7 +45,7 @@ fun TrendChart(
         }
 
         indicator.bands.forEach { band ->
-            drawBand(band, yMin, yMax, padT, h, padL, w, missionDays)
+            drawBand(band, yMin, yMax, padT, h, padL, w)
         }
 
         if (points.size >= 2) {
@@ -81,7 +81,6 @@ private fun androidx.compose.ui.graphics.drawscope.DrawScope.drawBand(
     h: Float,
     padL: Float,
     w: Float,
-    missionDays: Int,
 ) {
     val low = band.min ?: yMin
     val high = band.max ?: yMax

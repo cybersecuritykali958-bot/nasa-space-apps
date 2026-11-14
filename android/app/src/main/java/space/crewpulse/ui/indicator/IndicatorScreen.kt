@@ -24,9 +24,15 @@ import space.crewpulse.ui.components.CrewScaffold
 import space.crewpulse.ui.components.StatusLabel
 import space.crewpulse.ui.theme.CrewColors
 import space.crewpulse.ui.theme.StatusColors
+import space.crewpulse.ui.trends.hasTrendChart
 
 @Composable
-fun IndicatorScreen(evaluation: Evaluation?, risks: List<Risk>, onBack: () -> Unit) {
+fun IndicatorScreen(
+    evaluation: Evaluation?,
+    risks: List<Risk>,
+    onBack: () -> Unit,
+    onViewTrend: (String) -> Unit,
+) {
     CrewScaffold(
         title = "Why?",
         subtitle = evaluation?.indicator?.name ?: "Indicator",
@@ -53,6 +59,11 @@ fun IndicatorScreen(evaluation: Evaluation?, risks: List<Risk>, onBack: () -> Un
                     Text(BodySystems.label(ind.system), style = MaterialTheme.typography.titleSmall, color = CrewColors.missionAccent)
                     Text(formatValue(ind.id, evaluation.value, ind.unit), style = MaterialTheme.typography.displaySmall)
                     StatusLabel(evaluation.status)
+                    if (hasTrendChart(ind.id)) {
+                        TextButton(onClick = { onViewTrend(ind.id) }) {
+                            Text("View mission trend")
+                        }
+                    }
                     evaluation.deviationPct?.let { pct ->
                         HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
                         Text("Baseline deviation: ${"%+.0f".format(pct)}%", style = MaterialTheme.typography.bodyLarge)

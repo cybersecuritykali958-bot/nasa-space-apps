@@ -14,6 +14,7 @@ import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -25,9 +26,15 @@ import space.crewpulse.ui.components.CrewScaffold
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun TrendsScreen(container: AppContainer, onBack: () -> Unit) {
+fun TrendsScreen(container: AppContainer, onBack: () -> Unit, initialIndicatorId: String? = null) {
     val vm: TrendsViewModel = viewModel(factory = TrendsViewModel.factory(container))
     val state by vm.state.collectAsStateWithLifecycle()
+
+    LaunchedEffect(initialIndicatorId) {
+        if (!initialIndicatorId.isNullOrBlank() && hasTrendChart(initialIndicatorId)) {
+            vm.select(initialIndicatorId)
+        }
+    }
 
     CrewScaffold(title = "Trends", subtitle = "180-day demo mission", onBack = onBack) { padding ->
         when {

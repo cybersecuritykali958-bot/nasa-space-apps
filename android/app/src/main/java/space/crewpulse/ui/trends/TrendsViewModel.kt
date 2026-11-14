@@ -13,17 +13,6 @@ import space.crewpulse.AppContainer
 import space.crewpulse.data.model.Indicator
 import space.crewpulse.data.model.MissionEvent
 
-private const val TRENDS_DEFAULT_ID = "heart_rate"
-
-private val TREND_INDICATOR_IDS = listOf(
-    "heart_rate",
-    "sleep_hours",
-    "systolic_bp",
-    "glucose",
-    "body_temp",
-    "mood",
-)
-
 data class TrendPoint(val day: Int, val value: Double)
 
 data class TrendsUiState(

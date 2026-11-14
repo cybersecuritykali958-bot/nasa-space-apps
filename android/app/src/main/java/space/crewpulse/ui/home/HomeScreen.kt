@@ -13,6 +13,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,6 +29,7 @@ import space.crewpulse.ui.components.QuickActions
 import space.crewpulse.ui.components.StatusDot
 import space.crewpulse.ui.components.StatusLabel
 import space.crewpulse.ui.navigation.Routes
+import space.crewpulse.ui.trends.hasTrendChart
 import space.crewpulse.ui.theme.StatusColors
 
 @Composable
@@ -35,6 +37,7 @@ fun HomeScreen(
     state: HomeUiState,
     onIndicator: (String) -> Unit,
     onNavigate: (String) -> Unit,
+    onTrend: (String) -> Unit,
 ) {
     CrewScaffold(title = "CrewPulse", subtitle = "Astronaut health monitoring") { paddingModifier ->
         when {
@@ -79,6 +82,16 @@ fun HomeScreen(
                         commDelayMin = state.commDelayMin?.let { if (it % 1.0 == 0.0) it.toInt().toString() else "%.1f".format(it) },
                     )
                 }
+                if (state.includesManualCheckIn) {
+                    item {
+                        CrewCard(accent = MaterialTheme.colorScheme.primary) {
+                            Text(
+                                "Dashboard includes your latest check-in.",
+                                style = MaterialTheme.typography.bodyLarge,
+                            )
+                        }
+                    }
+                }
                 item {
                     QuickActions(
                         actions = listOf(
@@ -121,18 +134,27 @@ fun HomeScreen(
                                 Row(
                                     Modifier
                                         .fillMaxWidth()
-                                        .clickable { onIndicator(eval.indicator.id) }
                                         .padding(vertical = 6.dp),
                                     verticalAlignment = Alignment.CenterVertically,
                                 ) {
                                     StatusDot(eval.status)
-                                    Column(Modifier.padding(start = 10.dp)) {
+                                    Column(
+                                        Modifier
+                                            .weight(1f)
+                                            .clickable { onIndicator(eval.indicator.id) }
+                                            .padding(start = 10.dp),
+                                    ) {
                                         Text(eval.indicator.name, style = MaterialTheme.typography.bodyLarge)
                                         Text(
                                             "${formatReading(eval.indicator.id, eval.value, eval.indicator.unit)} · Why?",
                                             style = MaterialTheme.typography.bodyMedium,
                                             color = MaterialTheme.colorScheme.primary,
                                         )
+                                    }
+                                    if (hasTrendChart(eval.indicator.id)) {
+                                        TextButton(onClick = { onTrend(eval.indicator.id) }) {
+                                            Text("Trend")
+                                        }
                                     }
                                 }
                             }

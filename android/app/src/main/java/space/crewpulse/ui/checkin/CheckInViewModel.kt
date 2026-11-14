@@ -80,8 +80,11 @@ class CheckInViewModel(private val container: AppContainer) : ViewModel() {
     fun consumeSavedMessage() = _state.update { it.copy(savedMessage = null) }
 
     fun submit() {
-        if (validate() == null) return
-        _state.update { it.copy(savedMessage = "Check-in saved locally (demo). Room sync next.") }
+        val parsed = validate() ?: return
+        container.manualSession.apply(parsed)
+        _state.update {
+            it.copy(savedMessage = "Check-in applied to Home (${parsed.size} readings). Room sync next.")
+        }
     }
 
     private fun validate(): List<Pair<String, Double>>? {
