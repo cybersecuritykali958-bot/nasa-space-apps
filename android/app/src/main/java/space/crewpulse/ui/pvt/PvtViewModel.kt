@@ -2,7 +2,11 @@ package space.crewpulse.ui.pvt
 
 import android.os.SystemClock
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import space.crewpulse.AppContainer
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,8 +32,8 @@ data class PvtUiState(
     val message: String = "",
 )
 
-/** Demo-length PVT; full 3-minute run can replace [DEMO_TRIALS] later (@jarororoor). */
-class PvtViewModel : ViewModel() {
+/** Demo-length PVT; full 3-minute run can replace [PVT_DEMO_TRIALS] later (@jarororoor). */
+class PvtViewModel(private val container: AppContainer) : ViewModel() {
 
     private val _state = MutableStateFlow(PvtUiState())
     val state: StateFlow<PvtUiState> = _state
@@ -96,6 +100,9 @@ class PvtViewModel : ViewModel() {
 
     private fun finish(samples: List<Long>) {
         val mean = if (samples.isEmpty()) 0 else samples.average().toLong()
+        if (mean > 0) {
+            container.manualSession.apply(listOf("pvt_mean_rt" to mean.toDouble()))
+        }
         _state.update {
             it.copy(
                 phase = PvtPhase.Summary,
@@ -107,5 +114,9 @@ class PvtViewModel : ViewModel() {
     companion object {
         private const val MIN_DELAY_MS = 2_000L
         private const val MAX_DELAY_MS = 5_000L
+
+        fun factory(container: AppContainer): ViewModelProvider.Factory = viewModelFactory {
+            initializer { PvtViewModel(container) }
+        }
     }
 }

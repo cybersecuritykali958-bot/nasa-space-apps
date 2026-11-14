@@ -7,6 +7,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import space.crewpulse.AppContainer
@@ -43,21 +44,28 @@ class TwinViewModel(private val container: AppContainer) : ViewModel() {
                 val envs = container.assets.environments()
                 doseByDay = mission.days.associate { it.day to (it.readings["cumulative_dose"] ?: 0.0) }
                 val maxDay = mission.days.maxOf { it.day }
-                val day = maxDay.toFloat()
+                val initialDay = container.demoDay.day.value ?: maxDay
                 TwinUiState(
                     loading = false,
-                    missionDay = day,
+                    missionDay = initialDay.toFloat(),
                     maxDay = maxDay,
                     environments = envs,
                     selectedEnvId = mission.environmentId,
-                ).also { applyDay(it, day.toInt()) }
+                ).also { applyDay(it, initialDay) }
             }.onSuccess { _state.value = it }
                 .onFailure { _state.value = TwinUiState(loading = false, error = it.message) }
+        }
+        viewModelScope.launch {
+            container.demoDay.day.drop(1).collect { override ->
+                val d = override ?: _state.value.maxDay
+                _state.update { applyDay(it, d).copy(missionDay = d.toFloat()) }
+            }
         }
     }
 
     fun setDay(day: Float) {
         val d = day.toInt().coerceIn(1, _state.value.maxDay)
+        container.demoDay.setDay(d)
         _state.update { applyDay(it, d).copy(missionDay = d.toFloat()) }
     }
 

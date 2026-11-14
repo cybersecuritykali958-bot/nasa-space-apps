@@ -2,6 +2,9 @@ package space.crewpulse.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
@@ -10,6 +13,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import space.crewpulse.AppContainer
+import space.crewpulse.ui.components.OnboardingDialog
 import space.crewpulse.ui.checkin.CheckInScreen
 import space.crewpulse.ui.home.HomeScreen
 import space.crewpulse.ui.home.HomeViewModel
@@ -41,8 +45,18 @@ fun AppNavHost(container: AppContainer) {
 
     NavHost(navController = nav, startDestination = Routes.HOME) {
         composable(Routes.HOME) {
+            var showOnboarding by remember { mutableStateOf(!container.onboarding.hasSeenOnboarding()) }
+            if (showOnboarding) {
+                OnboardingDialog {
+                    container.onboarding.markOnboardingSeen()
+                    showOnboarding = false
+                }
+            }
             HomeScreen(
                 state = homeState,
+                isRefreshing = homeState.refreshing,
+                onRefresh = home::refresh,
+                onDemoDay = home::setDemoDay,
                 onIndicator = { nav.navigate(Routes.indicator(it)) },
                 onNavigate = { nav.navigate(it) },
                 onTrend = { nav.navigate(Routes.trendsFor(it)) },
@@ -65,7 +79,7 @@ fun AppNavHost(container: AppContainer) {
         ) { entry ->
             TrendsScreen(container, back, entry.arguments?.getString("indicatorId"))
         }
-        composable(Routes.PVT) { PvtScreen(back) }
+        composable(Routes.PVT) { PvtScreen(container, back) }
         composable(Routes.TWIN) { TwinScreen(container, back) }
     }
 }

@@ -24,11 +24,13 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import android.view.HapticFeedbackConstants
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -43,9 +45,11 @@ fun CheckInScreen(container: AppContainer, onBack: () -> Unit) {
     val vm: CheckInViewModel = viewModel(factory = CheckInViewModel.factory(container))
     val state by vm.state.collectAsStateWithLifecycle()
     val snackbar = remember { SnackbarHostState() }
+    val view = LocalView.current
 
     LaunchedEffect(state.savedMessage) {
         val msg = state.savedMessage ?: return@LaunchedEffect
+        view.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
         snackbar.showSnackbar(msg)
         vm.consumeSavedMessage()
         onBack()

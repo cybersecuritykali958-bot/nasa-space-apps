@@ -13,8 +13,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import android.view.HapticFeedbackConstants
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,9 +30,19 @@ import space.crewpulse.ui.components.CrewScaffold
 import space.crewpulse.ui.theme.StatusColors
 
 @Composable
-fun PvtScreen(onBack: () -> Unit) {
-    val vm: PvtViewModel = viewModel()
+fun PvtScreen(container: AppContainer, onBack: () -> Unit) {
+    val vm: PvtViewModel = viewModel(factory = PvtViewModel.factory(container))
     val state by vm.state.collectAsStateWithLifecycle()
+    val view = LocalView.current
+
+    LaunchedEffect(state.phase) {
+        when (state.phase) {
+            PvtPhase.TapNow -> view.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
+            PvtPhase.TooEarly -> view.performHapticFeedback(HapticFeedbackConstants.REJECT)
+            PvtPhase.Summary -> view.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
+            else -> Unit
+        }
+    }
 
     CrewScaffold(
         title = "Reaction test (PVT)",
@@ -91,7 +104,7 @@ fun PvtScreen(onBack: () -> Unit) {
                 state.samples.takeIf { it.isNotEmpty() }?.let { samples ->
                     val mean = samples.average().toLong()
                     Text(
-                        "Demo mean: $mean ms (not saved to Room yet)",
+                        "Demo mean: $mean ms — applied to dashboard (Room later)",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )

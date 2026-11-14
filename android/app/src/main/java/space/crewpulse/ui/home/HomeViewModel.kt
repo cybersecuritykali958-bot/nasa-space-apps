@@ -22,12 +22,14 @@ data class HomeUiState(
     val error: String? = null,
     val astronaut: String = "",
     val missionDay: Int = 0,
+    val demoDaySelection: Int? = null,
     val environmentName: String = "",
     val commDelayMin: Double? = null,
     val systems: List<SystemStatus> = emptyList(),
     val risks: List<Risk> = emptyList(),
     val alerts: List<String> = emptyList(),
     val includesManualCheckIn: Boolean = false,
+    val refreshing: Boolean = false,
 ) {
     fun evaluation(indicatorId: String): Evaluation? =
         systems.asSequence().flatMap { it.evaluations }.firstOrNull { it.indicator.id == indicatorId }
@@ -39,19 +41,29 @@ class HomeViewModel(private val container: AppContainer) : ViewModel() {
     val state: StateFlow<HomeUiState> = _state
 
     init {
-        load()
+        refresh()
         viewModelScope.launch {
-            container.manualSession.readings.drop(1).collect { load() }
+            container.manualSession.readings.drop(1).collect { refresh() }
+        }
+        viewModelScope.launch {
+            container.demoDay.day.drop(1).collect { refresh() }
         }
     }
 
-    fun load() = viewModelScope.launch {
+    fun refresh() = viewModelScope.launch {
+        val hadData = _state.value.systems.isNotEmpty()
+        _state.update {
+            it.copy(loading = !hadData, refreshing = hadData)
+        }
         runCatching {
             val indicators = container.assets.indicators()
             val mission = container.assets.demoMission()
             val risks = container.assets.risks()
             val env = container.assets.environments().find { it.id == mission.environmentId }
-            val today = mission.days.maxBy { it.day }
+            val dayOverride = container.demoDay.day.value
+            val today = dayOverride
+                ?.let { d -> mission.days.find { it.day == d } }
+                ?: mission.days.maxBy { it.day }
             val manual = container.manualSession.readings.value
             val mergedReadings = today.readings + manual
 
@@ -74,15 +86,23 @@ class HomeViewModel(private val container: AppContainer) : ViewModel() {
                 loading = false,
                 astronaut = mission.astronaut,
                 missionDay = today.day,
+                demoDaySelection = dayOverride,
                 environmentName = env?.name ?: mission.environmentId,
                 commDelayMin = env?.commDelayMinOneWay,
                 systems = systems.sortedBy { it.systemId },
                 risks = risks,
                 alerts = alerts,
                 includesManualCheckIn = manual.isNotEmpty(),
+                refreshing = false,
             )
         }.onSuccess { _state.value = it }
-            .onFailure { _state.value = HomeUiState(loading = false, error = it.message) }
+            .onFailure {
+                _state.value = _state.value.copy(loading = false, refreshing = false, error = it.message)
+            }
+    }
+
+    fun setDemoDay(day: Int?) {
+        container.demoDay.setDay(day)
     }
 
     companion object {
