@@ -24,7 +24,8 @@
     "actions": {"green": "...", "yellow": "...", "red": "..."},
     "riskIds": ["cardiovascular"],    // id из risks.json
     "sources": [{"title": "...", "url": "..."}],
-    "verified": false                 // true только после проверки наукой
+    "verified": false,                // true только после проверки наукой
+    "cumulative": false               // true для накопительных (доза): без EWMA/CUSUM, только прогноз тренда
   }]
 }
 ```
@@ -63,5 +64,26 @@
 }
 ```
 
+## engine_rules.json
+Все настраиваемые числа и правила движка (`data/model/EngineRules.kt`, подробно в `docs/BACKEND.md`):
+- `earlyWarning`: EWMA/CUSUM/тренд (`ewmaLambda`, `ewmaL`, `cusumK`, `cusumH`, `trendWindowDays`, `trendHorizonDays`, `trendMinT`, `baselineWindow`, `minHistory`).
+- `confidence`: `staleAfterHours`, `estimatedSources`.
+- `triage`: `responseWindowMin` по статусу, `groundHandlingMin`.
+- `patterns[]`: `id`, `name`, `summary`, `all[]`, `any[]`, `minAny`, `riskIds`, `advice`, `sources`, `verified`.
+  Условие: `{"indicator": "...", "minStatus" | "statusIn" | "minDeviationPct" | "maxDeviationPct" | "hasAlert"}`, все заданные поля должны выполняться.
+- `readiness[]`: `id`, `name`, `gates[]` (`indicator`, `cautionAt`, `noGoAt`), `spaceWeatherGate`.
+- `schedule`: `intervalDays`, `minutesPerMeasurement`, `attentionIntervalDays`, `redRecheckHours`.
+- `gamification`: очки, `coreIndicators`, `pointsPerLevel`, `levelTitles`.
+- `spaceWeather`: `sepWarningHours`, `cmeWatchHours`, `cmeFastSpeedKms`, `flareWatchHours`, `careerLimitMsv`.
+
+## donki_cache.json
+Реальные события NASA DONKI для офлайна. Генерируется `python science/fetch_donki.py`, руками не правится.
+```json
+{"version": 1, "fetchedAt": "2026-11-14T10:10:00Z", "source": "NASA DONKI",
+ "events": [{"type": "SEP|CME|FLR", "id": "...", "time": "2026-09-05T16:30:00Z",
+             "detail": "...", "speedKms": 1200.0, "flareClass": "X1.2", "link": "..."}]}
+```
+
 ## Room (данные в телефоне)
 Таблица `readings`: `indicatorId`, `value`, `timestampMillis`, `source` (`manual` | `camera` | `pvt` | `demo`).
+Таблица `baselines`: `profile` (`DEMO` | `ME`), `indicatorId`, `value`, `source` (`mission` | `manual`).

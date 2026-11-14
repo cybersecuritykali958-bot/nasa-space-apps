@@ -11,7 +11,9 @@
 - Kotlin, Jetpack Compose, Material 3, Navigation Compose.
 - Room (локальная БД), kotlinx.serialization (JSON из `assets/`).
 - Ручной DI через `AppContainer`. Hilt не добавлять.
-- Позже по плану: CameraX + ML Kit (пульс с камеры), Retrofit (NASA DONKI), Vico (графики), WorkManager (напоминания).
+- NASA DONKI через `HttpURLConnection` + kotlinx.serialization (без Retrofit), офлайн-кэш в `assets/donki_cache.json`.
+- Бэкенд-движок: `docs/BACKEND.md` (как устроен и как им пользоваться из экранов).
+- Позже по плану: CameraX + ML Kit (пульс с камеры), Vico (графики), WorkManager (напоминания по `report.plan`).
 - Python 3.12 в `science/` для данных и проверки алгоритмов.
 
 ## Зоны (правь только свою)
@@ -44,6 +46,7 @@
 ```bash
 cd android && ./gradlew testDebugUnitTest assembleDebug
 python science/generate_demo_mission.py
+python science/fetch_donki.py     # обновить офлайн-кэш NASA DONKI (ключ в android/local.properties)
 ```
 
 ## Как работать агенту

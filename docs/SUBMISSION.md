@@ -8,7 +8,7 @@
   - Слайды: 1 команда, 2 участники, 3 челлендж, 4 визуал, 5 как работает, 6 опыт пользователя, 7 данные NASA / партнёров
 - [ ] **Link to Final Project:** публичная ссылка без входа (APK в GitHub Releases или Google Drive + видео)
 - [ ] **Detailed Description:** что делает, как работает, преимущества, цели, технологии (Kotlin, Jetpack Compose, Room, Python)
-- [ ] **NASA Data:** HRP 5 Hazards, HRP Risks, NASA-STD-3001, MSL RAD, NASA DONKI (если подключили): что, откуда, как использовали
+- [ ] **NASA Data:** NASA DONKI (api.nasa.gov: SEP и CME → алерт «в укрытие», GO/NO-GO для выхода), HRP 5 Hazards и Risks (связь показателей с рисками), NASA-STD-3001 (лимит 600 мЗв), MSL RAD (доза по средам): что, откуда, как использовали
 - [ ] **Space Agency Partner & Other Data:** CSA radiation; AHA, ADA, AASM, Basner 2015, Zhang 2020
 - [ ] **AI use:** Claude Code и Cursor — для чего и как использовали
 - [ ] **Images:** скриншоты .png до 10 МБ
