@@ -1,0 +1,7 @@
+# Keep line endings consistent across Windows and Linux machines.
+* text=auto eol=lf
+*.bat text eol=crlf
+*.jar binary
+*.png binary
+*.jpg binary
+*.apk binary
