@@ -13,13 +13,24 @@ import space.crewpulse.AppContainer
 import space.crewpulse.data.model.Indicator
 import space.crewpulse.data.model.MissionEvent
 
+private const val TRENDS_DEFAULT_ID = "heart_rate"
+
+private val TREND_INDICATOR_IDS = listOf(
+    "heart_rate",
+    "sleep_hours",
+    "systolic_bp",
+    "glucose",
+    "body_temp",
+    "mood",
+)
+
 data class TrendPoint(val day: Int, val value: Double)
 
 data class TrendsUiState(
     val loading: Boolean = true,
     val error: String? = null,
     val picker: List<Indicator> = emptyList(),
-    val selectedId: String = DEFAULT_ID,
+    val selectedId: String = TRENDS_DEFAULT_ID,
     val indicator: Indicator? = null,
     val points: List<TrendPoint> = emptyList(),
     val events: List<MissionEvent> = emptyList(),
@@ -36,12 +47,12 @@ class TrendsViewModel(private val container: AppContainer) : ViewModel() {
             runCatching {
                 val mission = container.assets.demoMission()
                 val byId = container.assets.indicators().associateBy { it.id }
-                val picker = TREND_IDS.mapNotNull { byId[it] }
+                val picker = TREND_INDICATOR_IDS.mapNotNull { byId[it] }
                 require(picker.isNotEmpty()) { "No trend indicators in assets" }
                 TrendsUiState(
                     loading = false,
                     picker = picker,
-                    selectedId = DEFAULT_ID,
+                    selectedId = TRENDS_DEFAULT_ID,
                     events = mission.events,
                     missionDays = mission.days.maxOf { it.day },
                 ).also { loadSeries(it, mission.days, byId) }
@@ -80,16 +91,6 @@ class TrendsViewModel(private val container: AppContainer) : ViewModel() {
     }
 
     companion object {
-        const val DEFAULT_ID = "heart_rate"
-        private val TREND_IDS = listOf(
-            "heart_rate",
-            "sleep_hours",
-            "systolic_bp",
-            "glucose",
-            "body_temp",
-            "mood",
-        )
-
         fun factory(container: AppContainer): ViewModelProvider.Factory = viewModelFactory {
             initializer { TrendsViewModel(container) }
         }
