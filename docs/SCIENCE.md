@@ -19,6 +19,7 @@ Owner: @LoranSent. The judges are scientists, so **every number in the app must 
 | Mars surface | 0.64 mSv/day | Hassler 2014, Curiosity RAD | ☑ DOI checked |
 | Bone loss | 1.25 %/month without countermeasures, 0.5 %/month with ARED | NASA HRP Evidence Report, NASA/SP-20250000273, Smith 2012 | ☑ see "Digital Twin" |
 | CSA radiation | Monitoring radiation for astronaut health (2026-02-26) | CSA | ☑ link replaced with the exact article |
+| Camera pulse accuracy | contact PPG: mean absolute error 2–4.5 bpm vs ECG | Coppetti 2017, Eur J Prev Cardiol, https://doi.org/10.1177/2047487317702044 | ☑ for the defense Q&A |
 | `risks.json` | 9 risks, each linked to its own Human Research Roadmap page; names and summaries follow the official HRP risk statements; `fitness` added for the Digital Twin muscle model | NASA Human Research Roadmap | ☑ checked 2026-11-14 |
 
 Legend: ☑ value taken from the source · ◐ derived from the source by the rule below · ✖ no source, this is a limitation.
@@ -81,6 +82,28 @@ Reference implementation: `science/digital_twin.py`, which prints test vectors. 
 
 > CrewPulse is a research prototype, not a medical device, and it does not replace a flight surgeon. The demo astronaut is synthetic: 180 days of data generated from published rates of change around a fixed baseline, and labelled as synthetic in the app. Most thresholds are terrestrial clinical references (AHA, ADA, CDC, NEWS2, AASM); spaceflight-specific limits are used where NASA publishes them (NASA-STD-3001 for radiation dose, bone density and muscle strength). Every threshold in the app links to its source, and values that we derived ourselves (for example the 15 % / 30 % deviation from personal baseline) are marked as such. The mood check-in is a screening question, not a validated psychological scale, and the reaction-time test reports mean response time, which is less sensitive to sleep loss than lapse counts. The Digital Twin is a simple deterministic model: it assumes losses scale linearly with gravity, has no human data for Moon or Mars gravity, and extrapolates beyond 14.4 months, the longest period covered by the bone data we use. It shows trends and orders of magnitude, not individual predictions.
 
+## Defense Q&A (prepared by @LoranSent)
+
+Short answers for the 5-minute defense. Every claim points to a source in this file.
+
+| # | Question | Answer |
+|---|---|---|
+| 1 | Where do your thresholds come from? | Each indicator in the app shows its sources: AHA for blood pressure and heart rate, ADA for glucose, CDC and Obermeyer 2017 for temperature, AASM/SRS and Van Dongen 2003 for sleep, Basner 2011 for the PVT, NASA-STD-3001 for radiation, bone and muscle. The verification table above marks what is taken directly from a source and what we derived. |
+| 2 | Why compare with a personal baseline and not only with the normal range? | A value can be "normal" for the population and still be abnormal for this astronaut. Resting heart rate varies ~10 % day to day (Buchheit 2014), so we flag changes above 15 % and 30 % of the astronaut's own baseline. The worse of the two checks wins. |
+| 3 | How accurate is the camera pulse? | We use contact photoplethysmography (finger on the camera). Against ECG, contact apps had a mean absolute error of about 2–4.5 bpm, non-contact face apps 7–8 bpm (Coppetti 2017). 2–4.5 bpm is below our 15 % yellow threshold (~9 bpm at a 62 bpm baseline). |
+| 4 | Are the data real? | No. The demo astronaut is synthetic, built from published rates of change, and labelled as synthetic in the app. We had no access to astronaut medical data. |
+| 5 | How is this different from a fitness tracker? | It maps measurements to NASA HRP spaceflight risks, uses NASA-STD-3001 limits, gives actions that work without Earth (Mars delay 3–22 minutes one way), and every threshold links to a scientific source. |
+| 6 | Your thresholds are terrestrial. Do they hold in space? | Mostly yes as safety limits, with known caveats: the fluid shift changes blood pressure regulation, and astronaut core temperature rises by about 1 °C on long missions (Stahn 2017). That is why we combine population ranges with the personal in-flight baseline. Where NASA has spaceflight limits (dose, bone, muscle) we use them. |
+| 7 | Why a 3-minute reaction test? | The PVT is the standard measure of fatigue-related alertness and is part of NASA's Cognition battery used on the ISS (Basner 2015). The 3-minute PVT-B was validated against the 10-minute version with a 355 ms lapse threshold (Basner 2011). |
+| 8 | Why mean reaction time and not lapses? | Honest answer: lapses are more sensitive to sleep loss (Basner & Dinges 2011). We started with mean RT for simplicity; switching to lapse count is our next step. |
+| 9 | How does the Digital Twin predict bone loss, and is it validated? | Hip bone density falls 0.5 %/month with full ARED exercise and 1.25 %/month without it (NASA HRP, NASA/SP-20250000273, Smith 2012). For a 6-month ISS mission with ARED the model gives −3 %, which matches the −3 % femoral neck average reported for recent crews. Recovery after landing follows Sibonga 2007 (50 % back in ~8.5 months). |
+| 10 | How do you handle Moon and Mars gravity? | We assume losses scale with unloading (1 − g). There are no human data at 0.16 g or 0.38 g; rat studies show bone loss grows as loading decreases (Ko 2020). We say this is an assumption. |
+| 11 | What about radiation on a Mars mission? | NASA's career limit is 600 mSv. With MSL RAD rates, a 180-day transit is ~330 mSv, and a full mission (2 × 180 days transit + 500 days on the surface) is ~980 mSv, above the limit. The app shows days left to the limit and an approximate cancer-risk equivalent (600 mSv ≈ 3 % REID). |
+| 12 | Does the phone measure radiation? | No. Dose comes from the crew dosimeter or from published daily rates for the current environment, plus solar particle events. |
+| 13 | Won't the app give too many false alarms? | We chose cut-offs to avoid alarm fatigue: for example, AHA "elevated" blood pressure (120–129) stays green, and the baseline rule requires a change larger than measurement noise. On the synthetic 180-day mission, alerts appear on the scripted events (sleep loss, solar event, fever, blood-pressure drift). |
+| 14 | Is the mood scale validated? | No. It is a single screening question. Validated tools used in isolation studies are the Mental Health Checklist, PANAS and POMS; replacing our item with a short validated scale is future work. |
+| 15 | Is this a medical device? | No. It is a research prototype for self-monitoring that supports the crew medical officer and the flight surgeon, not replaces them. |
+
 ## Resources from the challenge description
 - NASA: 5 Hazards of Human Spaceflight, Risks of Human Spaceflight, Ongoing HRP Research in Space.
 - CSA: Monitoring Radiation for Astronaut Health; Why Do We Conduct Science Experiments in Space?
@@ -89,4 +112,4 @@ Reference implementation: `science/digital_twin.py`, which prints test vectors. 
 1. ~~Go through the table: check numbers and URLs, set `verified: true`.~~ Done 2026-11-14, except the limitations above.
 2. ~~Digital Twin formulas (bone, muscle, dose) with sources, hand over to @jarororoor.~~ Done 2026-11-14, see "Digital Twin".
 3. ~~"Limitations" paragraph for the submission: synthetic data, population thresholds, not a medical device.~~ Done 2026-11-14, see "Submission text: Limitations".
-4. List of likely questions from scientists and the answers (in `docs/PITCH.md`).
+4. ~~List of likely questions from scientists and the answers.~~ Done 2026-11-14, see "Defense Q&A"; `docs/PITCH.md` can link to it.
