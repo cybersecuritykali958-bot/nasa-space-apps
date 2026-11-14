@@ -1,5 +1,6 @@
 package space.crewpulse.ui.twin
 
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,6 +12,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -61,53 +63,68 @@ fun TwinScreen(
         val selected = states[((states.size - 1) * dayFraction).toInt().coerceIn(0, states.size - 1)]
         val extrapolationFrom = DigitalTwin.DATA_LIMIT_DAYS.toFloat().takeIf { states.size > DigitalTwin.DATA_LIMIT_DAYS }
 
-        Column(
-            pad.fillMaxSize().verticalScroll(rememberScrollState()).padding(horizontal = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-        ) {
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                FilterChip(scenario == Scenario.MARS, { scenario = Scenario.MARS }, { Text(stringResource(R.string.scenario_mars)) })
-                FilterChip(scenario == Scenario.ISS, { scenario = Scenario.ISS }, { Text(stringResource(R.string.scenario_iss)) })
-                FilterChip(scenario == Scenario.CURRENT, { scenario = Scenario.CURRENT }, { Text(stringResource(R.string.scenario_current)) })
-            }
-            Row(verticalAlignment = Alignment.Top) {
-                BodyFigure(
-                    statuses = emptyMap(),
-                    skeleton = true,
-                    modifier = Modifier.width(120.dp),
-                )
-                Column(Modifier.padding(start = 12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Metric(stringResource(R.string.bone), "%.1f %%".format(selected.bonePct), selected.boneStatus)
-                    Metric(stringResource(R.string.muscle), "%.1f %%".format(selected.musclePct), selected.muscleStatus)
-                    Metric(stringResource(R.string.dose), "%.0f mSv".format(selected.doseMsv), selected.doseStatus)
-                    Text(stringResource(R.string.reid, selected.reidPct), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Column(pad.fillMaxSize()) {
+            // Fixed control panel: scenario, values for the selected day, day slider and exercise switch.
+            Surface(color = MaterialTheme.colorScheme.background, shadowElevation = 4.dp) {
+                Column(Modifier.padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        FilterChip(scenario == Scenario.MARS, { scenario = Scenario.MARS }, { Text(stringResource(R.string.scenario_mars)) })
+                        FilterChip(scenario == Scenario.ISS, { scenario = Scenario.ISS }, { Text(stringResource(R.string.scenario_iss)) })
+                        FilterChip(scenario == Scenario.CURRENT, { scenario = Scenario.CURRENT }, { Text(stringResource(R.string.scenario_current)) })
+                    }
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        MiniMetric(stringResource(R.string.bone), "%.1f%%".format(selected.bonePct), selected.boneStatus, Modifier.weight(1f))
+                        MiniMetric(stringResource(R.string.muscle), "%.1f%%".format(selected.musclePct), selected.muscleStatus, Modifier.weight(1f))
+                        MiniMetric(stringResource(R.string.dose), "%.0f mSv".format(selected.doseMsv), selected.doseStatus, Modifier.weight(1f))
+                    }
+                    Text(stringResource(R.string.mission_day, selected.day, states.size), style = MaterialTheme.typography.titleSmall)
+                    Slider(value = dayFraction, onValueChange = { dayFraction = it })
+                    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(bottom = 8.dp)) {
+                        Text(stringResource(R.string.adherence), style = MaterialTheme.typography.titleSmall, modifier = Modifier.weight(1f))
+                        Switch(checked = exercise, onCheckedChange = { exercise = it })
+                    }
                 }
             }
-            if (selected.extrapolated) {
-                Text(stringResource(R.string.extrapolation), color = StatusColors.yellow, style = MaterialTheme.typography.labelLarge)
-            }
 
-            ChartCard(stringResource(R.string.bone), states.map { it.day.toFloat() to it.bonePct.toFloat() }, selected.boneStatus,
-                listOf(ChartLine(DigitalTwin.BONE_GREEN_MIN.toFloat(), StatusColors.yellow), ChartLine(DigitalTwin.BONE_RED_BELOW.toFloat(), StatusColors.red)),
-                extrapolationFrom, selected.day.toFloat())
-            ChartCard(stringResource(R.string.muscle), states.map { it.day.toFloat() to it.musclePct.toFloat() }, selected.muscleStatus,
-                listOf(ChartLine(DigitalTwin.MUSCLE_GREEN_MIN.toFloat(), StatusColors.yellow), ChartLine(DigitalTwin.MUSCLE_RED_BELOW.toFloat(), StatusColors.red)),
-                extrapolationFrom, selected.day.toFloat())
-            ChartCard(stringResource(R.string.dose), states.map { it.day.toFloat() to it.doseMsv.toFloat() }, selected.doseStatus,
-                listOf(ChartLine((DigitalTwin.DOSE_LIMIT_MSV * DigitalTwin.DOSE_YELLOW_FRACTION).toFloat(), StatusColors.yellow),
-                    ChartLine(DigitalTwin.DOSE_LIMIT_MSV.toFloat(), StatusColors.red)),
-                extrapolationFrom, selected.day.toFloat())
-
-            CrewCard {
-                Text(stringResource(R.string.mission_day, selected.day, states.size), style = MaterialTheme.typography.titleSmall)
-                Slider(value = dayFraction, onValueChange = { dayFraction = it })
+            // Scrollable details below the panel.
+            Column(
+                Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+                Text(stringResource(R.string.reid, selected.reidPct), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 12.dp))
+                if (selected.extrapolated) {
+                    Text(stringResource(R.string.extrapolation), color = StatusColors.yellow, style = MaterialTheme.typography.labelLarge)
+                }
+                ChartCard(stringResource(R.string.bone), states.map { it.day.toFloat() to it.bonePct.toFloat() }, selected.boneStatus,
+                    listOf(ChartLine(DigitalTwin.BONE_GREEN_MIN.toFloat(), StatusColors.yellow), ChartLine(DigitalTwin.BONE_RED_BELOW.toFloat(), StatusColors.red)),
+                    extrapolationFrom, selected.day.toFloat())
+                ChartCard(stringResource(R.string.muscle), states.map { it.day.toFloat() to it.musclePct.toFloat() }, selected.muscleStatus,
+                    listOf(ChartLine(DigitalTwin.MUSCLE_GREEN_MIN.toFloat(), StatusColors.yellow), ChartLine(DigitalTwin.MUSCLE_RED_BELOW.toFloat(), StatusColors.red)),
+                    extrapolationFrom, selected.day.toFloat())
+                ChartCard(stringResource(R.string.dose), states.map { it.day.toFloat() to it.doseMsv.toFloat() }, selected.doseStatus,
+                    listOf(ChartLine((DigitalTwin.DOSE_LIMIT_MSV * DigitalTwin.DOSE_YELLOW_FRACTION).toFloat(), StatusColors.yellow),
+                        ChartLine(DigitalTwin.DOSE_LIMIT_MSV.toFloat(), StatusColors.red)),
+                    extrapolationFrom, selected.day.toFloat())
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(stringResource(R.string.adherence), style = MaterialTheme.typography.titleSmall, modifier = Modifier.weight(1f))
-                    Switch(checked = exercise, onCheckedChange = { exercise = it })
+                    BodyFigure(statuses = emptyMap(), skeleton = true, modifier = Modifier.width(90.dp))
+                    Text(
+                        stringResource(R.string.twin_note),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.padding(start = 12.dp),
+                    )
                 }
+                Text("", Modifier.padding(bottom = 8.dp))
             }
-            Text(stringResource(R.string.twin_note), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(bottom = 16.dp))
         }
+    }
+}
+
+@Composable
+private fun MiniMetric(label: String, value: String, status: Status, modifier: Modifier) {
+    CrewCard(modifier = modifier, accent = StatusColors.of(status)) {
+        Text(label, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1)
+        Text(value, style = MaterialTheme.typography.titleMedium, color = StatusColors.of(status), maxLines = 1)
     }
 }
 

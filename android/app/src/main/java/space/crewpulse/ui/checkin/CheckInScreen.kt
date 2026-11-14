@@ -36,6 +36,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.ui.res.stringResource
 import space.crewpulse.AppContainer
 import space.crewpulse.R
+import space.crewpulse.ui.i18n.indicatorHow
 import space.crewpulse.ui.i18n.indicatorName
 import space.crewpulse.ui.components.CrewCard
 import space.crewpulse.ui.components.CrewScaffold
@@ -148,7 +149,7 @@ private fun MoodCard(field: CheckInField, onSelect: (Int) -> Unit, onToggleHint:
                 }
             }
             field.error?.let { Text(it, color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall) }
-            HintBlock(field.hintExpanded, field.indicator.howToMeasure, onToggleHint)
+            HintBlock(field.hintExpanded, indicatorHow(field.indicator), onToggleHint)
         }
     }
 }
@@ -168,7 +169,7 @@ private fun MetricTextField(field: CheckInField, onValueChange: (String) -> Unit
             textStyle = MaterialTheme.typography.titleMedium,
             colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = MaterialTheme.colorScheme.primary),
         )
-        HintBlock(field.hintExpanded, field.indicator.howToMeasure, onToggleHint)
+        HintBlock(field.hintExpanded, indicatorHow(field.indicator), onToggleHint)
     }
 }
 

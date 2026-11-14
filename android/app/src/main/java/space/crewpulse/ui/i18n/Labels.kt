@@ -1,6 +1,9 @@
 package space.crewpulse.ui.i18n
 
 import androidx.compose.runtime.Composable
+import android.annotation.SuppressLint
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import space.crewpulse.R
 import space.crewpulse.data.model.Indicator
@@ -160,3 +163,38 @@ private val ENVIRONMENTS = mapOf(
 
 @Composable
 fun environmentName(id: String?, fallback: String): String = id?.let { ENVIRONMENTS[it] }?.let { stringResource(it) } ?: fallback
+
+/**
+ * Translated scientific text by resource key (e.g. "ind_heart_rate_why"), falling back to the
+ * English text from the assets. Keys follow the asset ids, so new content shows in English until
+ * it is translated (AssetContractTest lists what is missing).
+ */
+@SuppressLint("DiscouragedApi") // keys are built from asset ids, so the lookup is dynamic
+@Composable
+fun contentText(key: String, fallback: String): String {
+    val context = LocalContext.current
+    val id = remember(key) { context.resources.getIdentifier(key, "string", context.packageName) }
+    return if (id != 0) stringResource(id) else fallback
+}
+
+@Composable
+fun indicatorAction(indicator: Indicator, status: space.crewpulse.data.model.Status): String =
+    contentText("ind_${indicator.id}_${status.name.lowercase()}", indicator.actions[status] ?: "—")
+
+@Composable
+fun indicatorWhy(indicator: Indicator): String = contentText("ind_${indicator.id}_why", indicator.whySpace)
+
+@Composable
+fun indicatorHow(indicator: Indicator): String = contentText("ind_${indicator.id}_how", indicator.howToMeasure)
+
+@Composable
+fun riskName(risk: space.crewpulse.data.model.Risk): String = contentText("risk_${risk.id}", risk.name)
+
+@Composable
+fun patternName(p: space.crewpulse.domain.PatternMatch): String = contentText("pat_${p.id}_name", p.name)
+
+@Composable
+fun patternSummary(p: space.crewpulse.domain.PatternMatch): String = contentText("pat_${p.id}_summary", p.summary)
+
+@Composable
+fun patternAdvice(p: space.crewpulse.domain.PatternMatch): String = contentText("pat_${p.id}_advice", p.advice)

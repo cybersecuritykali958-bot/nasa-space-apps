@@ -37,7 +37,11 @@ import space.crewpulse.ui.components.InfoRow
 import space.crewpulse.ui.components.LineChart
 import space.crewpulse.ui.components.StatusPill
 import space.crewpulse.ui.i18n.alertText
+import space.crewpulse.ui.i18n.indicatorAction
+import space.crewpulse.ui.i18n.indicatorHow
 import space.crewpulse.ui.i18n.indicatorName
+import space.crewpulse.ui.i18n.indicatorWhy
+import space.crewpulse.ui.i18n.riskName
 import space.crewpulse.ui.theme.StatusColors
 
 /** "Why this matters": value, trend chart with threshold and forecast, advice, sources, confidence. */
@@ -101,12 +105,12 @@ fun IndicatorScreen(
             alerts.forEach { a ->
                 InfoRow(Icons.Filled.Warning, stringResource(R.string.early_warning), alertText(a, name))
             }
-            InfoRow(Icons.Filled.CheckCircle, stringResource(R.string.what_to_do), ind.actions[evaluation.status] ?: "—")
-            InfoRow(Icons.Filled.Info, stringResource(R.string.why_space), ind.whySpace)
-            InfoRow(Icons.Filled.Build, stringResource(R.string.how_to_measure), ind.howToMeasure)
+            InfoRow(Icons.Filled.CheckCircle, stringResource(R.string.what_to_do), indicatorAction(ind, evaluation.status))
+            InfoRow(Icons.Filled.Info, stringResource(R.string.why_space), indicatorWhy(ind))
+            InfoRow(Icons.Filled.Build, stringResource(R.string.how_to_measure), indicatorHow(ind))
             val linked = risks.filter { it.id in ind.riskIds }
             if (linked.isNotEmpty()) {
-                InfoRow(Icons.Filled.Info, stringResource(R.string.hrp_risks), linked.joinToString("\n") { "• ${it.name}" })
+                InfoRow(Icons.Filled.Info, stringResource(R.string.hrp_risks), linked.map { "• " + riskName(it) }.joinToString("\n"))
             }
             InfoRow(
                 Icons.Filled.List, stringResource(R.string.sources),

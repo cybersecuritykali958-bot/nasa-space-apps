@@ -107,7 +107,7 @@ fun AppNavHost(container: AppContainer, onLanguageChange: (String) -> Unit) {
             }
             composable(Routes.CHECKIN) { CheckInScreen(container, back) }
             composable(Routes.PVT) { PvtScreen(onSave = home::savePvt, onBack = back) }
-            composable(Routes.TRENDS) { TrendsScreen(state, back) }
+            composable(Routes.TRENDS) { TrendsScreen(state, onShowDemo = { home.setProfile(space.crewpulse.data.Profile.DEMO) }, onBack = back) }
             composable(Routes.SETTINGS) {
                 SettingsScreen(
                     state = state,
