@@ -30,6 +30,7 @@ import space.crewpulse.domain.EarlyWarning
 import space.crewpulse.domain.EngineReport
 import space.crewpulse.domain.Evaluation
 import space.crewpulse.domain.Sample
+import space.crewpulse.ui.components.AnimatedNumber
 import space.crewpulse.ui.components.CardRow
 import space.crewpulse.ui.components.ChartLine
 import space.crewpulse.ui.components.ConfidencePill
@@ -68,7 +69,7 @@ fun IndicatorScreen(
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text("%.1f".format(evaluation.value), style = MaterialTheme.typography.displaySmall)
+                AnimatedNumber(evaluation.value, { "%.1f".format(it) }, MaterialTheme.typography.displaySmall)
                 Text(" ${ind.unit}", style = MaterialTheme.typography.titleLarge, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(1f))
                 StatusPill(evaluation.status)
             }

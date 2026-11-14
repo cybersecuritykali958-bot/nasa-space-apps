@@ -108,7 +108,8 @@ fun MissionTrajectory(
                 planet(dest, h * 0.13f, SpaceArt.marsLight, SpaceArt.marsDark, spin * 0.9f, SpaceArt.marsDark)
             }
 
-            val atMars = environmentId == "mars_surface"
+            // On a surface mission the crew is already at the destination.
+            val atMars = environmentId == "mars_surface" || environmentId == "moon_surface"
             val s = if (atMars) 1f else p
             val pos = Offset(quad(earth.x, ctrl.x, dest.x, s), quad(earth.y, ctrl.y, dest.y, s) + bob * 2f)
             val dx = dquad(earth.x, ctrl.x, dest.x, s)

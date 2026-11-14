@@ -41,6 +41,7 @@ import space.crewpulse.R
 import space.crewpulse.data.model.Status
 import space.crewpulse.domain.SpaceWeatherLevel
 import space.crewpulse.domain.Verdict
+import space.crewpulse.ui.components.AnimatedNumber
 import space.crewpulse.ui.components.CrewCard
 import space.crewpulse.ui.components.ListRow
 import space.crewpulse.ui.components.TriagePlan
@@ -159,10 +160,12 @@ fun ReadinessScreen(state: HomeUiState, onRefreshWeather: () -> Unit, onBack: ((
 @Composable
 private fun TimeColumn(label: String, minutes: Double?, modifier: Modifier) {
     val (value, unit) = durationText(minutes)
+    val hours = (minutes ?: 0.0) >= 120
     Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         Text(label, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
         Row(verticalAlignment = Alignment.Bottom) {
-            Text(value, style = MaterialTheme.typography.displaySmall)
+            if (minutes == null) Text(value, style = MaterialTheme.typography.displaySmall)
+            else AnimatedNumber(if (hours) minutes / 60 else minutes, { "%.0f".format(it) }, MaterialTheme.typography.displaySmall)
             Text(" $unit", style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(bottom = 6.dp))
         }
     }

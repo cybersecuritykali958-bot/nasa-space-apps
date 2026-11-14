@@ -1,6 +1,5 @@
 package space.crewpulse.ui.components
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -29,11 +28,12 @@ fun ListRow(
     trailing: (@Composable () -> Unit)? = null,
     onClick: (() -> Unit)? = null,
     leading: (@Composable () -> Unit)? = null,
+    chevron: Boolean = onClick != null,
 ) {
     Row(
         modifier
             .fillMaxWidth()
-            .then(if (onClick != null) Modifier.clickable(onClick = onClick) else Modifier)
+            .then(if (onClick != null) Modifier.pressClick(onClick) else Modifier)
             .padding(vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -51,7 +51,7 @@ fun ListRow(
         if (trailing != null) {
             Row(Modifier.padding(start = 8.dp)) { trailing() }
         }
-        if (onClick != null) {
+        if (chevron) {
             Icon(
                 Icons.AutoMirrored.Filled.KeyboardArrowRight,
                 contentDescription = null,
@@ -75,10 +75,10 @@ fun CardRow(
     leading: (@Composable () -> Unit)? = null,
 ) {
     androidx.compose.material3.Card(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth().then(if (onClick != null) Modifier.pressClick(onClick) else Modifier),
         shape = androidx.compose.foundation.shape.RoundedCornerShape(16.dp),
         colors = androidx.compose.material3.CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
     ) {
-        ListRow(title, Modifier.padding(horizontal = 16.dp), icon, iconTint, subtitle, trailing, onClick, leading)
+        ListRow(title, Modifier.padding(horizontal = 16.dp), icon, iconTint, subtitle, trailing, null, leading, chevron = onClick != null)
     }
 }

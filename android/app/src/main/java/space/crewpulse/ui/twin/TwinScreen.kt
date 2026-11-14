@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import space.crewpulse.R
 import space.crewpulse.data.model.Status
 import space.crewpulse.domain.DigitalTwin
+import space.crewpulse.ui.components.AnimatedNumber
 import space.crewpulse.ui.components.ChartLine
 import space.crewpulse.ui.components.CrewCard
 import space.crewpulse.ui.components.LineChart
@@ -88,9 +89,9 @@ fun TwinScreen(
             }
             val selected = states[((states.size - 1) * dayFraction).toInt().coerceIn(0, states.size - 1)]
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Tile(Icons.Outlined.Healing, stringResource(R.string.bone), "%.0f%%".format(selected.bonePct), selected.boneStatus, Modifier.weight(1f))
-                Tile(Icons.Outlined.FitnessCenter, stringResource(R.string.muscle), "%.0f%%".format(selected.musclePct), selected.muscleStatus, Modifier.weight(1f))
-                Tile(Icons.Outlined.WbSunny, stringResource(R.string.dose), "%.0f".format(selected.doseMsv), selected.doseStatus, Modifier.weight(1f), unit = "mSv")
+                Tile(Icons.Outlined.Healing, stringResource(R.string.bone), selected.bonePct, { "%.0f%%".format(it) }, selected.boneStatus, Modifier.weight(1f))
+                Tile(Icons.Outlined.FitnessCenter, stringResource(R.string.muscle), selected.musclePct, { "%.0f%%".format(it) }, selected.muscleStatus, Modifier.weight(1f))
+                Tile(Icons.Outlined.WbSunny, stringResource(R.string.dose), selected.doseMsv, { "%.0f".format(it) }, selected.doseStatus, Modifier.weight(1f), unit = "mSv")
             }
             Text(stringResource(R.string.mission_day, selected.day, states.size), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
             Slider(value = dayFraction, onValueChange = { dayFraction = it })
@@ -128,12 +129,12 @@ fun TwinScreen(
 }
 
 @Composable
-private fun Tile(icon: ImageVector, label: String, value: String, status: Status, modifier: Modifier, unit: String? = null) {
+private fun Tile(icon: ImageVector, label: String, value: Double, format: (Double) -> String, status: Status, modifier: Modifier, unit: String? = null) {
     CrewCard(modifier = modifier) {
         Icon(icon, null, tint = if (status == Status.GREEN) MaterialTheme.colorScheme.primary else StatusColors.of(status))
         Text(label, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, modifier = Modifier.padding(top = 8.dp))
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(value, style = MaterialTheme.typography.titleLarge, maxLines = 1)
+            AnimatedNumber(value, format, MaterialTheme.typography.titleLarge, durationMillis = 300)
             if (unit != null) Text(" $unit", style = MaterialTheme.typography.bodyMedium, maxLines = 1)
             Box(Modifier.padding(start = 6.dp).size(8.dp).background(StatusColors.of(status), CircleShape))
         }

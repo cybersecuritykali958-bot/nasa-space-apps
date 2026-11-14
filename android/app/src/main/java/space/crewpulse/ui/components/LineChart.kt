@@ -1,6 +1,12 @@
 package space.crewpulse.ui.components
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
@@ -32,8 +38,11 @@ fun LineChart(
     markerX: Float? = null,
     forecast: Pair<Float, Float>? = null,
 ) {
+    val reveal = remember { Animatable(0f) }
+    LaunchedEffect(Unit) { reveal.animateTo(1f, tween(900, easing = FastOutSlowInEasing)) }
     Canvas(modifier.fillMaxWidth().height(height)) {
         if (points.size < 2) return@Canvas
+        clipRect(right = size.width * reveal.value) {
         val ys = points.map { it.second } + lines.map { it.y } + listOfNotNull(forecast?.second)
         val xs = points.map { it.first } + listOfNotNull(forecast?.first)
         val minX = xs.min()
@@ -74,6 +83,7 @@ fun LineChart(
         }
         markerX?.let { m ->
             drawLine(Color.White.copy(alpha = 0.6f), Offset(px(m), 0f), Offset(px(m), size.height), strokeWidth = 2f)
+        }
         }
     }
 }

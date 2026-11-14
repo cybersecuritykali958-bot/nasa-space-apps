@@ -30,7 +30,7 @@ fun CrewScaffold(
     content: @Composable (Modifier) -> Unit,
 ) {
     Scaffold(
-        containerColor = MaterialTheme.colorScheme.background,
+        containerColor = androidx.compose.ui.graphics.Color.Transparent,
         contentColor = MaterialTheme.colorScheme.onBackground,
         // The app-level scaffold already handles the bottom bar and system bars below.
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
@@ -59,7 +59,7 @@ fun CrewScaffold(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background,
+                    containerColor = androidx.compose.ui.graphics.Color.Transparent,
                     titleContentColor = MaterialTheme.colorScheme.onSurface,
                 ),
             )
