@@ -294,4 +294,30 @@
     <string name="risk_immune">Veränderte Immunantwort</string>
     <string name="risk_nutrition">Unzureichende Ernährung</string>
     <string name="risk_radiation">Strahlenbedingte Krebsentstehung</string>
+    <!-- Smartwatch -->
+    <string name="watch_title">Uhr verbinden</string>
+    <string name="watch_intro">Puls, Schlaf und Temperatur kommen von der Uhr. Ohne Uhr gibst du sie wie bisher von Hand ein.</string>
+    <string name="watch_connect">Uhr verbinden</string>
+    <string name="watch_skip">Manuell eingeben</string>
+    <string name="watch_scanning">Suche nach Geräten…</string>
+    <string name="watch_tap_device">Gerät gefunden. Zum Verbinden antippen.</string>
+    <string name="watch_device_name">CrewPulse Watch</string>
+    <string name="watch_simulated">Simuliertes Gerät (Demo)</string>
+    <string name="watch_stage_approach">Annäherung…</string>
+    <string name="watch_stage_capture">Erfassung…</string>
+    <string name="watch_stage_docked">Angedockt</string>
+    <string name="watch_connected">Uhr verbunden</string>
+    <string name="watch_live_signal">Live-Signal (simuliert)</string>
+    <string name="watch_bpm">S/min</string>
+    <string name="watch_synced">Von der Uhr synchronisiert</string>
+    <string name="watch_demo_note">Die Demo-Uhr spielt die synthetischen Daten des Demo-Astronauten ab. Blutdruck, Glukose und Stimmung bleiben manuell.</string>
+    <string name="watch_continue">Weiter</string>
+    <string name="watch_from_watch">⌚ Von der Uhr. Du kannst es ändern.</string>
+    <string name="watch_setting">Smartwatch</string>
+    <string name="watch_status_on">Verbunden: %1$s</string>
+    <string name="watch_status_off">Nicht verbunden. Werte werden manuell eingegeben.</string>
+    <string name="watch_disconnect">Trennen</string>
+    <string name="watch_value_heart_rate">%1$s S/min</string>
+    <string name="watch_value_sleep_hours">%1$s h</string>
+    <string name="watch_value_body_temp">%1$s °C</string>
 </resources>

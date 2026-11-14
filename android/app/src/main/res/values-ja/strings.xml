@@ -294,4 +294,30 @@
     <string name="risk_immune">免疫応答の変化</string>
     <string name="risk_nutrition">不十分な食事と栄養</string>
     <string name="risk_radiation">放射線発がん</string>
+    <!-- Smartwatch -->
+    <string name="watch_title">ウォッチを接続</string>
+    <string name="watch_intro">心拍数、睡眠、体温はウォッチから取得します。ウォッチがない場合は、これまでどおり手動で入力します。</string>
+    <string name="watch_connect">ウォッチを接続</string>
+    <string name="watch_skip">手動で入力</string>
+    <string name="watch_scanning">デバイスを検索中…</string>
+    <string name="watch_tap_device">デバイスが見つかりました。タップして接続します。</string>
+    <string name="watch_device_name">CrewPulse Watch</string>
+    <string name="watch_simulated">シミュレーションデバイス（デモ）</string>
+    <string name="watch_stage_approach">接近中…</string>
+    <string name="watch_stage_capture">捕捉中…</string>
+    <string name="watch_stage_docked">ドッキング完了</string>
+    <string name="watch_connected">ウォッチ接続済み</string>
+    <string name="watch_live_signal">ライブ信号（シミュレーション）</string>
+    <string name="watch_bpm">bpm</string>
+    <string name="watch_synced">ウォッチから同期</string>
+    <string name="watch_demo_note">デモウォッチは合成されたデモ宇宙飛行士のデータを再生します。血圧、血糖値、気分は手動のままです。</string>
+    <string name="watch_continue">続ける</string>
+    <string name="watch_from_watch">⌚ ウォッチから取得。編集できます。</string>
+    <string name="watch_setting">スマートウォッチ</string>
+    <string name="watch_status_on">接続済み：%1$s</string>
+    <string name="watch_status_off">未接続。値は手動で入力します。</string>
+    <string name="watch_disconnect">切断</string>
+    <string name="watch_value_heart_rate">%1$s bpm</string>
+    <string name="watch_value_sleep_hours">%1$s 時間</string>
+    <string name="watch_value_body_temp">%1$s °C</string>
 </resources>

@@ -294,4 +294,30 @@
     <string name="risk_immune">Зміна імунної відповіді</string>
     <string name="risk_nutrition">Недостатнє харчування</string>
     <string name="risk_radiation">Радіаційний канцерогенез</string>
+    <!-- Smartwatch -->
+    <string name="watch_title">Підключіть годинник</string>
+    <string name="watch_intro">Пульс, сон і температура надходитимуть із годинника. Без годинника ви вводите їх вручну, як раніше.</string>
+    <string name="watch_connect">Підключити годинник</string>
+    <string name="watch_skip">Ввести вручну</string>
+    <string name="watch_scanning">Пошук пристроїв…</string>
+    <string name="watch_tap_device">Пристрій знайдено. Торкніться, щоб підключити.</string>
+    <string name="watch_device_name">CrewPulse Watch</string>
+    <string name="watch_simulated">Симульований пристрій (демо)</string>
+    <string name="watch_stage_approach">Зближення…</string>
+    <string name="watch_stage_capture">Захоплення…</string>
+    <string name="watch_stage_docked">Стикування завершено</string>
+    <string name="watch_connected">Годинник підключено</string>
+    <string name="watch_live_signal">Живий сигнал (симуляція)</string>
+    <string name="watch_bpm">уд/хв</string>
+    <string name="watch_synced">Синхронізовано з годинника</string>
+    <string name="watch_demo_note">Демо-годинник відтворює синтетичні дані демо-астронавта. Тиск, глюкоза й настрій лишаються ручними.</string>
+    <string name="watch_continue">Продовжити</string>
+    <string name="watch_from_watch">⌚ З годинника. Можна змінити.</string>
+    <string name="watch_setting">Смарт-годинник</string>
+    <string name="watch_status_on">Підключено: %1$s</string>
+    <string name="watch_status_off">Не підключено. Значення вводяться вручну.</string>
+    <string name="watch_disconnect">Відключити</string>
+    <string name="watch_value_heart_rate">%1$s уд/хв</string>
+    <string name="watch_value_sleep_hours">%1$s год</string>
+    <string name="watch_value_body_temp">%1$s °C</string>
 </resources>

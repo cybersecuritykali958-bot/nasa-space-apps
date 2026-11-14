@@ -9,7 +9,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,6 +35,9 @@ fun SettingsScreen(
     onLanguage: (String) -> Unit,
     onProfile: (Profile) -> Unit,
     onEnvironment: (String) -> Unit,
+    watchConnected: Boolean,
+    onWatchConnect: () -> Unit,
+    onWatchDisconnect: () -> Unit,
     onBack: () -> Unit,
 ) {
     CrewScaffold(title = stringResource(R.string.settings_title), onBack = onBack) { pad ->
@@ -45,6 +50,22 @@ fun SettingsScreen(
                     Choice(lang.nativeName, null, lang.code == currentLanguage) {
                         if (lang.code != currentLanguage) onLanguage(lang.code)
                     }
+                }
+            }
+            Section(stringResource(R.string.watch_setting)) {
+                Text(
+                    if (watchConnected) {
+                        stringResource(R.string.watch_status_on, "${stringResource(R.string.watch_device_name)} · ${stringResource(R.string.watch_simulated)}")
+                    } else {
+                        stringResource(R.string.watch_status_off)
+                    },
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+                if (watchConnected) {
+                    OutlinedButton(onClick = onWatchDisconnect) { Text(stringResource(R.string.watch_disconnect)) }
+                } else {
+                    Button(onClick = onWatchConnect) { Text(stringResource(R.string.watch_connect)) }
                 }
             }
             Section(stringResource(R.string.data_source_setting)) {

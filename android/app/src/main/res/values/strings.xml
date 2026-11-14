@@ -294,4 +294,30 @@
     <string name="risk_immune">Altered immune response</string>
     <string name="risk_nutrition">Inadequate food and nutrition</string>
     <string name="risk_radiation">Radiation carcinogenesis</string>
+    <!-- Smartwatch -->
+    <string name="watch_title">Connect your watch</string>
+    <string name="watch_intro">Heart rate, sleep and temperature will come from the watch. Without a watch you enter them by hand, as before.</string>
+    <string name="watch_connect">Connect watch</string>
+    <string name="watch_skip">Enter manually</string>
+    <string name="watch_scanning">Searching for devices…</string>
+    <string name="watch_tap_device">Device found. Tap it to connect.</string>
+    <string name="watch_device_name">CrewPulse Watch</string>
+    <string name="watch_simulated">Simulated device (demo)</string>
+    <string name="watch_stage_approach">Approach…</string>
+    <string name="watch_stage_capture">Capture…</string>
+    <string name="watch_stage_docked">Docked</string>
+    <string name="watch_connected">Watch connected</string>
+    <string name="watch_live_signal">Live signal (simulated)</string>
+    <string name="watch_bpm">bpm</string>
+    <string name="watch_synced">Synced from the watch</string>
+    <string name="watch_demo_note">The demo watch replays the synthetic demo astronaut data. Blood pressure, glucose and mood stay manual.</string>
+    <string name="watch_continue">Continue</string>
+    <string name="watch_from_watch">⌚ From the watch. You can edit it.</string>
+    <string name="watch_setting">Smartwatch</string>
+    <string name="watch_status_on">Connected: %1$s</string>
+    <string name="watch_status_off">Not connected. Values are entered manually.</string>
+    <string name="watch_disconnect">Disconnect</string>
+    <string name="watch_value_heart_rate">%1$s bpm</string>
+    <string name="watch_value_sleep_hours">%1$s h</string>
+    <string name="watch_value_body_temp">%1$s °C</string>
 </resources>

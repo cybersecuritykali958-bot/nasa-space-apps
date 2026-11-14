@@ -50,6 +50,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import kotlinx.coroutines.delay
 import space.crewpulse.ui.components.OrbitLoader
@@ -78,6 +79,7 @@ import space.crewpulse.ui.readiness.ReadinessScreen
 import space.crewpulse.ui.settings.SettingsScreen
 import space.crewpulse.ui.trends.TrendsScreen
 import space.crewpulse.ui.twin.TwinScreen
+import space.crewpulse.ui.watch.WatchConnectScreen
 
 /** All destinations. Tabs are shown in the bottom bar; the rest open on top of a tab. */
 object Routes {
@@ -90,6 +92,7 @@ object Routes {
     const val PVT = "pvt"
     const val TRENDS = "trends"
     const val SETTINGS = "settings"
+    const val WATCH = "watch"
     const val INDICATOR = "indicator/{id}"
 
     fun indicator(id: String) = "indicator/$id"
@@ -105,6 +108,8 @@ private val TABS = listOf(
     Tab(Routes.MISSION, R.string.tab_mission, Icons.Outlined.RocketLaunch, Icons.Filled.RocketLaunch),
 )
 
+private enum class LaunchStage { LOADING, WATCH, MAIN }
+
 @Composable
 fun AppNavHost(container: AppContainer, onLanguageChange: (String) -> Unit) {
     val nav = rememberNavController()
@@ -117,11 +122,18 @@ fun AppNavHost(container: AppContainer, onLanguageChange: (String) -> Unit) {
         delay(1_500)
         splash = false
     }
-    Crossfade(targetState = splash || state.loading, animationSpec = tween(500), label = "splash") { loading ->
-        if (loading) {
-            OrbitLoader(stringResource(R.string.loading_sync))
-        } else {
-            MainScaffold(container, nav, home, state, onLanguageChange)
+    // Watch connection is offered on every launch (demo flow); saveable so rotation does not repeat it.
+    var watchDone by rememberSaveable { mutableStateOf(false) }
+    val stage = when {
+        splash || state.loading -> LaunchStage.LOADING
+        !watchDone -> LaunchStage.WATCH
+        else -> LaunchStage.MAIN
+    }
+    Crossfade(targetState = stage, animationSpec = tween(500), label = "launch") { s ->
+        when (s) {
+            LaunchStage.LOADING -> OrbitLoader(stringResource(R.string.loading_sync))
+            LaunchStage.WATCH -> WatchConnectScreen(container.watch, onDone = { watchDone = true })
+            LaunchStage.MAIN -> MainScaffold(container, nav, home, state, onLanguageChange)
         }
     }
 }
@@ -178,13 +190,20 @@ private fun MainScaffold(
             composable(Routes.CHECKIN) { CheckInScreen(container, back) }
             composable(Routes.PVT) { PvtScreen(onSave = home::savePvt, onBack = back) }
             composable(Routes.TRENDS) { TrendsScreen(state, onShowDemo = { home.setProfile(space.crewpulse.data.Profile.DEMO) }, onBack = back) }
+            composable(Routes.WATCH) {
+                WatchConnectScreen(container.watch, onDone = back, drawBackground = false)
+            }
             composable(Routes.SETTINGS) {
+                val watch by container.watch.snapshot.collectAsStateWithLifecycle()
                 SettingsScreen(
                     state = state,
                     currentLanguage = container.settings.language,
                     onLanguage = onLanguageChange,
                     onProfile = home::setProfile,
                     onEnvironment = home::setEnvironment,
+                    watchConnected = watch != null,
+                    onWatchConnect = { go(Routes.WATCH) },
+                    onWatchDisconnect = container.watch::disconnect,
                     onBack = back,
                 )
             }

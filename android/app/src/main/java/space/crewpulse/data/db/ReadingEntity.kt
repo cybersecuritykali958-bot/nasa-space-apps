@@ -11,6 +11,6 @@ data class ReadingEntity(
     val indicatorId: String,
     val value: Double,
     val timestampMillis: Long,
-    /** "manual", "camera", "pvt" or "demo". */
+    /** "manual", "watch", "camera", "pvt" or "demo". */
     val source: String,
 )

@@ -9,6 +9,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.Locale
+import kotlin.math.roundToInt
 import space.crewpulse.AppContainer
 import space.crewpulse.data.Profile
 import space.crewpulse.data.model.Indicator
@@ -19,6 +21,8 @@ data class CheckInField(
     val valueText: String = "",
     val hintExpanded: Boolean = false,
     val error: String? = null,
+    /** Value was filled in from the connected watch and not edited since. */
+    val fromWatch: Boolean = false,
 )
 
 data class BloodPressureState(
@@ -46,10 +50,15 @@ class CheckInViewModel(private val container: AppContainer) : ViewModel() {
                 val sys = byId[INDICATOR_SYSTOLIC] ?: error("Missing $INDICATOR_SYSTOLIC")
                 val dia = byId[INDICATOR_DIASTOLIC] ?: error("Missing $INDICATOR_DIASTOLIC")
                 val others = CHECK_IN_INDICATOR_IDS.map { byId[it] ?: error("Missing $it") }
+                // Values from the connected watch are pre-filled; everything else stays manual.
+                val fromWatch = container.watch.snapshot.value?.values.orEmpty()
                 CheckInUiState(
                     loading = false,
                     bloodPressure = BloodPressureState(CheckInField(sys), CheckInField(dia)),
-                    fields = others.map { CheckInField(it) },
+                    fields = others.map { ind ->
+                        fromWatch[ind.id]?.let { CheckInField(ind, valueText = formatWatchValue(ind.id, it), fromWatch = true) }
+                            ?: CheckInField(ind)
+                    },
                 )
             }.onSuccess { _state.value = it }
                 .onFailure { _state.value = CheckInUiState(loading = false, loadError = it.message) }
@@ -63,7 +72,7 @@ class CheckInViewModel(private val container: AppContainer) : ViewModel() {
 
     fun updateField(index: Int, text: String) {
         _state.update { s ->
-            s.copy(fields = s.fields.mapIndexed { i, f -> if (i == index) f.copy(valueText = text, error = null) else f }, savedMessage = null)
+            s.copy(fields = s.fields.mapIndexed { i, f -> if (i == index) f.copy(valueText = text, error = null, fromWatch = false) else f }, savedMessage = null)
         }
     }
 
@@ -98,7 +107,12 @@ class CheckInViewModel(private val container: AppContainer) : ViewModel() {
                 }
                 return@launch
             }
-            container.readings.saveCheckIn(result.accepted)
+            // Watch values keep source "watch" so their origin stays visible in the data.
+            val watchIds = _state.value.fields.filter { it.fromWatch }.map { it.indicator.id }.toSet()
+            val at = System.currentTimeMillis()
+            val (watch, manual) = result.accepted.entries.partition { it.key in watchIds }
+            container.readings.saveCheckIn(manual.associate { it.key to it.value }, at, source = "manual")
+            if (watch.isNotEmpty()) container.readings.saveCheckIn(watch.associate { it.key to it.value }, at, source = "watch")
             container.settings.setProfile(Profile.ME)
             _state.update { it.copy(savedMessage = SAVED) }
         }
@@ -158,6 +172,10 @@ class CheckInViewModel(private val container: AppContainer) : ViewModel() {
             if (t.isEmpty()) return null
             return t.replace(',', '.').toDoubleOrNull()?.takeIf { it > 0 }
         }
+
+        /** Watches show whole beats per minute; other values keep one decimal. */
+        internal fun formatWatchValue(id: String, value: Double): String =
+            if (id == "heart_rate") value.roundToInt().toString() else String.format(Locale.US, "%.1f", value)
 
         private fun parseMood(raw: String): Double? =
             raw.trim().toIntOrNull()?.takeIf { it in 1..5 }?.toDouble()
