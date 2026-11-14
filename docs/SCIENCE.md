@@ -77,6 +77,10 @@ Reference implementation: `science/digital_twin.py`, which prints test vectors. 
 3. Muscle loss is exponential so that it slows down and never goes below zero. The worst case uses power (Trappe 2009), not strength, because there are no direct data on strength without exercise on long flights.
 4. Partial gravity does not restore bone or muscle, it only slows the loss. Recovery is modeled only after landing on Earth.
 
+## Submission text: Limitations (ready to paste)
+
+> CrewPulse is a research prototype, not a medical device, and it does not replace a flight surgeon. The demo astronaut is synthetic: 180 days of data generated from published rates of change around a fixed baseline, and labelled as synthetic in the app. Most thresholds are terrestrial clinical references (AHA, ADA, CDC, NEWS2, AASM); spaceflight-specific limits are used where NASA publishes them (NASA-STD-3001 for radiation dose, bone density and muscle strength). Every threshold in the app links to its source, and values that we derived ourselves (for example the 15 % / 30 % deviation from personal baseline) are marked as such. The mood check-in is a screening question, not a validated psychological scale, and the reaction-time test reports mean response time, which is less sensitive to sleep loss than lapse counts. The Digital Twin is a simple deterministic model: it assumes losses scale linearly with gravity, has no human data for Moon or Mars gravity, and extrapolates beyond 14.4 months, the longest period covered by the bone data we use. It shows trends and orders of magnitude, not individual predictions.
+
 ## Resources from the challenge description
 - NASA: 5 Hazards of Human Spaceflight, Risks of Human Spaceflight, Ongoing HRP Research in Space.
 - CSA: Monitoring Radiation for Astronaut Health; Why Do We Conduct Science Experiments in Space?
@@ -84,5 +88,5 @@ Reference implementation: `science/digital_twin.py`, which prints test vectors. 
 ## Remaining science tasks
 1. ~~Go through the table: check numbers and URLs, set `verified: true`.~~ Done 2026-11-14, except the limitations above.
 2. ~~Digital Twin formulas (bone, muscle, dose) with sources, hand over to @jarororoor.~~ Done 2026-11-14, see "Digital Twin".
-3. "Limitations" paragraph for the submission: synthetic data, population thresholds, not a medical device.
+3. ~~"Limitations" paragraph for the submission: synthetic data, population thresholds, not a medical device.~~ Done 2026-11-14, see "Submission text: Limitations".
 4. List of likely questions from scientists and the answers (in `docs/PITCH.md`).
