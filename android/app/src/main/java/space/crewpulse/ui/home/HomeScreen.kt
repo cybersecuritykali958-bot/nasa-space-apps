@@ -39,6 +39,7 @@ import space.crewpulse.domain.StatusEngine
 import space.crewpulse.ui.components.BodyFigure
 import space.crewpulse.ui.components.CrewCard
 import space.crewpulse.ui.components.StatusPill
+import space.crewpulse.ui.components.triageSteps
 import space.crewpulse.ui.i18n.alertText
 import space.crewpulse.ui.i18n.environmentName
 import space.crewpulse.ui.i18n.indicatorName
@@ -128,6 +129,15 @@ private fun Overview(state: HomeUiState, onIndicator: (String) -> Unit, onNaviga
         Text(stringResource(R.string.what_to_do), style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary)
         Text(responderLabel(t.responder), style = MaterialTheme.typography.titleLarge, modifier = Modifier.padding(top = 4.dp))
         Text(triageReason(state.report), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        triageSteps(state.report).firstOrNull()?.let { first ->
+            Text("1. $first", style = MaterialTheme.typography.bodyLarge, modifier = Modifier.padding(top = 8.dp))
+        }
+        Text(
+            stringResource(R.string.all_steps) + " →",
+            style = MaterialTheme.typography.labelLarge,
+            color = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.padding(top = 8.dp),
+        )
     }
 
     // The single most important warning.

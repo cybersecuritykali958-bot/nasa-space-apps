@@ -28,6 +28,7 @@ import space.crewpulse.domain.SpaceWeatherLevel
 import space.crewpulse.domain.Verdict
 import space.crewpulse.ui.components.CrewCard
 import space.crewpulse.ui.components.CrewScaffold
+import space.crewpulse.ui.components.TriagePlan
 import space.crewpulse.ui.components.VerdictPill
 import space.crewpulse.ui.home.HomeUiState
 import space.crewpulse.ui.i18n.durationText
@@ -67,6 +68,12 @@ fun ReadinessScreen(state: HomeUiState, onRefreshWeather: () -> Unit, onBack: ((
                 )
                 Text(triageReason(state.report), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
+
+            CrewCard(accent = StatusColors.of(t.status).takeIf { t.status != space.crewpulse.data.model.Status.GREEN }) {
+                TriagePlan(report)
+            }
+
+            HowToRead(state)
 
             report.readiness.forEach { r ->
                 val accent = when (r.verdict) {
@@ -153,5 +160,42 @@ private fun TimeTile(label: String, minutes: Double?, color: Color, modifier: Mo
         val (value, unit) = durationText(minutes)
         Text(value, style = MaterialTheme.typography.displaySmall, color = color)
         Text(unit, style = MaterialTheme.typography.bodyMedium, color = color)
+    }
+}
+
+@Composable
+private fun HowToRead(state: HomeUiState) {
+    val t = state.report.triage
+    val delay = state.environment?.commDelayMinOneWay ?: 0.0
+    val handling = ((t.earthResponseMin ?: 0.0) - 2 * delay).coerceAtLeast(0.0)
+    CrewCard {
+        Text(stringResource(R.string.how_to_read), style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary)
+        Bullet(stringResource(R.string.explain_earth, delay, 2 * delay, handling, t.earthResponseMin ?: 0.0))
+        Bullet(
+            when (t.status) {
+                space.crewpulse.data.model.Status.RED -> stringResource(R.string.explain_window_red)
+                space.crewpulse.data.model.Status.YELLOW -> stringResource(R.string.explain_window_yellow)
+                else -> stringResource(R.string.explain_window_none)
+            },
+        )
+        Bullet(stringResource(R.string.explain_rule))
+        Text(stringResource(R.string.legend_title), style = MaterialTheme.typography.titleSmall, modifier = Modifier.padding(top = 8.dp))
+        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 4.dp)) {
+            VerdictPill(Verdict.GO); Text(stringResource(R.string.legend_go), Modifier.padding(start = 8.dp), style = MaterialTheme.typography.bodyMedium)
+        }
+        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 4.dp)) {
+            VerdictPill(Verdict.CAUTION); Text(stringResource(R.string.legend_caution), Modifier.padding(start = 8.dp), style = MaterialTheme.typography.bodyMedium)
+        }
+        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 4.dp)) {
+            VerdictPill(Verdict.NO_GO); Text(stringResource(R.string.legend_nogo), Modifier.padding(start = 8.dp), style = MaterialTheme.typography.bodyMedium)
+        }
+    }
+}
+
+@Composable
+private fun Bullet(text: String) {
+    Row(Modifier.padding(top = 4.dp)) {
+        Text("•", Modifier.padding(end = 8.dp), color = MaterialTheme.colorScheme.primary)
+        Text(text, style = MaterialTheme.typography.bodyMedium)
     }
 }
