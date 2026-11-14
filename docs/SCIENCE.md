@@ -19,6 +19,7 @@ Owner: @LoranSent. The judges are scientists, so **every number in the app must 
 | Mars surface | 0.64 mSv/day | Hassler 2014, Curiosity RAD | ☑ DOI checked |
 | Bone loss | 1.25 %/month without countermeasures, 0.5 %/month with ARED | NASA HRP Evidence Report, NASA/SP-20250000273, Smith 2012 | ☑ see "Digital Twin" |
 | CSA radiation | Monitoring radiation for astronaut health (2026-02-26) | CSA | ☑ link replaced with the exact article |
+| `risks.json` | 9 risks, each linked to its own Human Research Roadmap page; names and summaries follow the official HRP risk statements; `fitness` added for the Digital Twin muscle model | NASA Human Research Roadmap | ☑ checked 2026-11-14 |
 
 Legend: ☑ value taken from the source · ◐ derived from the source by the rule below · ✖ no source, this is a limitation.
 
