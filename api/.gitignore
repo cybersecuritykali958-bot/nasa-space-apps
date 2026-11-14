@@ -1,0 +1,4 @@
+# local SQLite database
+var/
+.pytest_cache/
+.ruff_cache/
