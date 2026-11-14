@@ -1,22 +1,58 @@
 package space.crewpulse.ui.navigation
 
-import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Surface
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import space.crewpulse.ui.components.SpaceBackground
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Groups
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.MonitorHeart
+import androidx.compose.material.icons.filled.RocketLaunch
+import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.icons.outlined.Groups
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.MonitorHeart
+import androidx.compose.material.icons.outlined.RocketLaunch
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.tween
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import kotlinx.coroutines.delay
+import space.crewpulse.ui.components.OrbitLoader
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -59,14 +95,14 @@ object Routes {
     fun indicator(id: String) = "indicator/$id"
 }
 
-private data class Tab(val route: String, val label: Int, val icon: ImageVector)
+private data class Tab(val route: String, val label: Int, val icon: ImageVector, val selectedIcon: ImageVector)
 
 private val TABS = listOf(
-    Tab(Routes.HOME, R.string.tab_home, Icons.Filled.Home),
-    Tab(Routes.HEALTH, R.string.tab_health, Icons.Filled.Favorite),
-    Tab(Routes.READINESS, R.string.tab_readiness, Icons.Filled.CheckCircle),
-    Tab(Routes.TWIN, R.string.tab_twin, Icons.Filled.Person),
-    Tab(Routes.MISSION, R.string.tab_mission, Icons.Filled.Star),
+    Tab(Routes.HOME, R.string.tab_home, Icons.Outlined.Home, Icons.Filled.Home),
+    Tab(Routes.HEALTH, R.string.tab_health, Icons.Outlined.FavoriteBorder, Icons.Filled.Favorite),
+    Tab(Routes.READINESS, R.string.tab_readiness, Icons.Outlined.MonitorHeart, Icons.Filled.MonitorHeart),
+    Tab(Routes.TWIN, R.string.tab_twin, Icons.Outlined.Groups, Icons.Filled.Groups),
+    Tab(Routes.MISSION, R.string.tab_mission, Icons.Outlined.RocketLaunch, Icons.Filled.RocketLaunch),
 )
 
 @Composable
@@ -74,15 +110,49 @@ fun AppNavHost(container: AppContainer, onLanguageChange: (String) -> Unit) {
     val nav = rememberNavController()
     val home: HomeViewModel = viewModel(factory = HomeViewModel.factory(container))
     val state by home.state.collectAsStateWithLifecycle()
+
+    // Short loading screen with orbiting planets: at least 1.5 s on start, and while data loads.
+    var splash by remember { mutableStateOf(true) }
+    LaunchedEffect(Unit) {
+        delay(1_500)
+        splash = false
+    }
+    Crossfade(targetState = splash || state.loading, animationSpec = tween(500), label = "splash") { loading ->
+        if (loading) {
+            OrbitLoader(stringResource(R.string.loading_sync))
+        } else {
+            MainScaffold(container, nav, home, state, onLanguageChange)
+        }
+    }
+}
+
+@Composable
+private fun MainScaffold(
+    container: AppContainer,
+    nav: NavHostController,
+    home: HomeViewModel,
+    state: space.crewpulse.ui.home.HomeUiState,
+    onLanguageChange: (String) -> Unit,
+) {
     val back: () -> Unit = { nav.popBackStack() }
     val go: (String) -> Unit = { nav.navigate(it) }
-
+    val overall = space.crewpulse.domain.StatusEngine.worst(state.systems.map { it.status })
+    Box(Modifier.fillMaxSize()) {
+    SpaceBackground(overall)
     Scaffold(
-        containerColor = MaterialTheme.colorScheme.background,
+        containerColor = Color.Transparent,
         contentColor = MaterialTheme.colorScheme.onBackground,
         bottomBar = { BottomBar(nav) },
     ) { padding ->
-        NavHost(navController = nav, startDestination = Routes.HOME, modifier = Modifier.padding(padding)) {
+        NavHost(
+            navController = nav,
+            startDestination = Routes.HOME,
+            modifier = Modifier.padding(padding),
+            enterTransition = { fadeIn(tween(250)) + slideInHorizontally(tween(250)) { it / 12 } },
+            exitTransition = { fadeOut(tween(200)) },
+            popEnterTransition = { fadeIn(tween(250)) },
+            popExitTransition = { fadeOut(tween(200)) + slideOutHorizontally(tween(250)) { it / 12 } },
+        ) {
             // Tabs
             composable(Routes.HOME) {
                 HomeScreen(
@@ -120,33 +190,72 @@ fun AppNavHost(container: AppContainer, onLanguageChange: (String) -> Unit) {
             }
         }
     }
+    }
 }
 
+/** Floating capsule navigation; the highlight slides to the selected tab. */
 @Composable
 private fun BottomBar(nav: NavHostController) {
     val entry by nav.currentBackStackEntryAsState()
     val current = entry?.destination?.route
-    NavigationBar(containerColor = MaterialTheme.colorScheme.surface, windowInsets = NavigationBarDefaultsInsets()) {
-        TABS.forEach { tab ->
-            NavigationBarItem(
-                selected = current == tab.route,
-                onClick = { nav.switchTab(tab.route) },
-                icon = { Icon(tab.icon, contentDescription = null) },
-                label = { Text(stringResource(tab.label), maxLines = 1, overflow = TextOverflow.Ellipsis) },
-                colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = MaterialTheme.colorScheme.primary,
-                    selectedTextColor = MaterialTheme.colorScheme.primary,
-                    indicatorColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.15f),
-                    unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                ),
-            )
+    val selected = TABS.indexOfFirst { it.route == current }
+    Box(
+        Modifier
+            .fillMaxWidth()
+            .navigationBarsPadding()
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+    ) {
+        Surface(
+            shape = RoundedCornerShape(28.dp),
+            color = MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0.94f),
+            shadowElevation = 6.dp,
+        ) {
+            BoxWithConstraints(Modifier.fillMaxWidth().height(64.dp)) {
+                val itemWidth = maxWidth / TABS.size
+                val x by animateDpAsState(itemWidth * selected.coerceAtLeast(0), tween(300), label = "tab")
+                if (selected >= 0) {
+                    Box(
+                        Modifier
+                            .offset(x = x)
+                            .width(itemWidth)
+                            .fillMaxHeight()
+                            .padding(6.dp)
+                            .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.14f), RoundedCornerShape(22.dp)),
+                    )
+                }
+                Row(Modifier.fillMaxSize()) {
+                    TABS.forEachIndexed { i, tab ->
+                        val on = i == selected
+                        val tint by animateColorAsState(
+                            if (on) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
+                            tween(300), label = "tint",
+                        )
+                        Column(
+                            Modifier
+                                .weight(1f)
+                                .fillMaxHeight()
+                                .clickable(
+                                    interactionSource = remember { MutableInteractionSource() },
+                                    indication = null,
+                                ) { nav.switchTab(tab.route) },
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center,
+                        ) {
+                            Icon(if (on) tab.selectedIcon else tab.icon, contentDescription = null, tint = tint)
+                            Text(
+                                stringResource(tab.label),
+                                style = MaterialTheme.typography.labelSmall,
+                                color = tint,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                            )
+                        }
+                    }
+                }
+            }
         }
     }
 }
-
-@Composable
-private fun NavigationBarDefaultsInsets(): WindowInsets = androidx.compose.material3.NavigationBarDefaults.windowInsets
 
 /** Standard bottom-tab navigation: one copy of each tab, state kept when switching. */
 private fun NavHostController.switchTab(route: String) {

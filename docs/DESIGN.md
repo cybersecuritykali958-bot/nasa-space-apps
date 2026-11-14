@@ -16,7 +16,7 @@ Navigation: bottom bar with five tabs; detail screens open on top. Settings via 
 
 | Tab / screen | File | Data |
 |---|---|---|
-| **Home**: mission banner, body figure with overall status, what to do now, the most important warning, Check-in and Reaction buttons, today's mission in one line | `ui/home/HomeScreen.kt` | `state.report`, `state.environment` |
+| **Home** (daily briefing): greeting, mission line, one status row, one warning only when needed, today's plan (tap opens check-in or the reaction test). No measurements on Home | `ui/home/HomeScreen.kt` | `state.report`, `state.environment` |
 | **Health**: all body systems and indicators, entry to check-in and trends | `ui/health/HealthScreen.kt` | `state.systems` |
 | **Readiness**: Earth response vs response window, EVA / landing GO-NO-GO with reasons, space weather, radiation budget | `ui/readiness/ReadinessScreen.kt` | `report.triage`, `readiness`, `spaceWeather`, `radiation` |
 | **Twin**: skeleton, bone / muscle / dose charts, day slider, exercise switch, scenarios | `ui/twin/TwinScreen.kt` | `projectTwin` |
@@ -40,6 +40,12 @@ Shared components: `BodyFigure` (Canvas), `LineChart` (Canvas, no chart library)
 - Status is green / yellow / red **plus** an icon or text (never color alone, for color-blind users).
 - All UI texts in English.
 - Placeholder colors are in `ui/theme/Theme.kt`; hand final colors to @harvio1.
+
+## Visual style (Material 3, calm dark)
+- Background graphite `#1B1E21`, cards `#24272B` without borders or glow, one accent: soft teal `#6BD3C3`.
+- Text `#E3E5E8`, secondary `#9AA0A6`. Status colors are desaturated: green `#7FC8A0`, amber `#E6B566`, red `#E58A8A`.
+- Status is a filled chip with dark text; icons are outlined (Material Icons Extended), the selected tab icon is filled.
+- Shared building blocks: `CrewCard`, `ListRow` / `CardRow`, `Pill`, `StatusMark`, `CrewIcons`.
 
 ## Readability rules
 - The app root is a `Surface` with `onBackground` content color: plain `Text` is light by default. Never use `Color.Black` for text.
