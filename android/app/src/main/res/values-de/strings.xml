@@ -196,6 +196,15 @@
     <string name="legend_go">erlaubt</string>
     <string name="legend_caution">nur mit zusätzlicher Prüfung: vorher erneut messen, ein zweites Crewmitglied in der Nähe</string>
     <string name="legend_nogo">nicht erlaubt, bis die Gründe oben behoben sind</string>
+    <string name="greeting_morning">Guten Morgen</string>
+    <string name="greeting_afternoon">Guten Tag</string>
+    <string name="greeting_evening">Guten Abend</string>
+    <string name="home_subtitle">%1$s · Tag %2$d · Erde %3$s Min. entfernt</string>
+    <string name="todays_plan">Heutiger Plan</string>
+    <string name="op_eva_sub">Arbeit außerhalb des Raumschiffs</string>
+    <string name="op_landing_sub">Abstieg und Rückkehr zur Schwerkraft</string>
+    <string name="streak_days">%1$d-Tage-Serie</string>
+    <string name="level_short">St. %1$d</string>
     <string name="ind_systolic_bp">Systolischer Druck</string>
     <string name="ind_diastolic_bp">Diastolischer Druck</string>
     <string name="ind_heart_rate">Ruhepuls</string>

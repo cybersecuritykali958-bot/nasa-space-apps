@@ -64,7 +64,7 @@ fun LineChart(
                 target.lineTo(px(x), py(y))
             }
         }
-        drawPath(solid, color, style = Stroke(width = 4f))
+        drawPath(solid, color, style = Stroke(width = 3f))
         if (!dashed.isEmpty) drawPath(dashed, color.copy(alpha = 0.8f), style = Stroke(width = 4f, pathEffect = dash))
 
         forecast?.let { (fx, fy) ->

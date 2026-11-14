@@ -196,6 +196,15 @@
     <string name="legend_go">可能</string>
     <string name="legend_caution">追加確認が必要: 事前に再測定し、別のクルーが付き添うこと</string>
     <string name="legend_nogo">上記の理由が解消されるまで不可</string>
+    <string name="greeting_morning">おはようございます</string>
+    <string name="greeting_afternoon">こんにちは</string>
+    <string name="greeting_evening">こんばんは</string>
+    <string name="home_subtitle">%1$s · %2$d日目 · 地球まで%3$s分</string>
+    <string name="todays_plan">今日の予定</string>
+    <string name="op_eva_sub">宇宙船外での作業</string>
+    <string name="op_landing_sub">降下と重力への復帰</string>
+    <string name="streak_days">%1$d日連続</string>
+    <string name="level_short">Lv. %1$d</string>
     <string name="ind_systolic_bp">収縮期血圧</string>
     <string name="ind_diastolic_bp">拡張期血圧</string>
     <string name="ind_heart_rate">安静時心拍数</string>

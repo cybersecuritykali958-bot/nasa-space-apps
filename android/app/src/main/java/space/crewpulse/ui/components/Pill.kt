@@ -1,6 +1,5 @@
 package space.crewpulse.ui.components
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -17,20 +16,15 @@ import space.crewpulse.domain.ConfidenceLevel
 import space.crewpulse.domain.Verdict
 import space.crewpulse.ui.theme.StatusColors
 
-/** Small colored badge with text, e.g. "Elevated", "GO", "CAUTION". */
+/** Filled status chip with dark text, e.g. "Elevated", "NO-GO" (Material 3 style). */
 @Composable
 fun Pill(text: String, color: Color, modifier: Modifier = Modifier) {
-    Surface(
-        modifier = modifier,
-        shape = RoundedCornerShape(8.dp),
-        color = color.copy(alpha = 0.18f),
-        border = BorderStroke(1.dp, color.copy(alpha = 0.8f)),
-    ) {
+    Surface(modifier = modifier, shape = RoundedCornerShape(50), color = color) {
         Text(
             text,
-            modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
             style = MaterialTheme.typography.labelLarge,
-            color = color,
+            color = StatusColors.onChip,
         )
     }
 }

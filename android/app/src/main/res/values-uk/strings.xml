@@ -196,6 +196,15 @@
     <string name="legend_go">дозволено</string>
     <string name="legend_caution">лише з додатковою перевіркою: спершу виміряй ще раз, поруч другий член екіпажу</string>
     <string name="legend_nogo">заборонено, доки не усунуто причини вище</string>
+    <string name="greeting_morning">Доброго ранку</string>
+    <string name="greeting_afternoon">Доброго дня</string>
+    <string name="greeting_evening">Доброго вечора</string>
+    <string name="home_subtitle">%1$s · День %2$d · До Землі %3$s хв</string>
+    <string name="todays_plan">План на сьогодні</string>
+    <string name="op_eva_sub">Робота поза кораблем</string>
+    <string name="op_landing_sub">Спуск і повернення до гравітації</string>
+    <string name="streak_days">Серія %1$d дн.</string>
+    <string name="level_short">Рів. %1$d</string>
     <string name="ind_systolic_bp">Систолічний тиск</string>
     <string name="ind_diastolic_bp">Діастолічний тиск</string>
     <string name="ind_heart_rate">Пульс у спокої</string>

@@ -196,6 +196,15 @@
     <string name="legend_go">allowed</string>
     <string name="legend_caution">allowed only with extra checks: re-measure first, a second crew member nearby</string>
     <string name="legend_nogo">not allowed until the reasons above are fixed</string>
+    <string name="greeting_morning">Good morning</string>
+    <string name="greeting_afternoon">Good afternoon</string>
+    <string name="greeting_evening">Good evening</string>
+    <string name="home_subtitle">%1$s · Day %2$d · Earth %3$s min away</string>
+    <string name="todays_plan">Today’s plan</string>
+    <string name="op_eva_sub">Work outside the spacecraft</string>
+    <string name="op_landing_sub">Descent and return to gravity</string>
+    <string name="streak_days">%1$d-day streak</string>
+    <string name="level_short">Lv. %1$d</string>
     <string name="ind_systolic_bp">Systolic pressure</string>
     <string name="ind_diastolic_bp">Diastolic pressure</string>
     <string name="ind_heart_rate">Resting heart rate</string>

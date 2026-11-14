@@ -4,7 +4,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Icon
@@ -111,8 +113,13 @@ fun TriagePlan(report: EngineReport, modifier: Modifier = Modifier) {
 
 @Composable
 private fun NumberedStep(n: Int, text: String) {
-    Row {
-        Text("$n.", style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary, modifier = Modifier.width(24.dp))
-        Text(text, style = MaterialTheme.typography.bodyLarge)
+    Row(verticalAlignment = androidx.compose.ui.Alignment.Top) {
+        androidx.compose.foundation.layout.Box(
+            Modifier.size(28.dp).background(MaterialTheme.colorScheme.surfaceContainerHighest, CircleShape),
+            contentAlignment = androidx.compose.ui.Alignment.Center,
+        ) {
+            Text("$n", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        }
+        Text(text, style = MaterialTheme.typography.bodyLarge, modifier = Modifier.padding(start = 12.dp, top = 2.dp))
     }
 }

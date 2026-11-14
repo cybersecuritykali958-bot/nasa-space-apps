@@ -3,11 +3,16 @@ package space.crewpulse.ui.navigation
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Groups
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.MonitorHeart
+import androidx.compose.material.icons.filled.RocketLaunch
+import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.icons.outlined.Groups
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.MonitorHeart
+import androidx.compose.material.icons.outlined.RocketLaunch
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -59,14 +64,14 @@ object Routes {
     fun indicator(id: String) = "indicator/$id"
 }
 
-private data class Tab(val route: String, val label: Int, val icon: ImageVector)
+private data class Tab(val route: String, val label: Int, val icon: ImageVector, val selectedIcon: ImageVector)
 
 private val TABS = listOf(
-    Tab(Routes.HOME, R.string.tab_home, Icons.Filled.Home),
-    Tab(Routes.HEALTH, R.string.tab_health, Icons.Filled.Favorite),
-    Tab(Routes.READINESS, R.string.tab_readiness, Icons.Filled.CheckCircle),
-    Tab(Routes.TWIN, R.string.tab_twin, Icons.Filled.Person),
-    Tab(Routes.MISSION, R.string.tab_mission, Icons.Filled.Star),
+    Tab(Routes.HOME, R.string.tab_home, Icons.Outlined.Home, Icons.Filled.Home),
+    Tab(Routes.HEALTH, R.string.tab_health, Icons.Outlined.FavoriteBorder, Icons.Filled.Favorite),
+    Tab(Routes.READINESS, R.string.tab_readiness, Icons.Outlined.MonitorHeart, Icons.Filled.MonitorHeart),
+    Tab(Routes.TWIN, R.string.tab_twin, Icons.Outlined.Groups, Icons.Filled.Groups),
+    Tab(Routes.MISSION, R.string.tab_mission, Icons.Outlined.RocketLaunch, Icons.Filled.RocketLaunch),
 )
 
 @Composable
@@ -126,17 +131,17 @@ fun AppNavHost(container: AppContainer, onLanguageChange: (String) -> Unit) {
 private fun BottomBar(nav: NavHostController) {
     val entry by nav.currentBackStackEntryAsState()
     val current = entry?.destination?.route
-    NavigationBar(containerColor = MaterialTheme.colorScheme.surface, windowInsets = NavigationBarDefaultsInsets()) {
+    NavigationBar(containerColor = MaterialTheme.colorScheme.surfaceContainer, windowInsets = NavigationBarDefaultsInsets()) {
         TABS.forEach { tab ->
             NavigationBarItem(
                 selected = current == tab.route,
                 onClick = { nav.switchTab(tab.route) },
-                icon = { Icon(tab.icon, contentDescription = null) },
+                icon = { Icon(if (current == tab.route) tab.selectedIcon else tab.icon, contentDescription = null) },
                 label = { Text(stringResource(tab.label), maxLines = 1, overflow = TextOverflow.Ellipsis) },
                 colors = NavigationBarItemDefaults.colors(
                     selectedIconColor = MaterialTheme.colorScheme.primary,
                     selectedTextColor = MaterialTheme.colorScheme.primary,
-                    indicatorColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.15f),
+                    indicatorColor = androidx.compose.ui.graphics.Color.Transparent,
                     unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
                     unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
                 ),

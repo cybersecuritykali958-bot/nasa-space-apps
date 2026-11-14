@@ -27,6 +27,9 @@ android {
         buildConfigField("String", "NASA_API_KEY", "\"${localProps.getProperty("NASA_API_KEY", "DEMO_KEY")}\"")
     }
 
+    // Local redesign experiment: installs next to the main app instead of replacing it.
+    defaultConfig.applicationIdSuffix = ".redesign"
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -62,6 +65,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.material.icons.extended)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)

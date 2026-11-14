@@ -1,165 +1,170 @@
 package space.crewpulse.ui.readiness
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material.icons.automirrored.outlined.DirectionsWalk
+import androidx.compose.material.icons.outlined.ExpandLess
+import androidx.compose.material.icons.outlined.ExpandMore
+import androidx.compose.material.icons.outlined.FlightLand
+import androidx.compose.material.icons.outlined.HelpOutline
+import androidx.compose.material.icons.outlined.WbSunny
+import androidx.compose.material.icons.outlined.Shield
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import space.crewpulse.R
-import space.crewpulse.domain.Responder
+import space.crewpulse.data.model.Status
 import space.crewpulse.domain.SpaceWeatherLevel
 import space.crewpulse.domain.Verdict
 import space.crewpulse.ui.components.CrewCard
-import space.crewpulse.ui.components.CrewScaffold
+import space.crewpulse.ui.components.ListRow
 import space.crewpulse.ui.components.TriagePlan
 import space.crewpulse.ui.components.VerdictPill
 import space.crewpulse.ui.home.HomeUiState
+import space.crewpulse.ui.home.StatusMark
 import space.crewpulse.ui.i18n.durationText
 import space.crewpulse.ui.i18n.readinessItemText
 import space.crewpulse.ui.i18n.responderLabel
 import space.crewpulse.ui.i18n.triageReason
 import space.crewpulse.ui.theme.StatusColors
 
-/** Triage with communication delay, GO / NO-GO for operations, space weather and radiation budget. */
+/** Triage with communication delay, step-by-step plan, GO / NO-GO, space weather, radiation budget. */
 @Composable
 fun ReadinessScreen(state: HomeUiState, onRefreshWeather: () -> Unit, onBack: (() -> Unit)?) {
     val report = state.report
     val t = report.triage
-    CrewScaffold(title = stringResource(R.string.readiness_title), onBack = onBack) { pad ->
-        Column(
-            pad.fillMaxSize().verticalScroll(rememberScrollState()).padding(horizontal = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-        ) {
-            CrewCard {
-                Text(stringResource(R.string.time_to_earth), style = MaterialTheme.typography.titleSmall)
-                Row(Modifier.padding(top = 10.dp), verticalAlignment = Alignment.CenterVertically) {
-                    TimeTile(stringResource(R.string.earth_response), t.earthResponseMin, MaterialTheme.colorScheme.primary, Modifier.weight(1f))
-                    Text("vs", Modifier.padding(horizontal = 8.dp), color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    TimeTile(stringResource(R.string.response_window), t.responseWindowMin, StatusColors.yellow, Modifier.weight(1f))
-                }
-                val color = when (t.responder) {
-                    Responder.ONBOARD_PROTOCOL -> StatusColors.red
-                    Responder.FLIGHT_SURGEON, Responder.CREW_MEDICAL_OFFICER -> StatusColors.yellow
-                    Responder.SELF -> StatusColors.green
-                }
-                Text(
-                    "↓  " + responderLabel(t.responder),
-                    color = color,
-                    style = MaterialTheme.typography.titleMedium,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(top = 12.dp).fillMaxWidth(),
-                )
-                Text(triageReason(state.report), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            }
+    var help by remember { mutableStateOf(false) }
 
-            CrewCard(accent = StatusColors.of(t.status).takeIf { t.status != space.crewpulse.data.model.Status.GREEN }) {
-                TriagePlan(report)
-            }
+    Column(
+        Modifier.fillMaxSize().statusBarsPadding().verticalScroll(rememberScrollState()).padding(horizontal = 20.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+    ) {
+        Text(stringResource(R.string.tab_readiness), style = MaterialTheme.typography.headlineMedium, modifier = Modifier.padding(top = 16.dp))
 
-            HowToRead(state)
-
-            report.readiness.forEach { r ->
-                val accent = when (r.verdict) {
-                    Verdict.GO -> StatusColors.green
-                    Verdict.CAUTION -> StatusColors.yellow
-                    Verdict.NO_GO -> StatusColors.red
-                }
-                CrewCard(accent = accent) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(
-                            if (r.operationId == "eva") stringResource(R.string.op_eva) else if (r.operationId == "landing") stringResource(R.string.op_landing) else r.operationName,
-                            style = MaterialTheme.typography.titleMedium,
-                            modifier = Modifier.weight(1f),
-                        )
-                        VerdictPill(r.verdict)
-                    }
-                    r.items.forEach { item ->
-                        val itemColor = when (item.verdict) {
-                            Verdict.GO -> StatusColors.green
-                            Verdict.CAUTION -> StatusColors.yellow
-                            Verdict.NO_GO -> StatusColors.red
-                        }
-                        Row(Modifier.padding(top = 6.dp)) {
-                            Icon(
-                                if (item.verdict == Verdict.GO) Icons.Filled.Check else Icons.Filled.Warning,
-                                contentDescription = null, tint = itemColor,
-                            )
-                            Text(readinessItemText(item, state), Modifier.padding(start = 8.dp), style = MaterialTheme.typography.bodyMedium)
-                        }
-                    }
-                }
+        // Earth response vs response window, and the decision.
+        CrewCard {
+            Row(Modifier.fillMaxWidth().height(IntrinsicSize.Min)) {
+                TimeColumn(stringResource(R.string.earth_response), t.earthResponseMin, Modifier.weight(1f))
+                VerticalDivider(Modifier.fillMaxHeight().padding(vertical = 4.dp), color = MaterialTheme.colorScheme.outline)
+                TimeColumn(stringResource(R.string.response_window), t.responseWindowMin, Modifier.weight(1f))
             }
-
-            report.spaceWeather?.let { sw ->
-                val color = when (sw.level) {
-                    SpaceWeatherLevel.WARNING -> StatusColors.red
-                    SpaceWeatherLevel.WATCH -> StatusColors.yellow
-                    SpaceWeatherLevel.QUIET -> StatusColors.green
-                }
-                CrewCard(accent = color) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text("☀", style = MaterialTheme.typography.headlineMedium, color = StatusColors.yellow)
-                        Column(Modifier.padding(start = 12.dp).weight(1f)) {
-                            Text(stringResource(R.string.space_weather), style = MaterialTheme.typography.titleSmall)
-                            Text(
-                                when (sw.level) {
-                                    SpaceWeatherLevel.WARNING -> stringResource(R.string.sw_warning)
-                                    SpaceWeatherLevel.WATCH -> stringResource(R.string.sw_watch)
-                                    SpaceWeatherLevel.QUIET -> stringResource(R.string.sw_quiet)
-                                },
-                                color = color, style = MaterialTheme.typography.bodyMedium,
-                            )
-                        }
-                    }
-                    sw.latestSep?.let {
-                        Text(
-                            stringResource(R.string.last_sep, java.text.DateFormat.getDateInstance().format(java.util.Date(it.timeMillis))),
-                            style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        )
-                    }
-                    Text(stringResource(R.string.data_source, sw.dataSource), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    TextButton(onClick = onRefreshWeather) { Text(stringResource(R.string.refresh)) }
-                }
+            Row(Modifier.padding(top = 12.dp), verticalAlignment = Alignment.CenterVertically) {
+                StatusMark(t.status.takeIf { it != Status.UNKNOWN } ?: Status.GREEN)
+                Text(responderLabel(t.responder), style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(start = 12.dp))
             }
-
-            report.radiation?.let { b ->
-                CrewCard {
-                    Text(stringResource(R.string.radiation_budget), style = MaterialTheme.typography.titleSmall)
-                    Text(stringResource(R.string.rad_used, b.usedMsv, b.limitMsv), style = MaterialTheme.typography.titleLarge)
-                    b.daysLeft?.let {
-                        Text(stringResource(R.string.rad_days_left, it), color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    }
-                }
-            }
-            Text("", Modifier.padding(bottom = 16.dp))
+            Text(triageReason(report), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 6.dp))
         }
+
+        // Concrete steps.
+        CrewCard { TriagePlan(report) }
+
+        // Operations.
+        report.readiness.forEach { r ->
+            CrewCard {
+                ListRow(
+                    title = when (r.operationId) {
+                        "eva" -> stringResource(R.string.op_eva)
+                        "landing" -> stringResource(R.string.op_landing)
+                        else -> r.operationName
+                    },
+                    subtitle = when (r.operationId) {
+                        "eva" -> stringResource(R.string.op_eva_sub)
+                        "landing" -> stringResource(R.string.op_landing_sub)
+                        else -> null
+                    },
+                    icon = if (r.operationId == "landing") Icons.Outlined.FlightLand else Icons.AutoMirrored.Outlined.DirectionsWalk,
+                    iconTint = when (r.verdict) {
+                        Verdict.GO -> MaterialTheme.colorScheme.primary
+                        Verdict.CAUTION -> StatusColors.yellow
+                        Verdict.NO_GO -> StatusColors.red
+                    },
+                    trailing = { VerdictPill(r.verdict) },
+                )
+                r.items.forEach { item ->
+                    Text(
+                        "• " + readinessItemText(item, state),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.padding(start = 44.dp, bottom = 4.dp),
+                    )
+                }
+            }
+        }
+
+        // Space weather and radiation.
+        report.spaceWeather?.let { sw ->
+            CrewCard {
+                ListRow(
+                    title = stringResource(R.string.space_weather),
+                    subtitle = when (sw.level) {
+                        SpaceWeatherLevel.WARNING -> stringResource(R.string.sw_warning)
+                        SpaceWeatherLevel.WATCH -> stringResource(R.string.sw_watch)
+                        SpaceWeatherLevel.QUIET -> stringResource(R.string.sw_quiet)
+                    } + "\n" + stringResource(R.string.data_source, sw.dataSource),
+                    icon = Icons.Outlined.WbSunny,
+                    iconTint = StatusColors.yellow,
+                )
+                TextButton(onClick = onRefreshWeather) { Text(stringResource(R.string.refresh)) }
+            }
+        }
+        report.radiation?.let { b ->
+            CrewCard {
+                ListRow(
+                    title = stringResource(R.string.radiation_budget),
+                    subtitle = stringResource(R.string.rad_used, b.usedMsv, b.limitMsv) +
+                        (b.daysLeft?.let { "\n" + stringResource(R.string.rad_days_left, it) } ?: ""),
+                    icon = Icons.Outlined.Shield,
+                )
+            }
+        }
+
+        // How to read this screen, on demand.
+        CrewCard(modifier = Modifier.clickable { help = !help }) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(Icons.Outlined.HelpOutline, null, tint = MaterialTheme.colorScheme.primary)
+                Text(stringResource(R.string.how_to_read), style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(start = 16.dp).weight(1f))
+                Icon(if (help) Icons.Outlined.ExpandLess else Icons.Outlined.ExpandMore, null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+            if (help) HowToRead(state)
+        }
+        Text("", Modifier.padding(bottom = 8.dp))
     }
 }
 
 @Composable
-private fun TimeTile(label: String, minutes: Double?, color: Color, modifier: Modifier) {
-    CrewCard(modifier = modifier, accent = color) {
+private fun TimeColumn(label: String, minutes: Double?, modifier: Modifier) {
+    val (value, unit) = durationText(minutes)
+    Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         Text(label, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-        val (value, unit) = durationText(minutes)
-        Text(value, style = MaterialTheme.typography.displaySmall, color = color)
-        Text(unit, style = MaterialTheme.typography.bodyMedium, color = color)
+        Row(verticalAlignment = Alignment.Bottom) {
+            Text(value, style = MaterialTheme.typography.displaySmall)
+            Text(" $unit", style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(bottom = 6.dp))
+        }
     }
 }
 
@@ -168,34 +173,36 @@ private fun HowToRead(state: HomeUiState) {
     val t = state.report.triage
     val delay = state.environment?.commDelayMinOneWay ?: 0.0
     val handling = ((t.earthResponseMin ?: 0.0) - 2 * delay).coerceAtLeast(0.0)
-    CrewCard {
-        Text(stringResource(R.string.how_to_read), style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary)
+    Column(Modifier.padding(top = 8.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
         Bullet(stringResource(R.string.explain_earth, delay, 2 * delay, handling, t.earthResponseMin ?: 0.0))
         Bullet(
             when (t.status) {
-                space.crewpulse.data.model.Status.RED -> stringResource(R.string.explain_window_red)
-                space.crewpulse.data.model.Status.YELLOW -> stringResource(R.string.explain_window_yellow)
+                Status.RED -> stringResource(R.string.explain_window_red)
+                Status.YELLOW -> stringResource(R.string.explain_window_yellow)
                 else -> stringResource(R.string.explain_window_none)
             },
         )
         Bullet(stringResource(R.string.explain_rule))
-        Text(stringResource(R.string.legend_title), style = MaterialTheme.typography.titleSmall, modifier = Modifier.padding(top = 8.dp))
-        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 4.dp)) {
-            VerdictPill(Verdict.GO); Text(stringResource(R.string.legend_go), Modifier.padding(start = 8.dp), style = MaterialTheme.typography.bodyMedium)
-        }
-        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 4.dp)) {
-            VerdictPill(Verdict.CAUTION); Text(stringResource(R.string.legend_caution), Modifier.padding(start = 8.dp), style = MaterialTheme.typography.bodyMedium)
-        }
-        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 4.dp)) {
-            VerdictPill(Verdict.NO_GO); Text(stringResource(R.string.legend_nogo), Modifier.padding(start = 8.dp), style = MaterialTheme.typography.bodyMedium)
-        }
+        Legend(Verdict.GO, stringResource(R.string.legend_go))
+        Legend(Verdict.CAUTION, stringResource(R.string.legend_caution))
+        Legend(Verdict.NO_GO, stringResource(R.string.legend_nogo))
+    }
+}
+
+@Composable
+private fun Legend(v: Verdict, text: String) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        VerdictPill(v)
+        Text(text, Modifier.padding(start = 8.dp), style = MaterialTheme.typography.bodyMedium)
     }
 }
 
 @Composable
 private fun Bullet(text: String) {
-    Row(Modifier.padding(top = 4.dp)) {
-        Text("•", Modifier.padding(end = 8.dp), color = MaterialTheme.colorScheme.primary)
+    Row {
+        Text("•", Modifier.width(16.dp), color = MaterialTheme.colorScheme.primary)
         Text(text, style = MaterialTheme.typography.bodyMedium)
     }
 }
+
