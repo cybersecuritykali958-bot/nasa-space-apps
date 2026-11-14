@@ -13,6 +13,9 @@ data class EngineRules(
     val triage: TriageConfig,
     val patterns: List<PatternRule>,
     val readiness: List<ReadinessRule>,
+    val schedule: ScheduleConfig = ScheduleConfig(),
+    val gamification: GamificationConfig = GamificationConfig(),
+    val spaceWeather: SpaceWeatherConfig = SpaceWeatherConfig(),
 )
 
 /** Statistical process control settings. Defaults are textbook values (see sources). */
@@ -100,6 +103,72 @@ data class ReadinessRule(
     val id: String,
     val name: String,
     val gates: List<ReadinessGate>,
+    /** true: a space weather WARNING means NO-GO, a WATCH means CAUTION (e.g. spacewalks). */
+    val spaceWeatherGate: Boolean = false,
     val sources: List<Source> = emptyList(),
     val verified: Boolean = false,
+)
+
+/** Adaptive measurement schedule. Indicators without an interval are not scheduled (e.g. dosimeter). */
+@Serializable
+data class ScheduleConfig(
+    /** Routine interval when everything is green and stable. */
+    val intervalDays: Map<String, Double> = emptyMap(),
+    /** Crew time one measurement takes, used to show time saved. */
+    val minutesPerMeasurement: Map<String, Double> = emptyMap(),
+    /** Interval for yellow indicators or indicators with an early warning. */
+    val attentionIntervalDays: Double = 1.0,
+    /** Re-check delay after a red value. */
+    val redRecheckHours: Double = 1.0,
+)
+
+@Serializable
+data class GamificationConfig(
+    val pointsPerCheckInDay: Int = 10,
+    val pointsPerMeasurement: Int = 2,
+    val fullCheckInBonus: Int = 20,
+    /** A day with all of these measured counts as a full check-in. */
+    val coreIndicators: List<String> = emptyList(),
+    val pointsPerLevel: Int = 250,
+    val levelTitles: List<String> = listOf("Cadet"),
+)
+
+@Serializable
+data class SpaceWeatherConfig(
+    /** A solar energetic particle event this recent means: go to the shielded area. */
+    val sepWarningHours: Double = 48.0,
+    /** A fast CME this recent means: watch for particle events. */
+    val cmeWatchHours: Double = 72.0,
+    val cmeFastSpeedKms: Double = 1000.0,
+    /** X-class flare this recent raises a watch. */
+    val flareWatchHours: Double = 48.0,
+    /** Career effective dose limit, mSv. */
+    val careerLimitMsv: Double = 600.0,
+    val sources: List<Source> = emptyList(),
+)
+
+/** Normalized NASA DONKI events, as stored in assets/donki_cache.json and the on-device cache. */
+@Serializable
+data class SpaceWeatherFile(
+    val version: Int,
+    /** ISO-8601 time of the fetch. */
+    val fetchedAt: String,
+    val source: String = "NASA DONKI",
+    val events: List<SpaceWeatherEventDto>,
+)
+
+@Serializable
+data class SpaceWeatherEventDto(
+    /** "SEP", "CME" or "FLR". */
+    val type: String,
+    val id: String,
+    /** ISO-8601, UTC. */
+    val time: String,
+    /** Short human detail: flare class, CME speed, instruments. */
+    val detail: String = "",
+    /** CME speed in km/s, when known. */
+    val speedKms: Double? = null,
+    /** Flare class such as "X1.2", when known. */
+    val flareClass: String? = null,
+    val link: String = "",
 )

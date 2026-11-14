@@ -77,13 +77,20 @@ object EarlyWarning {
     }
 
     fun cusum(indicator: Indicator, samples: List<Sample>, stats: PersonalStats, config: EarlyWarningConfig): Alert? {
+        val z = samples.map { (it.value - stats.mean) / stats.sd }
         var high = 0.0
         var low = 0.0
         var runStart: Long? = null
         for (i in stats.referenceSize until samples.size) {
-            val x = (samples[i].value - stats.mean) / stats.sd
-            high = maxOf(0.0, high + x - config.cusumK)
-            low = maxOf(0.0, low - x - config.cusumK)
+            high = maxOf(0.0, high + z[i] - config.cusumK)
+            low = maxOf(0.0, low - z[i] - config.cusumK)
+
+            // Restart after an episode ends. Without this, a short spike (three days of fever) keeps the
+            // sum above the threshold for weeks while it slowly decays, reporting a drift that is over.
+            val recent = z.subList(maxOf(0, i - RECENT_FOR_DRIFT + 1), i + 1).average()
+            if (high > config.cusumH && recent <= config.cusumK) high = 0.0
+            if (low > config.cusumH && recent >= -config.cusumK) low = 0.0
+
             val out = high > config.cusumH || low > config.cusumH
             runStart = if (out) runStart ?: samples[i].timestampMillis else null
         }
@@ -160,6 +167,9 @@ object EarlyWarning {
                 .maxByOrNull { it.max!! }?.let { it.max!! to it.status }
         }
     }
+
+    /** A CUSUM episode ends when the mean of this many latest readings is back within the allowance. */
+    private const val RECENT_FOR_DRIFT = 3
 
     private fun Direction.word() = if (this == Direction.UP) "above" else "below"
 }

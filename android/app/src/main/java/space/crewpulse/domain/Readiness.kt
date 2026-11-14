@@ -6,7 +6,12 @@ import space.crewpulse.data.model.Status
 /** GO / CAUTION / NO-GO before a critical operation such as a spacewalk or landing. */
 object Readiness {
 
-    fun check(rule: ReadinessRule, evaluations: Map<String, Evaluation>, alerts: List<Alert>): ReadinessResult {
+    fun check(
+        rule: ReadinessRule,
+        evaluations: Map<String, Evaluation>,
+        alerts: List<Alert>,
+        spaceWeather: SpaceWeatherStatus? = null,
+    ): ReadinessResult {
         var verdict = Verdict.GO
         val reasons = mutableListOf<String>()
 
@@ -28,6 +33,13 @@ object Readiness {
                 sev >= StatusEngine.severity(gate.cautionAt) -> raise(Verdict.CAUTION, label)
                 e.status == Status.GREEN && alerts.any { it.indicatorId == gate.indicator } ->
                     raise(Verdict.CAUTION, "${e.indicator.name} is in range but has an early warning.")
+            }
+        }
+        if (rule.spaceWeatherGate && spaceWeather != null) {
+            when (spaceWeather.level) {
+                SpaceWeatherLevel.WARNING -> raise(Verdict.NO_GO, "Space weather: ${spaceWeather.headline}")
+                SpaceWeatherLevel.WATCH -> raise(Verdict.CAUTION, "Space weather: ${spaceWeather.headline}")
+                SpaceWeatherLevel.QUIET -> Unit
             }
         }
         if (verdict == Verdict.GO) reasons += "All gates green."

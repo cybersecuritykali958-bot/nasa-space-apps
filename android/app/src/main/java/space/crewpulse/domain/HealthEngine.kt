@@ -3,6 +3,7 @@ package space.crewpulse.domain
 import space.crewpulse.data.model.EngineRules
 import space.crewpulse.data.model.Environment
 import space.crewpulse.data.model.Indicator
+import java.time.ZoneId
 
 /** Everything the engine needs. Pure data, so it is easy to build in tests. */
 data class EngineInput(
@@ -13,6 +14,9 @@ data class EngineInput(
     val environment: Environment?,
     val rules: EngineRules,
     val nowMillis: Long,
+    /** NASA DONKI events; null when not loaded yet. */
+    val spaceWeather: SpaceWeatherInput? = null,
+    val zone: ZoneId = ZoneId.systemDefault(),
 )
 
 /**
@@ -21,6 +25,9 @@ data class EngineInput(
  * 1. What is happening?   StatusEngine + EarlyWarning + ConfidenceEstimator
  * 2. What does it mean?   PatternMatcher
  * 3. What to do now?      Triage + Readiness
+ *
+ * Around it: MeasurementPlanner (what to measure when), Gamification (engagement),
+ * SpaceWeather (real NASA DONKI events + career radiation budget).
  */
 object HealthEngine {
 
@@ -48,8 +55,15 @@ object HealthEngine {
             }
         val patterns = PatternMatcher.match(input.rules.patterns, evaluations, alerts)
         val triage = Triage.decide(systems, alerts, patterns, input.environment, input.rules.triage)
-        val readiness = input.rules.readiness.map { Readiness.check(it, evaluations, alerts) }
+        val spaceWeather = input.spaceWeather?.let {
+            SpaceWeather.assess(it.events, input.nowMillis, input.rules.spaceWeather, it.source, it.fetchedAtMillis)
+        }
+        val readiness = input.rules.readiness.map { Readiness.check(it, evaluations, alerts, spaceWeather) }
+        val radiation = SpaceWeather.budget(latest["cumulative_dose"], input.environment, input.rules.spaceWeather)
 
-        return EngineReport(systems, alerts, confidence, patterns, triage, readiness)
+        val core = EngineReport(systems, alerts, confidence, patterns, triage, readiness)
+        val plan = MeasurementPlanner.plan(input.indicators, input.history, core, input.nowMillis, input.rules.schedule)
+        val game = Gamification.compute(input.history, plan, input.nowMillis, input.zone, input.rules.gamification)
+        return core.copy(plan = plan, game = game, spaceWeather = spaceWeather, radiation = radiation)
     }
 }

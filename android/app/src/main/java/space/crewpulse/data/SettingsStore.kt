@@ -14,6 +14,15 @@ class SettingsStore(context: Context) {
     )
     val profile: StateFlow<Profile> = _profile
 
+    /** Mission environment id from environments.json (ISS, Moon, Mars...). */
+    private val _environmentId = MutableStateFlow(prefs.getString(KEY_ENVIRONMENT, null) ?: DEFAULT_ENVIRONMENT)
+    val environmentId: StateFlow<String> = _environmentId
+
+    fun setEnvironment(id: String) {
+        prefs.edit().putString(KEY_ENVIRONMENT, id).apply()
+        _environmentId.value = id
+    }
+
     fun setProfile(profile: Profile) {
         prefs.edit().putString(KEY_PROFILE, profile.name).apply()
         _profile.value = profile
@@ -21,5 +30,7 @@ class SettingsStore(context: Context) {
 
     private companion object {
         const val KEY_PROFILE = "profile"
+        const val KEY_ENVIRONMENT = "environment"
+        const val DEFAULT_ENVIRONMENT = "mars_transit"
     }
 }

@@ -51,4 +51,12 @@ class EarlyWarningTest {
         assertEquals(90.0 to Status.RED, EarlyWarning.nextWorseBoundary(systolic, 120.0, Direction.DOWN))
         assertEquals(140.0 to Status.RED, EarlyWarning.nextWorseBoundary(systolic, 135.0, Direction.UP))
     }
+
+    @Test
+    fun shortSpikeDoesNotLeaveAStaleDriftAlert() {
+        // 30 normal days, 3 very high days, then 20 normal days again.
+        val values = List(30) { 118.0 + noise(it) } + List(3) { 160.0 } + List(20) { 118.0 + noise(it) }
+        val alerts = EarlyWarning.analyze(systolic, daily(values), 118.0, TestFixtures.ewConfig)
+        assertTrue("stale alerts: $alerts", alerts.none { it.kind == AlertKind.CUSUM_DRIFT })
+    }
 }

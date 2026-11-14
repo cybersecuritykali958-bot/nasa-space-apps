@@ -91,6 +91,10 @@ data class EngineReport(
     val patterns: List<PatternMatch>,
     val triage: TriageDecision,
     val readiness: List<ReadinessResult>,
+    val plan: MeasurementPlan? = null,
+    val game: GameState? = null,
+    val spaceWeather: SpaceWeatherStatus? = null,
+    val radiation: RadiationBudget? = null,
 ) {
     fun evaluation(indicatorId: String): Evaluation? =
         systems.asSequence().flatMap { it.evaluations }.firstOrNull { it.indicator.id == indicatorId }
