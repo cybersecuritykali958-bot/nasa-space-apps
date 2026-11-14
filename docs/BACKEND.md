@@ -15,6 +15,10 @@ An on-device engine that **notices a problem days before a threshold, explains w
 | Why measure every day? | Streaks, points, levels, badges, daily mission | `Gamification` |
 | What about space weather? | Real NASA DONKI events → "go to the shielded area" + radiation budget to the 600 mSv career limit | `SpaceWeather`, `SpaceWeatherRepository` |
 | Can I trust the engine? | Self-validation: replay of the 180-day mission, lead time, false alarms | `EngineBenchmark` |
+| What will my body look like later? | Digital Twin: hip bone density, leg strength and dose per mission day, with exercise adherence; port of `science/digital_twin.py` | `DigitalTwin` |
+| Am I too tired? | 3-minute reaction test (PVT-B): protocol and scoring (mean, median, lapses ≥355 ms, false starts, speed) | `PvtSession`, `PvtScoring` |
+| Is this a typo? | Input validation: plausibility limits, diastolic < systolic, unknown ids | `InputValidator` |
+| Will I forget to measure? | Background reminders every 6 h from the adaptive plan (own data only) | `ReminderWorker`, `Reminders` |
 
 ## 2. How the app works (data flow)
 
@@ -43,13 +47,42 @@ Everything goes through `HomeViewModel` (one per app, created in `AppNavHost`).
 
 ### Actions
 ```kotlin
-home.saveCheckIn(mapOf("systolic_bp" to 121.0, "diastolic_bp" to 78.0, "heart_rate" to 64.0,
-                       "glucose" to 90.0, "body_temp" to 36.6, "sleep_hours" to 7.2, "mood" to 4.0))
+// Check-in: validated first, nothing is saved if any value is invalid.
+val result = home.saveCheckIn(mapOf("systolic_bp" to 121.0, "diastolic_bp" to 78.0, "heart_rate" to 64.0,
+                                    "glucose" to 90.0, "body_temp" to 36.6, "sleep_hours" to 7.2, "mood" to 4.0))
+if (!result.isValid) showErrors(result.errors)   // indicatorId -> "Heart rate must be between 20 and 250 bpm."
+
+home.setBaseline("heart_rate", 58.0)  // pre-flight baseline from the medical, also validated
+home.clearBaseline("heart_rate")      // back to the automatic baseline
 home.setProfile(Profile.ME)           // or Profile.DEMO
 home.setEnvironment("mars_surface")   // id from environments.json
 home.refreshSpaceWeather()            // fresh NASA data, safe offline
 home.runBenchmark()                   // engine self-validation → state.benchmark
+home.sendReminderNow()                // demo: post the reminder for the current plan now
+
+// Digital Twin: one State per mission day
+val days = home.projectTwin(adherence = 1.0, days = 900)                    // current environment
+val mars = home.projectTwin(1.0, phases = DigitalTwin.SCENARIOS["mars_mission"])
 ```
+
+### PVT screen (the UI owns the clock, the backend owns the protocol)
+```kotlin
+val session = PvtSession()
+val start = SystemClock.elapsedRealtime()
+while (!session.isFinished(SystemClock.elapsedRealtime() - start)) {
+    delay(session.nextDelayMillis())     // tap here -> session.recordEarlyTap()
+    val shownAt = SystemClock.elapsedRealtime()
+    showStimulus()                       // e.g. a running ms counter
+    val rt = awaitTap() - shownAt
+    session.recordResponse(rt)
+}
+val r = session.result()                 // meanReactionMillis, lapses, falseStarts, meanSpeedPerSecond
+home.savePvt(r)                          // false if fewer than 10 valid responses
+```
+
+### Notifications
+Reminders are scheduled on app start. On Android 13+ the screen must ask for `POST_NOTIFICATIONS`
+(`rememberLauncherForActivityResult(RequestPermission())`); without it reminders stay silent.
 
 ### Reading (`val state by home.state.collectAsStateWithLifecycle()`)
 | Field | What it is | UI example |
@@ -127,6 +160,9 @@ All numbers live in `assets/engine_rules.json` and change without code.
 | σ | Spread of the first 14 readings (personal, not population) | `baselineWindow` | — |
 | Triage | Earth response = 2 × delay + 10 min handling, compared with the response window (red 30 min) | `triage` | **team assumption, pending science review** |
 | Space weather | SEP within 48 h → WARNING; fast CME (≥1000 km/s) within 72 h or X-class flare → WATCH | `spaceWeather` | NASA DONKI, NASA-STD-3001 |
+| Digital Twin | bone −= r(a)·(1−g)/30.44; muscle ·= exp(−k(a)·(1−g)); dose += rate | constants in `DigitalTwin.kt` | see `docs/SCIENCE.md`, "Digital Twin"; matches the Python test vectors |
+| PVT-B | 3 min, 1–4 s intervals, lapse ≥355 ms, false start <100 ms | `PvtSession` | Basner, Mollicone, Dinges 2011 |
+| Input limits | plausibility bounds per indicator (not medical thresholds) | `input.limits` | team rule |
 
 ## 7. Extending with AI
 
@@ -141,8 +177,10 @@ Before any task the agent reads `CLAUDE.md`, this file and `docs/DATA_CONTRACT.m
 **New screen on engine data.**
 > Prompt for @harvio1: "Build a Readiness screen: for each `state.report.readiness` a card with the GO/CAUTION/NO_GO verdict and its reasons. Use only HomeUiState, do not duplicate logic."
 
+**Already built, needs a screen:** Digital Twin (`projectTwin`), PVT (`PvtSession` + `savePvt`), readiness, plan, game, space weather, benchmark.
+
 **New engine logic.** New object in `domain/` → result in `EngineReport` → call in `HealthEngine.analyze` → unit test in `app/src/test/`.
-> Prompt: "Add PVT logic in domain/: a class that takes reaction times and computes the mean, lapses > 500 ms and false starts. Cover it with tests."
+> Prompt for @harvio1: "Build the PVT screen using PvtSession as shown in docs/BACKEND.md section 3, then call home.savePvt(result) and show lapses and mean reaction time."
 
 **Rules:** do not change the JSON format without the team lead, never invent medical numbers (`verified: false` + `TODO(science)`), run `./gradlew testDebugUnitTest assembleDebug`.
 
@@ -150,4 +188,6 @@ Before any task the agent reads `CLAUDE.md`, this file and `docs/DATA_CONTRACT.m
 - Demo astronaut data is synthetic. Thresholds and rules stay `verified: false` until the science review.
 - The triage response window is a team assumption.
 - Decision support and training, not a medical device.
+- PVT is stored as mean reaction time (`pvt_mean_rt`) because that is the current contract; lapses and speed are computed and returned, and switching the stored metric to lapses is a pending team decision (see `docs/SCIENCE.md`, Limitations 2).
+- Reminders and the camera pulse need UI work (notification permission, camera screen).
 - The DONKI flare feed (FLR) currently returns 404; SEP and CME are used. The code already handles FLR when the feed returns.

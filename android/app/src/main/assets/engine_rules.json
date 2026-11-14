@@ -306,5 +306,46 @@
         "url": "https://www.asc-csa.gc.ca/eng/news/articles/2026/2026-02-26-monitoring-radiation-astronaut-health.asp"
       }
     ]
+  },
+  "input": {
+    "_note": "Plausibility limits against typos, not medical thresholds. Values outside are rejected at entry.",
+    "limits": {
+      "systolic_bp": {
+        "min": 50,
+        "max": 260
+      },
+      "diastolic_bp": {
+        "min": 30,
+        "max": 160
+      },
+      "heart_rate": {
+        "min": 20,
+        "max": 250
+      },
+      "glucose": {
+        "min": 20,
+        "max": 600
+      },
+      "body_temp": {
+        "min": 30,
+        "max": 43
+      },
+      "sleep_hours": {
+        "min": 0,
+        "max": 24
+      },
+      "mood": {
+        "min": 1,
+        "max": 5
+      },
+      "pvt_mean_rt": {
+        "min": 100,
+        "max": 5000
+      },
+      "cumulative_dose": {
+        "min": 0,
+        "max": 5000
+      }
+    }
   }
 }
