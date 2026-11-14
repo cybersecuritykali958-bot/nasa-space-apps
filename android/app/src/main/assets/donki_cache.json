@@ -1,0 +1,2317 @@
+{
+ "version": 1,
+ "fetchedAt": "2026-11-14T10:07:23Z",
+ "source": "NASA DONKI",
+ "events": [
+  {
+   "type": "CME",
+   "id": "2025-11-14T01:25:00-CME-001",
+   "time": "2025-11-14T01:25:00Z",
+   "detail": "Coronal mass ejection, 1081 km/s",
+   "speedKms": 1081.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/42724/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2025-11-14T08:00:00-CME-001",
+   "time": "2025-11-14T08:00:00Z",
+   "detail": "Coronal mass ejection, 1534 km/s",
+   "speedKms": 1534.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/42713/-1"
+  },
+  {
+   "type": "SEP",
+   "id": "2025-11-14T09:20:00-SEP-001",
+   "time": "2025-11-14T09:20:00Z",
+   "detail": "Solar energetic particles (GOES-P: SEISS >10 MeV)",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/42704/-1"
+  },
+  {
+   "type": "SEP",
+   "id": "2025-11-14T09:44:00-SEP-001",
+   "time": "2025-11-14T09:44:00Z",
+   "detail": "Solar energetic particles (MODEL: REleASE:ACE/EPAM 15.8-39.8 MeV)",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/42712/-1"
+  },
+  {
+   "type": "SEP",
+   "id": "2025-11-14T12:32:00-SEP-001",
+   "time": "2025-11-14T12:32:00Z",
+   "detail": "Solar energetic particles (SOHO: COSTEP 15.8-39.8 MeV)",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/42711/-1"
+  },
+  {
+   "type": "SEP",
+   "id": "2025-11-14T12:33:00-SEP-001",
+   "time": "2025-11-14T12:33:00Z",
+   "detail": "Solar energetic particles (STEREO A: IMPACT 13-100 MeV)",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/42708/-1"
+  },
+  {
+   "type": "SEP",
+   "id": "2025-11-14T16:10:00-SEP-001",
+   "time": "2025-11-14T16:10:00Z",
+   "detail": "Solar energetic particles (MODEL: REleASE:SOHO/EPHIN 15.8-39.8 MeV)",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/42720/-1"
+  },
+  {
+   "type": "SEP",
+   "id": "2025-11-15T03:42:00-SEP-001",
+   "time": "2025-11-15T03:42:00Z",
+   "detail": "Solar energetic particles (STEREO A: IMPACT 13-100 MeV)",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/42742/-1"
+  },
+  {
+   "type": "SEP",
+   "id": "2025-11-15T09:34:00-SEP-001",
+   "time": "2025-11-15T09:34:00Z",
+   "detail": "Solar energetic particles (STEREO A: IMPACT 13-100 MeV)",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/42755/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2025-11-15T22:36:00-CME-001",
+   "time": "2025-11-15T22:36:00Z",
+   "detail": "Coronal mass ejection, 1320 km/s",
+   "speedKms": 1320.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/42767/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2025-11-17T15:15:00-CME-001",
+   "time": "2025-11-17T15:15:00Z",
+   "detail": "Coronal mass ejection, 1360 km/s",
+   "speedKms": 1360.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/42807/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2025-11-21T19:24:00-CME-001",
+   "time": "2025-11-21T19:24:00Z",
+   "detail": "Coronal mass ejection, 1082 km/s",
+   "speedKms": 1082.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/42938/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2025-11-24T02:36:00-CME-001",
+   "time": "2025-11-24T02:36:00Z",
+   "detail": "Coronal mass ejection, 1185 km/s",
+   "speedKms": 1185.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/42974/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2025-11-25T02:48:00-CME-001",
+   "time": "2025-11-25T02:48:00Z",
+   "detail": "Coronal mass ejection, 1128 km/s",
+   "speedKms": 1128.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/42989/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2025-11-25T17:00:00-CME-001",
+   "time": "2025-11-25T17:00:00Z",
+   "detail": "Coronal mass ejection, 1084 km/s",
+   "speedKms": 1084.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/43002/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2025-11-28T16:36:00-CME-001",
+   "time": "2025-11-28T16:36:00Z",
+   "detail": "Coronal mass ejection, 1049 km/s",
+   "speedKms": 1049.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/43081/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2025-11-29T05:48:00-CME-001",
+   "time": "2025-11-29T05:48:00Z",
+   "detail": "Coronal mass ejection, 1402 km/s",
+   "speedKms": 1402.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/43103/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2025-11-29T06:23:00-CME-001",
+   "time": "2025-11-29T06:23:00Z",
+   "detail": "Coronal mass ejection, 1932 km/s",
+   "speedKms": 1932.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/43108/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2025-11-29T09:00:00-CME-001",
+   "time": "2025-11-29T09:00:00Z",
+   "detail": "Coronal mass ejection, 1193 km/s",
+   "speedKms": 1193.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/43119/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2025-11-29T17:00:00-CME-001",
+   "time": "2025-11-29T17:00:00Z",
+   "detail": "Coronal mass ejection, 1178 km/s",
+   "speedKms": 1178.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/43127/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2025-12-01T02:48:00-CME-001",
+   "time": "2025-12-01T02:48:00Z",
+   "detail": "Coronal mass ejection, 1960 km/s",
+   "speedKms": 1960.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/43155/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2025-12-01T03:36:00-CME-001",
+   "time": "2025-12-01T03:36:00Z",
+   "detail": "Coronal mass ejection, 1249 km/s",
+   "speedKms": 1249.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/43164/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2025-12-07T06:24:00-CME-001",
+   "time": "2025-12-07T06:24:00Z",
+   "detail": "Coronal mass ejection, 1148 km/s",
+   "speedKms": 1148.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/43319/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2025-12-07T08:36:00-CME-001",
+   "time": "2025-12-07T08:36:00Z",
+   "detail": "Coronal mass ejection, 1112 km/s",
+   "speedKms": 1112.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/43324/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2025-12-14T07:24:00-CME-001",
+   "time": "2025-12-14T07:24:00Z",
+   "detail": "Coronal mass ejection, 1048 km/s",
+   "speedKms": 1048.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/43477/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2025-12-20T16:48:00-CME-001",
+   "time": "2025-12-20T16:48:00Z",
+   "detail": "Coronal mass ejection, 1207 km/s",
+   "speedKms": 1207.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/43558/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2025-12-26T14:23:00-CME-001",
+   "time": "2025-12-26T14:23:00Z",
+   "detail": "Coronal mass ejection, 1053 km/s",
+   "speedKms": 1053.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/43594/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2025-12-27T14:48:00-CME-001",
+   "time": "2025-12-27T14:48:00Z",
+   "detail": "Coronal mass ejection, 1040 km/s",
+   "speedKms": 1040.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/43617/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2025-12-30T07:23:00-CME-001",
+   "time": "2025-12-30T07:23:00Z",
+   "detail": "Coronal mass ejection, 1050 km/s",
+   "speedKms": 1050.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/43658/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-01-02T17:24:00-CME-001",
+   "time": "2026-01-02T17:24:00Z",
+   "detail": "Coronal mass ejection, 1341 km/s",
+   "speedKms": 1341.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/43732/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-01-08T05:53:00-CME-001",
+   "time": "2026-01-08T05:53:00Z",
+   "detail": "Coronal mass ejection, 1016 km/s",
+   "speedKms": 1016.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/43816/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-01-08T10:23:00-CME-001",
+   "time": "2026-01-08T10:23:00Z",
+   "detail": "Coronal mass ejection, 1539 km/s",
+   "speedKms": 1539.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/43821/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-01-08T17:00:00-CME-001",
+   "time": "2026-01-08T17:00:00Z",
+   "detail": "Coronal mass ejection, 1056 km/s",
+   "speedKms": 1056.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/43839/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-01-08T17:12:00-CME-001",
+   "time": "2026-01-08T17:12:00Z",
+   "detail": "Coronal mass ejection, 1084 km/s",
+   "speedKms": 1084.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/43862/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-01-10T02:24:00-CME-001",
+   "time": "2026-01-10T02:24:00Z",
+   "detail": "Coronal mass ejection, 1118 km/s",
+   "speedKms": 1118.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/43881/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-01-10T20:36:00-CME-001",
+   "time": "2026-01-10T20:36:00Z",
+   "detail": "Coronal mass ejection, 1045 km/s",
+   "speedKms": 1045.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/43888/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-01-11T22:45:00-CME-001",
+   "time": "2026-01-11T22:45:00Z",
+   "detail": "Coronal mass ejection, 1608 km/s",
+   "speedKms": 1608.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/43908/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-01-17T03:00:00-CME-001",
+   "time": "2026-01-17T03:00:00Z",
+   "detail": "Coronal mass ejection, 1273 km/s",
+   "speedKms": 1273.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/43995/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-01-18T08:36:00-CME-001",
+   "time": "2026-01-18T08:36:00Z",
+   "detail": "Coronal mass ejection, 1123 km/s",
+   "speedKms": 1123.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/44022/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-01-18T18:09:00-CME-001",
+   "time": "2026-01-18T18:09:00Z",
+   "detail": "Coronal mass ejection, 1820 km/s",
+   "speedKms": 1820.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/44032/-1"
+  },
+  {
+   "type": "SEP",
+   "id": "2026-01-18T22:33:00-SEP-001",
+   "time": "2026-01-18T22:33:00Z",
+   "detail": "Solar energetic particles (SOHO: COSTEP 15.8-39.8 MeV)",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/44039/-1"
+  },
+  {
+   "type": "SEP",
+   "id": "2026-01-18T22:55:00-SEP-001",
+   "time": "2026-01-18T22:55:00Z",
+   "detail": "Solar energetic particles (GOES-P: SEISS >10 MeV)",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/44041/-1"
+  },
+  {
+   "type": "SEP",
+   "id": "2026-01-19T02:57:00-SEP-001",
+   "time": "2026-01-19T02:57:00Z",
+   "detail": "Solar energetic particles (SOHO: COSTEP 28.2-50.1 MeV)",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/44047/-1"
+  },
+  {
+   "type": "SEP",
+   "id": "2026-01-19T04:15:00-SEP-001",
+   "time": "2026-01-19T04:15:00Z",
+   "detail": "Solar energetic particles (MODEL: REleASE:ACE/EPAM 15.8-39.8 MeV)",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/44054/-1"
+  },
+  {
+   "type": "SEP",
+   "id": "2026-01-19T04:36:00-SEP-001",
+   "time": "2026-01-19T04:36:00Z",
+   "detail": "Solar energetic particles (MODEL: REleASE:SOHO/EPHIN 15.8-39.8 MeV)",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/44052/-1"
+  },
+  {
+   "type": "SEP",
+   "id": "2026-01-19T06:05:00-SEP-001",
+   "time": "2026-01-19T06:05:00Z",
+   "detail": "Solar energetic particles (MODEL: REleASE:ACE/EPAM 28.2-50.1 MeV)",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/44055/-1"
+  },
+  {
+   "type": "SEP",
+   "id": "2026-01-19T06:39:00-SEP-001",
+   "time": "2026-01-19T06:39:00Z",
+   "detail": "Solar energetic particles (MODEL: REleASE:SOHO/EPHIN 28.2-50.1 MeV)",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/44053/-1"
+  },
+  {
+   "type": "SEP",
+   "id": "2026-01-19T10:58:00-SEP-001",
+   "time": "2026-01-19T10:58:00Z",
+   "detail": "Solar energetic particles (STEREO A: IMPACT 13-100 MeV)",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/44049/-1"
+  },
+  {
+   "type": "SEP",
+   "id": "2026-01-21T03:00:00-SEP-001",
+   "time": "2026-01-21T03:00:00Z",
+   "detail": "Solar energetic particles (STEREO A: IMPACT 13-100 MeV)",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/44107/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-01-23T15:38:00-CME-001",
+   "time": "2026-01-23T15:38:00Z",
+   "detail": "Coronal mass ejection, 1184 km/s",
+   "speedKms": 1184.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/44156/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-01-24T09:23:00-CME-001",
+   "time": "2026-01-24T09:23:00Z",
+   "detail": "Coronal mass ejection, 1243 km/s",
+   "speedKms": 1243.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/44175/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-01-29T15:00:00-CME-001",
+   "time": "2026-01-29T15:00:00Z",
+   "detail": "Coronal mass ejection, 1084 km/s",
+   "speedKms": 1084.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/44274/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-01-31T05:12:00-CME-001",
+   "time": "2026-01-31T05:12:00Z",
+   "detail": "Coronal mass ejection, 1027 km/s",
+   "speedKms": 1027.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/44298/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-02-01T05:53:00-CME-001",
+   "time": "2026-02-01T05:53:00Z",
+   "detail": "Coronal mass ejection, 1066 km/s",
+   "speedKms": 1066.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/44349/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-02-15T12:24:00-CME-001",
+   "time": "2026-02-15T12:24:00Z",
+   "detail": "Coronal mass ejection, 1056 km/s",
+   "speedKms": 1056.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/44667/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-02-16T04:24:00-CME-001",
+   "time": "2026-02-16T04:24:00Z",
+   "detail": "Coronal mass ejection, 1556 km/s",
+   "speedKms": 1556.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/44676/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-02-16T13:23:00-CME-001",
+   "time": "2026-02-16T13:23:00Z",
+   "detail": "Coronal mass ejection, 1029 km/s",
+   "speedKms": 1029.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/44685/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-02-18T20:36:00-CME-001",
+   "time": "2026-02-18T20:36:00Z",
+   "detail": "Coronal mass ejection, 1033 km/s",
+   "speedKms": 1033.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/44754/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-03-03T11:01:00-CME-001",
+   "time": "2026-03-03T11:01:00Z",
+   "detail": "Coronal mass ejection, 1301 km/s",
+   "speedKms": 1301.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/44913/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-03-20T12:38:00-CME-001",
+   "time": "2026-03-20T12:38:00Z",
+   "detail": "Coronal mass ejection, 1095 km/s",
+   "speedKms": 1095.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/45191/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-03-25T00:45:00-CME-001",
+   "time": "2026-03-25T00:45:00Z",
+   "detail": "Coronal mass ejection, 1226 km/s",
+   "speedKms": 1226.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/45291/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-03-30T03:24:00-CME-001",
+   "time": "2026-03-30T03:24:00Z",
+   "detail": "Coronal mass ejection, 1845 km/s",
+   "speedKms": 1845.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/45395/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-03-30T10:53:00-CME-001",
+   "time": "2026-03-30T10:53:00Z",
+   "detail": "Coronal mass ejection, 1180 km/s",
+   "speedKms": 1180.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/45410/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-04-01T23:45:00-CME-001",
+   "time": "2026-04-01T23:45:00Z",
+   "detail": "Coronal mass ejection, 1220 km/s",
+   "speedKms": 1220.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/45486/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-04-13T04:00:00-CME-001",
+   "time": "2026-04-13T04:00:00Z",
+   "detail": "Coronal mass ejection, 1065 km/s",
+   "speedKms": 1065.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/45637/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-04-23T05:12:00-CME-001",
+   "time": "2026-04-23T05:12:00Z",
+   "detail": "Coronal mass ejection, 1046 km/s",
+   "speedKms": 1046.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/45789/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-04-24T08:24:00-CME-001",
+   "time": "2026-04-24T08:24:00Z",
+   "detail": "Coronal mass ejection, 1744 km/s",
+   "speedKms": 1744.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/45840/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-05-10T13:48:00-CME-001",
+   "time": "2026-05-10T13:48:00Z",
+   "detail": "Coronal mass ejection, 1540 km/s",
+   "speedKms": 1540.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/46088/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-05-16T16:36:00-CME-001",
+   "time": "2026-05-16T16:36:00Z",
+   "detail": "Coronal mass ejection, 1201 km/s",
+   "speedKms": 1201.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/46214/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-05-23T19:53:00-CME-001",
+   "time": "2026-05-23T19:53:00Z",
+   "detail": "Coronal mass ejection, 1262 km/s",
+   "speedKms": 1262.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/46328/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-05-25T22:12:00-CME-001",
+   "time": "2026-05-25T22:12:00Z",
+   "detail": "Coronal mass ejection, 1980 km/s",
+   "speedKms": 1980.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/46360/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-05-25T23:24:00-CME-001",
+   "time": "2026-05-25T23:24:00Z",
+   "detail": "Coronal mass ejection, 1096 km/s",
+   "speedKms": 1096.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/46398/-1"
+  },
+  {
+   "type": "SEP",
+   "id": "2026-05-25T23:31:00-SEP-001",
+   "time": "2026-05-25T23:31:00Z",
+   "detail": "Solar energetic particles (MODEL: REleASE:SOHO/EPHIN 15.8-39.8 MeV)",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/46362/-1"
+  },
+  {
+   "type": "SEP",
+   "id": "2026-05-25T23:31:00-SEP-002",
+   "time": "2026-05-25T23:31:00Z",
+   "detail": "Solar energetic particles (MODEL: REleASE:SOHO/EPHIN 28.2-50.1 MeV)",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/46363/-1"
+  },
+  {
+   "type": "SEP",
+   "id": "2026-05-25T23:34:00-SEP-001",
+   "time": "2026-05-25T23:34:00Z",
+   "detail": "Solar energetic particles (SOHO: COSTEP 15.8-39.8 MeV)",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/46370/-1"
+  },
+  {
+   "type": "SEP",
+   "id": "2026-05-25T23:35:00-SEP-001",
+   "time": "2026-05-25T23:35:00Z",
+   "detail": "Solar energetic particles (MODEL: REleASE:ACE/EPAM 15.8-39.8 MeV)",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/46364/-1"
+  },
+  {
+   "type": "SEP",
+   "id": "2026-05-25T23:35:00-SEP-003",
+   "time": "2026-05-25T23:35:00Z",
+   "detail": "Solar energetic particles (MODEL: REleASE:ACE/EPAM 28.2-50.1 MeV)",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/46366/-1"
+  },
+  {
+   "type": "SEP",
+   "id": "2026-05-25T23:39:00-SEP-001",
+   "time": "2026-05-25T23:39:00Z",
+   "detail": "Solar energetic particles (SOHO: COSTEP 28.2-50.1 MeV)",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/46371/-1"
+  },
+  {
+   "type": "SEP",
+   "id": "2026-05-26T00:15:00-SEP-001",
+   "time": "2026-05-26T00:15:00Z",
+   "detail": "Solar energetic particles (GOES-P: SEISS >10 MeV)",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/46373/-1"
+  },
+  {
+   "type": "SEP",
+   "id": "2026-05-26T04:07:00-SEP-001",
+   "time": "2026-05-26T04:07:00Z",
+   "detail": "Solar energetic particles (STEREO A: IMPACT 13-100 MeV)",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/46379/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-06-01T19:09:00-CME-001",
+   "time": "2026-06-01T19:09:00Z",
+   "detail": "Coronal mass ejection, 1031 km/s",
+   "speedKms": 1031.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/46538/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-06-03T01:53:00-CME-001",
+   "time": "2026-06-03T01:53:00Z",
+   "detail": "Coronal mass ejection, 1390 km/s",
+   "speedKms": 1390.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/46585/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-06-03T07:23:00-CME-001",
+   "time": "2026-06-03T07:23:00Z",
+   "detail": "Coronal mass ejection, 1474 km/s",
+   "speedKms": 1474.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/46596/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-06-03T11:48:00-CME-001",
+   "time": "2026-06-03T11:48:00Z",
+   "detail": "Coronal mass ejection, 1433 km/s",
+   "speedKms": 1433.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/46601/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-06-04T17:23:00-CME-001",
+   "time": "2026-06-04T17:23:00Z",
+   "detail": "Coronal mass ejection, 1009 km/s",
+   "speedKms": 1009.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/46644/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-06-05T09:09:00-CME-001",
+   "time": "2026-06-05T09:09:00Z",
+   "detail": "Coronal mass ejection, 1361 km/s",
+   "speedKms": 1361.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/46648/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-06-06T14:11:00-CME-001",
+   "time": "2026-06-06T14:11:00Z",
+   "detail": "Coronal mass ejection, 1692 km/s",
+   "speedKms": 1692.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/46690/-1"
+  },
+  {
+   "type": "SEP",
+   "id": "2026-06-06T15:14:00-SEP-001",
+   "time": "2026-06-06T15:14:00Z",
+   "detail": "Solar energetic particles (MODEL: REleASE:SOHO/EPHIN 28.2-50.1 MeV)",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/46702/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-06-08T08:00:00-CME-001",
+   "time": "2026-06-08T08:00:00Z",
+   "detail": "Coronal mass ejection, 1068 km/s",
+   "speedKms": 1068.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/46734/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-06-30T21:45:00-CME-001",
+   "time": "2026-06-30T21:45:00Z",
+   "detail": "Coronal mass ejection, 1236 km/s",
+   "speedKms": 1236.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/47199/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-07-30T16:53:00-CME-001",
+   "time": "2026-07-30T16:53:00Z",
+   "detail": "Coronal mass ejection, 1580 km/s",
+   "speedKms": 1580.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/47871/-1"
+  },
+  {
+   "type": "SEP",
+   "id": "2026-07-30T18:20:00-SEP-002",
+   "time": "2026-07-30T18:20:00Z",
+   "detail": "Solar energetic particles (MODEL: REleASE:ACE/EPAM 28.2-50.1 MeV)",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/47869/-1"
+  },
+  {
+   "type": "SEP",
+   "id": "2026-07-30T18:20:00-SEP-001",
+   "time": "2026-07-30T18:20:00Z",
+   "detail": "Solar energetic particles (MODEL: REleASE:ACE/EPAM 15.8-39.8 MeV)",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/47868/-1"
+  },
+  {
+   "type": "SEP",
+   "id": "2026-07-30T18:25:00-SEP-001",
+   "time": "2026-07-30T18:25:00Z",
+   "detail": "Solar energetic particles (GOES-P: SEISS >100 MeV)",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/47873/-1"
+  },
+  {
+   "type": "SEP",
+   "id": "2026-07-30T18:45:00-SEP-001",
+   "time": "2026-07-30T18:45:00Z",
+   "detail": "Solar energetic particles (GOES-P: SEISS >10 MeV)",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/47879/-1"
+  },
+  {
+   "type": "SEP",
+   "id": "2026-07-30T20:52:00-SEP-001",
+   "time": "2026-07-30T20:52:00Z",
+   "detail": "Solar energetic particles (SOHO: COSTEP 15.8-39.8 MeV)",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/47886/-1"
+  },
+  {
+   "type": "SEP",
+   "id": "2026-07-30T20:58:00-SEP-001",
+   "time": "2026-07-30T20:58:00Z",
+   "detail": "Solar energetic particles (SOHO: COSTEP 28.2-50.1 MeV)",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/47887/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-08-20T18:48:00-CME-001",
+   "time": "2026-08-20T18:48:00Z",
+   "detail": "Coronal mass ejection, 1105 km/s",
+   "speedKms": 1105.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48173/-1"
+  },
+  {
+   "type": "SEP",
+   "id": "2026-08-20T20:23:00-SEP-001",
+   "time": "2026-08-20T20:23:00Z",
+   "detail": "Solar energetic particles (STEREO A: IMPACT 13-100 MeV)",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/48176/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-08-21T09:36:00-CME-001",
+   "time": "2026-08-21T09:36:00Z",
+   "detail": "Coronal mass ejection, 1862 km/s",
+   "speedKms": 1862.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48186/-1"
+  },
+  {
+   "type": "SEP",
+   "id": "2026-08-21T17:33:00-SEP-001",
+   "time": "2026-08-21T17:33:00Z",
+   "detail": "Solar energetic particles (STEREO A: IMPACT 13-100 MeV)",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/48198/-1"
+  },
+  {
+   "type": "SEP",
+   "id": "2026-08-22T22:28:00-SEP-001",
+   "time": "2026-08-22T22:28:00Z",
+   "detail": "Solar energetic particles (STEREO A: IMPACT 13-100 MeV)",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/48231/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-08-23T00:12:00-CME-001",
+   "time": "2026-08-23T00:12:00Z",
+   "detail": "Coronal mass ejection, 1148 km/s",
+   "speedKms": 1148.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48210/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-08-27T18:00:00-CME-001",
+   "time": "2026-08-27T18:00:00Z",
+   "detail": "Coronal mass ejection, 1406 km/s",
+   "speedKms": 1406.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48317/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-02T19:36:00-CME-001",
+   "time": "2026-09-02T19:36:00Z",
+   "detail": "Coronal mass ejection, 1323 km/s",
+   "speedKms": 1323.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48473/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-03T10:15:00-CME-001",
+   "time": "2026-09-03T10:15:00Z",
+   "detail": "Coronal mass ejection, 1320 km/s",
+   "speedKms": 1320.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48487/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-03T16:36:00-CME-001",
+   "time": "2026-09-03T16:36:00Z",
+   "detail": "Coronal mass ejection, 1321 km/s",
+   "speedKms": 1321.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48501/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-03T22:36:00-CME-001",
+   "time": "2026-09-03T22:36:00Z",
+   "detail": "Coronal mass ejection, 1020 km/s",
+   "speedKms": 1020.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48509/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-05T15:36:00-CME-001",
+   "time": "2026-09-05T15:36:00Z",
+   "detail": "Coronal mass ejection, 1111 km/s",
+   "speedKms": 1111.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48561/-1"
+  },
+  {
+   "type": "SEP",
+   "id": "2026-09-05T15:45:00-SEP-001",
+   "time": "2026-09-05T15:45:00Z",
+   "detail": "Solar energetic particles (GOES-P: SEISS >100 MeV)",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/48551/-1"
+  },
+  {
+   "type": "SEP",
+   "id": "2026-09-05T16:15:00-SEP-001",
+   "time": "2026-09-05T16:15:00Z",
+   "detail": "Solar energetic particles (GOES-P: SEISS >10 MeV)",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/48558/-1"
+  },
+  {
+   "type": "SEP",
+   "id": "2026-09-05T16:18:00-SEP-001",
+   "time": "2026-09-05T16:18:00Z",
+   "detail": "Solar energetic particles (SOHO: COSTEP 15.8-39.8 MeV)",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/48562/-1"
+  },
+  {
+   "type": "SEP",
+   "id": "2026-09-05T16:18:00-SEP-002",
+   "time": "2026-09-05T16:18:00Z",
+   "detail": "Solar energetic particles (SOHO: COSTEP 28.2-50.1 MeV)",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/48564/-1"
+  },
+  {
+   "type": "SEP",
+   "id": "2026-09-05T16:30:00-SEP-001",
+   "time": "2026-09-05T16:30:00Z",
+   "detail": "Solar energetic particles (MODEL: REleASE:ACE/EPAM 15.8-39.8 MeV)",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/48554/-1"
+  },
+  {
+   "type": "SEP",
+   "id": "2026-09-05T16:30:00-SEP-002",
+   "time": "2026-09-05T16:30:00Z",
+   "detail": "Solar energetic particles (MODEL: REleASE:SOHO/EPHIN 15.8-39.8 MeV)",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/48555/-1"
+  },
+  {
+   "type": "SEP",
+   "id": "2026-09-05T16:30:00-SEP-003",
+   "time": "2026-09-05T16:30:00Z",
+   "detail": "Solar energetic particles (MODEL: REleASE:SOHO/EPHIN 28.2-50.1 MeV)",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/48556/-1"
+  },
+  {
+   "type": "SEP",
+   "id": "2026-09-05T16:30:00-SEP-004",
+   "time": "2026-09-05T16:30:00Z",
+   "detail": "Solar energetic particles (MODEL: REleASE:ACE/EPAM 28.2-50.1 MeV)",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/48557/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-05T18:09:00-CME-001",
+   "time": "2026-09-05T18:09:00Z",
+   "detail": "Coronal mass ejection, 1110 km/s",
+   "speedKms": 1110.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48574/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-06T10:53:00-CME-001",
+   "time": "2026-09-06T10:53:00Z",
+   "detail": "Coronal mass ejection, 1085 km/s",
+   "speedKms": 1085.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48591/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-13T19:48:00-CME-001",
+   "time": "2026-09-13T19:48:00Z",
+   "detail": "Coronal mass ejection, 1586 km/s",
+   "speedKms": 1586.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48690/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-15T08:36:00-CME-001",
+   "time": "2026-09-15T08:36:00Z",
+   "detail": "Coronal mass ejection, 395 km/s",
+   "speedKms": 395.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48718/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-18T03:24:00-CME-001",
+   "time": "2026-09-18T03:24:00Z",
+   "detail": "Coronal mass ejection, 371 km/s",
+   "speedKms": 371.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48726/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-19T16:38:00-CME-001",
+   "time": "2026-09-19T16:38:00Z",
+   "detail": "Coronal mass ejection, 729 km/s",
+   "speedKms": 729.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48735/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-19T18:48:00-CME-001",
+   "time": "2026-09-19T18:48:00Z",
+   "detail": "Coronal mass ejection, 321 km/s",
+   "speedKms": 321.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48731/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-19T22:12:00-CME-001",
+   "time": "2026-09-19T22:12:00Z",
+   "detail": "Coronal mass ejection, 331 km/s",
+   "speedKms": 331.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48741/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-19T22:24:00-CME-001",
+   "time": "2026-09-19T22:24:00Z",
+   "detail": "Coronal mass ejection, 341 km/s",
+   "speedKms": 341.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48738/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-20T03:00:00-CME-001",
+   "time": "2026-09-20T03:00:00Z",
+   "detail": "Coronal mass ejection, 273 km/s",
+   "speedKms": 273.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48745/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-20T05:12:00-CME-001",
+   "time": "2026-09-20T05:12:00Z",
+   "detail": "Coronal mass ejection, 593 km/s",
+   "speedKms": 593.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48747/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-20T12:23:00-CME-001",
+   "time": "2026-09-20T12:23:00Z",
+   "detail": "Coronal mass ejection, 427 km/s",
+   "speedKms": 427.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48749/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-20T20:12:00-CME-001",
+   "time": "2026-09-20T20:12:00Z",
+   "detail": "Coronal mass ejection, 277 km/s",
+   "speedKms": 277.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48768/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-20T22:38:00-CME-001",
+   "time": "2026-09-20T22:38:00Z",
+   "detail": "Coronal mass ejection, 318 km/s",
+   "speedKms": 318.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48771/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-21T09:09:00-CME-001",
+   "time": "2026-09-21T09:09:00Z",
+   "detail": "Coronal mass ejection, 347 km/s",
+   "speedKms": 347.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48760/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-24T02:53:00-CME-001",
+   "time": "2026-09-24T02:53:00Z",
+   "detail": "Coronal mass ejection, 500 km/s",
+   "speedKms": 500.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48790/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-24T09:23:00-CME-001",
+   "time": "2026-09-24T09:23:00Z",
+   "detail": "Coronal mass ejection, 618 km/s",
+   "speedKms": 618.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48794/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-24T14:45:00-CME-001",
+   "time": "2026-09-24T14:45:00Z",
+   "detail": "Coronal mass ejection, 493 km/s",
+   "speedKms": 493.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48797/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-25T11:09:00-CME-001",
+   "time": "2026-09-25T11:09:00Z",
+   "detail": "Coronal mass ejection, 805 km/s",
+   "speedKms": 805.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48801/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-25T11:23:00-CME-001",
+   "time": "2026-09-25T11:23:00Z",
+   "detail": "Coronal mass ejection, 745 km/s",
+   "speedKms": 745.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48812/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-25T15:12:00-CME-001",
+   "time": "2026-09-25T15:12:00Z",
+   "detail": "Coronal mass ejection, 524 km/s",
+   "speedKms": 524.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48810/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-25T17:45:00-CME-001",
+   "time": "2026-09-25T17:45:00Z",
+   "detail": "Coronal mass ejection, 462 km/s",
+   "speedKms": 462.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48815/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-25T20:06:00-CME-001",
+   "time": "2026-09-25T20:06:00Z",
+   "detail": "Coronal mass ejection, 254 km/s",
+   "speedKms": 254.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48819/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-25T20:45:00-CME-001",
+   "time": "2026-09-25T20:45:00Z",
+   "detail": "Coronal mass ejection, 460 km/s",
+   "speedKms": 460.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48817/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-25T23:00:00-CME-001",
+   "time": "2026-09-25T23:00:00Z",
+   "detail": "Coronal mass ejection, 472 km/s",
+   "speedKms": 472.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48821/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-26T00:48:00-CME-001",
+   "time": "2026-09-26T00:48:00Z",
+   "detail": "Coronal mass ejection, 478 km/s",
+   "speedKms": 478.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48823/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-26T02:24:00-CME-001",
+   "time": "2026-09-26T02:24:00Z",
+   "detail": "Coronal mass ejection, 417 km/s",
+   "speedKms": 417.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48829/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-26T15:24:00-CME-001",
+   "time": "2026-09-26T15:24:00Z",
+   "detail": "Coronal mass ejection, 449 km/s",
+   "speedKms": 449.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48832/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-26T19:36:00-CME-001",
+   "time": "2026-09-26T19:36:00Z",
+   "detail": "Coronal mass ejection, 427 km/s",
+   "speedKms": 427.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48834/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-26T20:00:00-CME-001",
+   "time": "2026-09-26T20:00:00Z",
+   "detail": "Coronal mass ejection, 336 km/s",
+   "speedKms": 336.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48837/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-27T06:36:00-CME-001",
+   "time": "2026-09-27T06:36:00Z",
+   "detail": "Coronal mass ejection, 399 km/s",
+   "speedKms": 399.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48841/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-27T07:00:00-CME-001",
+   "time": "2026-09-27T07:00:00Z",
+   "detail": "Coronal mass ejection, 606 km/s",
+   "speedKms": 606.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48844/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-27T09:48:00-CME-001",
+   "time": "2026-09-27T09:48:00Z",
+   "detail": "Coronal mass ejection, 352 km/s",
+   "speedKms": 352.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48839/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-27T14:48:00-CME-001",
+   "time": "2026-09-27T14:48:00Z",
+   "detail": "Coronal mass ejection, 283 km/s",
+   "speedKms": 283.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48848/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-27T17:36:00-CME-001",
+   "time": "2026-09-27T17:36:00Z",
+   "detail": "Coronal mass ejection, 403 km/s",
+   "speedKms": 403.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48850/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-27T21:00:00-CME-001",
+   "time": "2026-09-27T21:00:00Z",
+   "detail": "Coronal mass ejection, 362 km/s",
+   "speedKms": 362.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48852/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-28T01:26:00-CME-001",
+   "time": "2026-09-28T01:26:00Z",
+   "detail": "Coronal mass ejection, 435 km/s",
+   "speedKms": 435.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48858/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-28T04:12:00-CME-001",
+   "time": "2026-09-28T04:12:00Z",
+   "detail": "Coronal mass ejection, 403 km/s",
+   "speedKms": 403.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48854/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-28T04:24:00-CME-001",
+   "time": "2026-09-28T04:24:00Z",
+   "detail": "Coronal mass ejection, 430 km/s",
+   "speedKms": 430.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48856/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-28T14:36:00-CME-001",
+   "time": "2026-09-28T14:36:00Z",
+   "detail": "Coronal mass ejection, 501 km/s",
+   "speedKms": 501.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48872/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-28T16:18:00-CME-001",
+   "time": "2026-09-28T16:18:00Z",
+   "detail": "Coronal mass ejection, 581 km/s",
+   "speedKms": 581.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48877/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-28T21:24:00-CME-001",
+   "time": "2026-09-28T21:24:00Z",
+   "detail": "Coronal mass ejection, 386 km/s",
+   "speedKms": 386.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48887/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-29T04:12:00-CME-001",
+   "time": "2026-09-29T04:12:00Z",
+   "detail": "Coronal mass ejection, 655 km/s",
+   "speedKms": 655.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48889/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-29T07:12:00-CME-001",
+   "time": "2026-09-29T07:12:00Z",
+   "detail": "Coronal mass ejection, 958 km/s",
+   "speedKms": 958.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48891/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-29T18:36:00-CME-001",
+   "time": "2026-09-29T18:36:00Z",
+   "detail": "Coronal mass ejection, 511 km/s",
+   "speedKms": 511.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48898/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-30T03:12:00-CME-001",
+   "time": "2026-09-30T03:12:00Z",
+   "detail": "Coronal mass ejection, 488 km/s",
+   "speedKms": 488.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48901/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-09-30T11:36:00-CME-001",
+   "time": "2026-09-30T11:36:00Z",
+   "detail": "Coronal mass ejection, 365 km/s",
+   "speedKms": 365.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48907/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-01T02:36:00-CME-001",
+   "time": "2026-10-01T02:36:00Z",
+   "detail": "Coronal mass ejection, 476 km/s",
+   "speedKms": 476.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48911/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-01T03:12:00-CME-001",
+   "time": "2026-10-01T03:12:00Z",
+   "detail": "Coronal mass ejection, 511 km/s",
+   "speedKms": 511.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48913/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-02T00:53:00-CME-001",
+   "time": "2026-10-02T00:53:00Z",
+   "detail": "Coronal mass ejection, 255 km/s",
+   "speedKms": 255.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48924/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-02T06:48:00-CME-001",
+   "time": "2026-10-02T06:48:00Z",
+   "detail": "Coronal mass ejection, 356 km/s",
+   "speedKms": 356.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48928/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-02T08:24:00-CME-001",
+   "time": "2026-10-02T08:24:00Z",
+   "detail": "Coronal mass ejection, 270 km/s",
+   "speedKms": 270.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48931/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-02T17:36:00-CME-001",
+   "time": "2026-10-02T17:36:00Z",
+   "detail": "Coronal mass ejection, 317 km/s",
+   "speedKms": 317.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48943/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-02T19:48:00-CME-001",
+   "time": "2026-10-02T19:48:00Z",
+   "detail": "Coronal mass ejection, 595 km/s",
+   "speedKms": 595.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48941/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-02T23:36:00-CME-001",
+   "time": "2026-10-02T23:36:00Z",
+   "detail": "Coronal mass ejection, 654 km/s",
+   "speedKms": 654.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48946/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-03T21:24:00-CME-001",
+   "time": "2026-10-03T21:24:00Z",
+   "detail": "Coronal mass ejection, 273 km/s",
+   "speedKms": 273.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48949/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-04T07:24:00-CME-001",
+   "time": "2026-10-04T07:24:00Z",
+   "detail": "Coronal mass ejection, 336 km/s",
+   "speedKms": 336.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48958/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-04T07:36:00-CME-001",
+   "time": "2026-10-04T07:36:00Z",
+   "detail": "Coronal mass ejection, 313 km/s",
+   "speedKms": 313.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48960/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-04T17:00:00-CME-001",
+   "time": "2026-10-04T17:00:00Z",
+   "detail": "Coronal mass ejection, 289 km/s",
+   "speedKms": 289.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48964/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-05T01:26:00-CME-001",
+   "time": "2026-10-05T01:26:00Z",
+   "detail": "Coronal mass ejection, 340 km/s",
+   "speedKms": 340.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48982/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-05T07:48:00-CME-001",
+   "time": "2026-10-05T07:48:00Z",
+   "detail": "Coronal mass ejection, 701 km/s",
+   "speedKms": 701.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48969/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-05T11:24:00-CME-001",
+   "time": "2026-10-05T11:24:00Z",
+   "detail": "Coronal mass ejection, 629 km/s",
+   "speedKms": 629.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48974/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-05T21:12:00-CME-001",
+   "time": "2026-10-05T21:12:00Z",
+   "detail": "Coronal mass ejection, 266 km/s",
+   "speedKms": 266.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48989/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-06T00:00:00-CME-001",
+   "time": "2026-10-06T00:00:00Z",
+   "detail": "Coronal mass ejection, 325 km/s",
+   "speedKms": 325.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48996/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-06T06:23:00-CME-001",
+   "time": "2026-10-06T06:23:00Z",
+   "detail": "Coronal mass ejection, 573 km/s",
+   "speedKms": 573.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/48988/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-06T09:53:00-CME-001",
+   "time": "2026-10-06T09:53:00Z",
+   "detail": "Coronal mass ejection, 424 km/s",
+   "speedKms": 424.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49000/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-06T13:08:00-CME-001",
+   "time": "2026-10-06T13:08:00Z",
+   "detail": "Coronal mass ejection, 438 km/s",
+   "speedKms": 438.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49005/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-07T13:53:00-CME-001",
+   "time": "2026-10-07T13:53:00Z",
+   "detail": "Coronal mass ejection, 310 km/s",
+   "speedKms": 310.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49011/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-08T16:12:00-CME-001",
+   "time": "2026-10-08T16:12:00Z",
+   "detail": "Coronal mass ejection, 449 km/s",
+   "speedKms": 449.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49031/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-08T16:24:00-CME-001",
+   "time": "2026-10-08T16:24:00Z",
+   "detail": "Coronal mass ejection, 579 km/s",
+   "speedKms": 579.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49026/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-08T16:53:00-CME-001",
+   "time": "2026-10-08T16:53:00Z",
+   "detail": "Coronal mass ejection, 723 km/s",
+   "speedKms": 723.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49019/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-08T18:38:00-CME-001",
+   "time": "2026-10-08T18:38:00Z",
+   "detail": "Coronal mass ejection, 868 km/s",
+   "speedKms": 868.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49106/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-08T20:12:00-CME-001",
+   "time": "2026-10-08T20:12:00Z",
+   "detail": "Coronal mass ejection, 453 km/s",
+   "speedKms": 453.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49034/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-09T00:45:00-CME-001",
+   "time": "2026-10-09T00:45:00Z",
+   "detail": "Coronal mass ejection, 293 km/s",
+   "speedKms": 293.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49043/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-09T07:15:00-CME-001",
+   "time": "2026-10-09T07:15:00Z",
+   "detail": "Coronal mass ejection, 391 km/s",
+   "speedKms": 391.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49040/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-09T08:00:00-CME-001",
+   "time": "2026-10-09T08:00:00Z",
+   "detail": "Coronal mass ejection, 270 km/s",
+   "speedKms": 270.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49046/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-09T14:36:00-CME-001",
+   "time": "2026-10-09T14:36:00Z",
+   "detail": "Coronal mass ejection, 315 km/s",
+   "speedKms": 315.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49049/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-10T08:36:00-CME-001",
+   "time": "2026-10-10T08:36:00Z",
+   "detail": "Coronal mass ejection, 368 km/s",
+   "speedKms": 368.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49062/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-10T12:23:00-CME-001",
+   "time": "2026-10-10T12:23:00Z",
+   "detail": "Coronal mass ejection, 763 km/s",
+   "speedKms": 763.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49076/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-10T16:15:00-CME-001",
+   "time": "2026-10-10T16:15:00Z",
+   "detail": "Coronal mass ejection, 1553 km/s",
+   "speedKms": 1553.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49064/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-10T22:00:00-CME-001",
+   "time": "2026-10-10T22:00:00Z",
+   "detail": "Coronal mass ejection, 351 km/s",
+   "speedKms": 351.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49079/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-11T09:12:00-CME-001",
+   "time": "2026-10-11T09:12:00Z",
+   "detail": "Coronal mass ejection, 374 km/s",
+   "speedKms": 374.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49082/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-11T23:12:00-CME-001",
+   "time": "2026-10-11T23:12:00Z",
+   "detail": "Coronal mass ejection, 618 km/s",
+   "speedKms": 618.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49087/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-11T23:15:00-CME-001",
+   "time": "2026-10-11T23:15:00Z",
+   "detail": "Coronal mass ejection, 457 km/s",
+   "speedKms": 457.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49084/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-12T05:09:00-CME-001",
+   "time": "2026-10-12T05:09:00Z",
+   "detail": "Coronal mass ejection, 741 km/s",
+   "speedKms": 741.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49089/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-12T10:09:00-CME-001",
+   "time": "2026-10-12T10:09:00Z",
+   "detail": "Coronal mass ejection, 351 km/s",
+   "speedKms": 351.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49095/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-12T12:23:00-CME-001",
+   "time": "2026-10-12T12:23:00Z",
+   "detail": "Coronal mass ejection, 335 km/s",
+   "speedKms": 335.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49099/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-12T19:36:00-CME-001",
+   "time": "2026-10-12T19:36:00Z",
+   "detail": "Coronal mass ejection, 365 km/s",
+   "speedKms": 365.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49101/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-14T13:36:00-CME-001",
+   "time": "2026-10-14T13:36:00Z",
+   "detail": "Coronal mass ejection, 236 km/s",
+   "speedKms": 236.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49114/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-14T22:09:00-CME-001",
+   "time": "2026-10-14T22:09:00Z",
+   "detail": "Coronal mass ejection, 339 km/s",
+   "speedKms": 339.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49117/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-14T23:12:00-CME-001",
+   "time": "2026-10-14T23:12:00Z",
+   "detail": "Coronal mass ejection, 360 km/s",
+   "speedKms": 360.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49120/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-15T20:24:00-CME-001",
+   "time": "2026-10-15T20:24:00Z",
+   "detail": "Coronal mass ejection, 428 km/s",
+   "speedKms": 428.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49125/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-16T06:09:00-CME-001",
+   "time": "2026-10-16T06:09:00Z",
+   "detail": "Coronal mass ejection, 324 km/s",
+   "speedKms": 324.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49132/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-16T07:12:00-CME-001",
+   "time": "2026-10-16T07:12:00Z",
+   "detail": "Coronal mass ejection, 490 km/s",
+   "speedKms": 490.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49127/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-16T08:12:00-CME-001",
+   "time": "2026-10-16T08:12:00Z",
+   "detail": "Coronal mass ejection, 334 km/s",
+   "speedKms": 334.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49135/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-16T11:48:00-CME-001",
+   "time": "2026-10-16T11:48:00Z",
+   "detail": "Coronal mass ejection, 475 km/s",
+   "speedKms": 475.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49139/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-16T12:38:00-CME-001",
+   "time": "2026-10-16T12:38:00Z",
+   "detail": "Coronal mass ejection, 247 km/s",
+   "speedKms": 247.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49137/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-16T15:12:00-CME-001",
+   "time": "2026-10-16T15:12:00Z",
+   "detail": "Coronal mass ejection, 270 km/s",
+   "speedKms": 270.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49143/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-16T17:00:00-CME-001",
+   "time": "2026-10-16T17:00:00Z",
+   "detail": "Coronal mass ejection, 479 km/s",
+   "speedKms": 479.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49146/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-16T20:24:00-CME-001",
+   "time": "2026-10-16T20:24:00Z",
+   "detail": "Coronal mass ejection, 552 km/s",
+   "speedKms": 552.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49148/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-17T02:48:00-CME-001",
+   "time": "2026-10-17T02:48:00Z",
+   "detail": "Coronal mass ejection, 1048 km/s",
+   "speedKms": 1048.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49150/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-17T17:00:00-CME-001",
+   "time": "2026-10-17T17:00:00Z",
+   "detail": "Coronal mass ejection, 453 km/s",
+   "speedKms": 453.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49155/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-17T18:12:00-CME-001",
+   "time": "2026-10-17T18:12:00Z",
+   "detail": "Coronal mass ejection, 427 km/s",
+   "speedKms": 427.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49157/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-18T21:30:00-CME-001",
+   "time": "2026-10-18T21:30:00Z",
+   "detail": "Coronal mass ejection, 375 km/s",
+   "speedKms": 375.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49160/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-18T23:15:00-CME-001",
+   "time": "2026-10-18T23:15:00Z",
+   "detail": "Coronal mass ejection, 590 km/s",
+   "speedKms": 590.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49162/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-19T14:48:00-CME-001",
+   "time": "2026-10-19T14:48:00Z",
+   "detail": "Coronal mass ejection, 387 km/s",
+   "speedKms": 387.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49167/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-19T19:15:00-CME-001",
+   "time": "2026-10-19T19:15:00Z",
+   "detail": "Coronal mass ejection, 474 km/s",
+   "speedKms": 474.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49170/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-20T01:26:00-CME-001",
+   "time": "2026-10-20T01:26:00Z",
+   "detail": "Coronal mass ejection, 368 km/s",
+   "speedKms": 368.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49173/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-20T07:24:00-CME-001",
+   "time": "2026-10-20T07:24:00Z",
+   "detail": "Coronal mass ejection, 748 km/s",
+   "speedKms": 748.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49178/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-20T09:09:00-CME-001",
+   "time": "2026-10-20T09:09:00Z",
+   "detail": "Coronal mass ejection, 568 km/s",
+   "speedKms": 568.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49175/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-20T14:23:00-CME-001",
+   "time": "2026-10-20T14:23:00Z",
+   "detail": "Coronal mass ejection, 920 km/s",
+   "speedKms": 920.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49183/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-21T08:53:00-CME-001",
+   "time": "2026-10-21T08:53:00Z",
+   "detail": "Coronal mass ejection, 310 km/s",
+   "speedKms": 310.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49185/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-21T13:38:00-CME-001",
+   "time": "2026-10-21T13:38:00Z",
+   "detail": "Coronal mass ejection, 547 km/s",
+   "speedKms": 547.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49191/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-21T20:36:00-CME-001",
+   "time": "2026-10-21T20:36:00Z",
+   "detail": "Coronal mass ejection, 973 km/s",
+   "speedKms": 973.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49197/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-22T20:12:00-CME-001",
+   "time": "2026-10-22T20:12:00Z",
+   "detail": "Coronal mass ejection, 561 km/s",
+   "speedKms": 561.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49208/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-22T22:12:00-CME-001",
+   "time": "2026-10-22T22:12:00Z",
+   "detail": "Coronal mass ejection, 381 km/s",
+   "speedKms": 381.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49210/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-23T04:18:00-CME-001",
+   "time": "2026-10-23T04:18:00Z",
+   "detail": "Coronal mass ejection, 597 km/s",
+   "speedKms": 597.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49212/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-23T10:24:00-CME-001",
+   "time": "2026-10-23T10:24:00Z",
+   "detail": "Coronal mass ejection, 337 km/s",
+   "speedKms": 337.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49218/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-23T16:36:00-CME-001",
+   "time": "2026-10-23T16:36:00Z",
+   "detail": "Coronal mass ejection, 255 km/s",
+   "speedKms": 255.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49220/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-24T15:12:00-CME-001",
+   "time": "2026-10-24T15:12:00Z",
+   "detail": "Coronal mass ejection, 652 km/s",
+   "speedKms": 652.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49223/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-24T18:00:00-CME-001",
+   "time": "2026-10-24T18:00:00Z",
+   "detail": "Coronal mass ejection, 251 km/s",
+   "speedKms": 251.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49231/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-24T18:08:00-CME-001",
+   "time": "2026-10-24T18:08:00Z",
+   "detail": "Coronal mass ejection, 566 km/s",
+   "speedKms": 566.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49239/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-24T20:36:00-CME-001",
+   "time": "2026-10-24T20:36:00Z",
+   "detail": "Coronal mass ejection, 838 km/s",
+   "speedKms": 838.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49226/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-24T21:48:00-CME-001",
+   "time": "2026-10-24T21:48:00Z",
+   "detail": "Coronal mass ejection, 333 km/s",
+   "speedKms": 333.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49229/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-24T22:24:00-CME-001",
+   "time": "2026-10-24T22:24:00Z",
+   "detail": "Coronal mass ejection, 621 km/s",
+   "speedKms": 621.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49241/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-25T03:12:00-CME-001",
+   "time": "2026-10-25T03:12:00Z",
+   "detail": "Coronal mass ejection, 336 km/s",
+   "speedKms": 336.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49233/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-25T05:00:00-CME-001",
+   "time": "2026-10-25T05:00:00Z",
+   "detail": "Coronal mass ejection, 246 km/s",
+   "speedKms": 246.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49237/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-25T09:48:00-CME-001",
+   "time": "2026-10-25T09:48:00Z",
+   "detail": "Coronal mass ejection, 360 km/s",
+   "speedKms": 360.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49244/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-25T19:24:00-CME-001",
+   "time": "2026-10-25T19:24:00Z",
+   "detail": "Coronal mass ejection, 275 km/s",
+   "speedKms": 275.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49246/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-26T00:12:00-CME-001",
+   "time": "2026-10-26T00:12:00Z",
+   "detail": "Coronal mass ejection, 402 km/s",
+   "speedKms": 402.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49268/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-26T01:26:00-CME-001",
+   "time": "2026-10-26T01:26:00Z",
+   "detail": "Coronal mass ejection, 285 km/s",
+   "speedKms": 285.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49270/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-26T02:12:00-CME-001",
+   "time": "2026-10-26T02:12:00Z",
+   "detail": "Coronal mass ejection, 327 km/s",
+   "speedKms": 327.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49272/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-26T09:00:00-CME-001",
+   "time": "2026-10-26T09:00:00Z",
+   "detail": "Coronal mass ejection, 873 km/s",
+   "speedKms": 873.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49254/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-26T09:48:00-CME-001",
+   "time": "2026-10-26T09:48:00Z",
+   "detail": "Coronal mass ejection, 681 km/s",
+   "speedKms": 681.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49249/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-26T18:48:00-CME-001",
+   "time": "2026-10-26T18:48:00Z",
+   "detail": "Coronal mass ejection, 616 km/s",
+   "speedKms": 616.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49276/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-26T20:48:00-CME-001",
+   "time": "2026-10-26T20:48:00Z",
+   "detail": "Coronal mass ejection, 479 km/s",
+   "speedKms": 479.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49282/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-27T06:48:00-CME-001",
+   "time": "2026-10-27T06:48:00Z",
+   "detail": "Coronal mass ejection, 260 km/s",
+   "speedKms": 260.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49286/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-27T12:53:00-CME-001",
+   "time": "2026-10-27T12:53:00Z",
+   "detail": "Coronal mass ejection, 302 km/s",
+   "speedKms": 302.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49293/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-28T00:00:00-CME-001",
+   "time": "2026-10-28T00:00:00Z",
+   "detail": "Coronal mass ejection, 399 km/s",
+   "speedKms": 399.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49301/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-28T11:12:00-CME-001",
+   "time": "2026-10-28T11:12:00Z",
+   "detail": "Coronal mass ejection, 329 km/s",
+   "speedKms": 329.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49304/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-29T10:36:00-CME-001",
+   "time": "2026-10-29T10:36:00Z",
+   "detail": "Coronal mass ejection, 287 km/s",
+   "speedKms": 287.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49324/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-30T12:36:00-CME-001",
+   "time": "2026-10-30T12:36:00Z",
+   "detail": "Coronal mass ejection, 218 km/s",
+   "speedKms": 218.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49341/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-10-31T05:00:00-CME-001",
+   "time": "2026-10-31T05:00:00Z",
+   "detail": "Coronal mass ejection, 345 km/s",
+   "speedKms": 345.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49343/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-11-01T00:00:00-CME-001",
+   "time": "2026-11-01T00:00:00Z",
+   "detail": "Coronal mass ejection, 894 km/s",
+   "speedKms": 894.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49353/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-11-01T19:00:00-CME-001",
+   "time": "2026-11-01T19:00:00Z",
+   "detail": "Coronal mass ejection, 357 km/s",
+   "speedKms": 357.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49358/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-11-01T19:48:00-CME-001",
+   "time": "2026-11-01T19:48:00Z",
+   "detail": "Coronal mass ejection, 435 km/s",
+   "speedKms": 435.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49361/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-11-03T09:36:00-CME-001",
+   "time": "2026-11-03T09:36:00Z",
+   "detail": "Coronal mass ejection, 350 km/s",
+   "speedKms": 350.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49370/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-11-04T02:48:00-CME-001",
+   "time": "2026-11-04T02:48:00Z",
+   "detail": "Coronal mass ejection, 497 km/s",
+   "speedKms": 497.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49382/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-11-05T04:24:00-CME-001",
+   "time": "2026-11-05T04:24:00Z",
+   "detail": "Coronal mass ejection, 330 km/s",
+   "speedKms": 330.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49386/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-11-05T11:48:00-CME-001",
+   "time": "2026-11-05T11:48:00Z",
+   "detail": "Coronal mass ejection, 404 km/s",
+   "speedKms": 404.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49389/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-11-05T20:00:00-CME-001",
+   "time": "2026-11-05T20:00:00Z",
+   "detail": "Coronal mass ejection, 915 km/s",
+   "speedKms": 915.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49394/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-11-05T21:24:00-CME-001",
+   "time": "2026-11-05T21:24:00Z",
+   "detail": "Coronal mass ejection, 406 km/s",
+   "speedKms": 406.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49398/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-11-06T01:26:00-CME-001",
+   "time": "2026-11-06T01:26:00Z",
+   "detail": "Coronal mass ejection, 264 km/s",
+   "speedKms": 264.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49403/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-11-06T10:53:00-CME-001",
+   "time": "2026-11-06T10:53:00Z",
+   "detail": "Coronal mass ejection, 368 km/s",
+   "speedKms": 368.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49405/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-11-06T13:15:00-CME-001",
+   "time": "2026-11-06T13:15:00Z",
+   "detail": "Coronal mass ejection, 530 km/s",
+   "speedKms": 530.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49416/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-11-06T16:15:00-CME-001",
+   "time": "2026-11-06T16:15:00Z",
+   "detail": "Coronal mass ejection, 902 km/s",
+   "speedKms": 902.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49426/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-11-06T20:24:00-CME-001",
+   "time": "2026-11-06T20:24:00Z",
+   "detail": "Coronal mass ejection, 319 km/s",
+   "speedKms": 319.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49431/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-11-07T06:24:00-CME-001",
+   "time": "2026-11-07T06:24:00Z",
+   "detail": "Coronal mass ejection, 245 km/s",
+   "speedKms": 245.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49445/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-11-07T09:36:00-CME-001",
+   "time": "2026-11-07T09:36:00Z",
+   "detail": "Coronal mass ejection, 507 km/s",
+   "speedKms": 507.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49434/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-11-07T10:24:00-CME-001",
+   "time": "2026-11-07T10:24:00Z",
+   "detail": "Coronal mass ejection, 330 km/s",
+   "speedKms": 330.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49437/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-11-07T18:30:00-CME-001",
+   "time": "2026-11-07T18:30:00Z",
+   "detail": "Coronal mass ejection, 423 km/s",
+   "speedKms": 423.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49451/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-11-08T00:48:00-CME-001",
+   "time": "2026-11-08T00:48:00Z",
+   "detail": "Coronal mass ejection, 591 km/s",
+   "speedKms": 591.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49454/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-11-08T08:48:00-CME-001",
+   "time": "2026-11-08T08:48:00Z",
+   "detail": "Coronal mass ejection, 367 km/s",
+   "speedKms": 367.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49459/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-11-09T09:12:00-CME-001",
+   "time": "2026-11-09T09:12:00Z",
+   "detail": "Coronal mass ejection, 338 km/s",
+   "speedKms": 338.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49466/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-11-09T10:53:00-CME-001",
+   "time": "2026-11-09T10:53:00Z",
+   "detail": "Coronal mass ejection, 299 km/s",
+   "speedKms": 299.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49470/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-11-09T18:15:00-CME-001",
+   "time": "2026-11-09T18:15:00Z",
+   "detail": "Coronal mass ejection, 726 km/s",
+   "speedKms": 726.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49468/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-11-10T02:00:00-CME-001",
+   "time": "2026-11-10T02:00:00Z",
+   "detail": "Coronal mass ejection, 803 km/s",
+   "speedKms": 803.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49484/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-11-10T02:12:00-CME-001",
+   "time": "2026-11-10T02:12:00Z",
+   "detail": "Coronal mass ejection, 346 km/s",
+   "speedKms": 346.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49475/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-11-10T05:30:00-CME-001",
+   "time": "2026-11-10T05:30:00Z",
+   "detail": "Coronal mass ejection, 974 km/s",
+   "speedKms": 974.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49479/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-11-11T23:24:00-CME-001",
+   "time": "2026-11-11T23:24:00Z",
+   "detail": "Coronal mass ejection, 367 km/s",
+   "speedKms": 367.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49505/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-11-12T01:53:00-CME-001",
+   "time": "2026-11-12T01:53:00Z",
+   "detail": "Coronal mass ejection, 327 km/s",
+   "speedKms": 327.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49508/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-11-12T21:12:00-CME-001",
+   "time": "2026-11-12T21:12:00Z",
+   "detail": "Coronal mass ejection, 247 km/s",
+   "speedKms": 247.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49523/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-11-13T01:26:00-CME-001",
+   "time": "2026-11-13T01:26:00Z",
+   "detail": "Coronal mass ejection, 308 km/s",
+   "speedKms": 308.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49525/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-11-13T03:24:00-CME-001",
+   "time": "2026-11-13T03:24:00Z",
+   "detail": "Coronal mass ejection, 525 km/s",
+   "speedKms": 525.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49529/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-11-13T09:24:00-CME-001",
+   "time": "2026-11-13T09:24:00Z",
+   "detail": "Coronal mass ejection, 302 km/s",
+   "speedKms": 302.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49537/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-11-13T16:24:00-CME-001",
+   "time": "2026-11-13T16:24:00Z",
+   "detail": "Coronal mass ejection",
+   "speedKms": null,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49546/-1"
+  },
+  {
+   "type": "CME",
+   "id": "2026-11-13T21:24:00-CME-001",
+   "time": "2026-11-13T21:24:00Z",
+   "detail": "Coronal mass ejection, 474 km/s",
+   "speedKms": 474.0,
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/49547/-1"
+  }
+ ]
+}

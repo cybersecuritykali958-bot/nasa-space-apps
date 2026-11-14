@@ -1,46 +1,50 @@
-# Как подключиться к проекту CrewPulse
+# Joining the CrewPulse project
 
-## 1. Доступ
-Прими приглашение в репозиторий `cybersecuritykali958-bot/nasa-space-apps` (письмо от GitHub или https://github.com/notifications).
+## 1. Access
+Accept the invitation to `cybersecuritykali958-bot/nasa-space-apps` (GitHub email or https://github.com/notifications).
 
-## 2. Установить
-- **Android Studio** (последняя стабильная): https://developer.android.com/studio. JDK уже внутри.
-- **Git** и **GitHub CLI**: https://git-scm.com, https://cli.github.com
-- **Python 3.12**, только науке и данным.
-- **Claude Code** или **Cursor**, кому что удобно.
-- Дизайнеру достаточно Figma.
+## 2. Install
+- **Android Studio** (latest stable): https://developer.android.com/studio. It ships its own JDK.
+- **Git** and **GitHub CLI**: https://git-scm.com, https://cli.github.com
+- **Python 3.12**, science and data roles only.
+- **Claude Code** or **Cursor**, whichever you prefer.
+- Design only needs Figma.
 
-## 3. Скачать проект
+## 3. Get the code
 ```bash
 gh auth login
 gh repo clone cybersecuritykali958-bot/nasa-space-apps
 cd nasa-space-apps
-git checkout -b feat/<ник>-<задача>
+git checkout -b feat/<nick>-<task>
 ```
 
-## 4. Открыть и запустить
-1. Android Studio → **Open** → папка `android/` (именно она, не корень).
-2. Дождись **Gradle Sync** (в первый раз 5–10 минут).
-3. **Device Manager** → создать Pixel с Android 14 или подключить телефон (Настройки → О телефоне → 7 раз тапнуть «Номер сборки» → Для разработчиков → Отладка по USB).
-4. Нажми ▶ **Run**. Должен открыться экран CrewPulse со списком систем тела.
+## 4. Open and run
+1. Android Studio → **Open** → the `android/` folder (not the repo root).
+2. Wait for **Gradle Sync** (5–10 minutes the first time).
+3. **Device Manager** → create a Pixel with Android 14, or connect a phone (Settings → About phone → tap "Build number" 7 times → Developer options → USB debugging).
+4. Press ▶ **Run**. The CrewPulse home screen with body systems should open.
 
-## 5. Агенты
-- **Claude Code:** запускай `claude` в корне репозитория. Он прочитает `CLAUDE.md`, агентов из `.claude/agents/` и скиллы из `.claude/skills/`.
-- **Cursor:** File → Open Folder → корень репозитория. Правила лежат в `.cursor/rules/`, агенты в `.cursor/agents/`.
+Optional: add `NASA_API_KEY=...` to `android/local.properties` for live NASA DONKI data. Never commit this file.
 
-## 6. Каждый день
+## 5. AI agents
+- **Claude Code:** run `claude` in the repo root. It reads `CLAUDE.md`, agents in `.claude/agents/` and skills in `.claude/skills/`.
+- **Cursor:** File → Open Folder → repo root. Rules are in `.cursor/rules/`, agents in `.cursor/agents/`.
+- Backend usage for screens and how to extend the engine: `docs/BACKEND.md` (skill `health-engine`).
+
+## 6. Daily routine
 ```bash
 git pull origin main
-# работа
-cd android && ./gradlew testDebugUnitTest assembleDebug   # перед пушем
-git add <свои файлы>
-git commit -m "Что сделано"
-git push -u origin feat/<ник>-<задача>
+# work
+cd android && ./gradlew testDebugUnitTest assembleDebug   # before pushing
+git add <your files>
+git commit -m "What changed"
+git push -u origin feat/<nick>-<task>
 ```
-Потом на GitHub открой **Pull request** в `main`. CI сам соберёт APK и прогонит тесты.
+Then open a **Pull request** into `main` on GitHub. CI builds the APK and runs the tests.
 
-## 7. Правила
-- Правь только свою зону (`docs/TEAM_ROLES.md`).
-- Контракт данных меняет только тимлид.
-- Не коммить `local.properties`, ключи и APK.
-- Конфликт при мерже: не удаляй чужое, позови тимлида.
+## 7. Rules
+- Edit only your zone (`docs/TEAM_ROLES.md`).
+- Only the team lead changes the data contract.
+- Do not commit `local.properties`, keys or APKs.
+- Everything in the repo is in English.
+- Merge conflict: do not delete other people's work, call the team lead.

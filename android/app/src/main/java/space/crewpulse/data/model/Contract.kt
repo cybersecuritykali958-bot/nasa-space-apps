@@ -39,6 +39,8 @@ data class Indicator(
     val riskIds: List<String> = emptyList(),
     val sources: List<Source>,
     val verified: Boolean = false,
+    /** Monotonic running total (e.g. radiation dose): skip shift detection, keep trend forecast. */
+    val cumulative: Boolean = false,
 )
 
 @Serializable

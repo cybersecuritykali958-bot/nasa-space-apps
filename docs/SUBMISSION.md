@@ -1,18 +1,18 @@
-# Подача на spaceappschallenge.org
+# Submission on spaceappschallenge.org
 
-Всё на **английском**. Дедлайн 15.11 23:55, отправляем до 23:00.
+Everything in **English**. Deadline 15.11 23:55; we submit by 23:00.
 
 - [ ] **Project Name:** CrewPulse
-- [ ] **High-Level Summary:** что сделали, какую проблему решаем, как это отвечает челленджу, почему важно
-- [ ] **Link to Project Demo:** **не больше 7 слайдов** (с титульным) **или видео не длиннее 30 с**. Превысим — нет Global Judging
-  - Слайды: 1 команда, 2 участники, 3 челлендж, 4 визуал, 5 как работает, 6 опыт пользователя, 7 данные NASA / партнёров
-- [ ] **Link to Final Project:** публичная ссылка без входа (APK в GitHub Releases или Google Drive + видео)
-- [ ] **Detailed Description:** что делает, как работает, преимущества, цели, технологии (Kotlin, Jetpack Compose, Room, Python)
-- [ ] **NASA Data:** HRP 5 Hazards, HRP Risks, NASA-STD-3001, MSL RAD, NASA DONKI (если подключили): что, откуда, как использовали
-- [ ] **Space Agency Partner & Other Data:** CSA radiation; AHA, ADA, AASM, Basner 2015, Zhang 2020
-- [ ] **AI use:** Claude Code и Cursor — для чего и как использовали
-- [ ] **Images:** скриншоты .png до 10 МБ
-- [ ] Все ссылки проверены в режиме инкогнито
+- [ ] **High-Level Summary:** what we built, which problem it solves, how it answers the challenge, why it matters
+- [ ] **Link to Project Demo:** **max 7 slides** (including the title) **or a video of max 30 s**. Exceeding the limit removes us from Global Judging
+  - Slides: 1 team, 2 members, 3 challenge, 4 visual, 5 how it works, 6 user experience, 7 NASA / partner data
+- [ ] **Link to Final Project:** public link without login (APK on GitHub Releases or Google Drive + video)
+- [ ] **Detailed Description:** what it does, how it works, benefits, goals, technologies (Kotlin, Jetpack Compose, Room, Python)
+- [ ] **NASA Data:** NASA DONKI (api.nasa.gov: SEP and CME → "go to shielded area" alert, spacewalk GO / NO-GO), HRP 5 Hazards and Risks (indicators linked to risks), NASA-STD-3001 (600 mSv career limit), MSL RAD (dose per environment): what, where from, how used
+- [ ] **Space Agency Partner & Other Data:** CSA radiation monitoring; AHA, ADA, AASM, Basner 2015, Zhang 2020; Page 1954, Roberts 1959, Lucas & Saccucci 1990 (methods)
+- [ ] **AI use:** Claude Code and Cursor: what for and how
+- [ ] **Images:** .png screenshots up to 10 MB
+- [ ] All links checked in incognito mode
 
-## Черновик summary
-> _Заполнить к 15.11 19:00._
+## Summary draft
+> _Fill in by 15.11 19:00._

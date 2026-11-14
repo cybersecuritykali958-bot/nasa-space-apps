@@ -1,0 +1,310 @@
+{
+  "version": 1,
+  "earlyWarning": {
+    "minHistory": 7,
+    "baselineWindow": 14,
+    "ewmaLambda": 0.2,
+    "ewmaL": 3.0,
+    "cusumK": 0.5,
+    "cusumH": 5.0,
+    "trendWindowDays": 14,
+    "trendHorizonDays": 30,
+    "trendMinT": 3.0,
+    "sources": [
+      {
+        "title": "Page 1954, Continuous inspection schemes (CUSUM), Biometrika",
+        "url": "https://doi.org/10.1093/biomet/41.1-2.100"
+      },
+      {
+        "title": "Roberts 1959, Control chart tests based on geometric moving averages (EWMA), Technometrics",
+        "url": "https://doi.org/10.1080/00401706.1959.10489860"
+      },
+      {
+        "title": "Lucas & Saccucci 1990, Exponentially weighted moving average control schemes, Technometrics",
+        "url": "https://doi.org/10.1080/00401706.1990.10484583"
+      }
+    ]
+  },
+  "confidence": {
+    "staleAfterHours": 48,
+    "estimatedSources": [
+      "camera"
+    ]
+  },
+  "triage": {
+    "responseWindowMin": {
+      "red": 30,
+      "yellow": 1440
+    },
+    "groundHandlingMin": 10,
+    "sources": [
+      {
+        "title": "Team assumption pending science review",
+        "url": ""
+      }
+    ],
+    "verified": false
+  },
+  "patterns": [
+    {
+      "id": "fatigue",
+      "name": "Fatigue pattern",
+      "summary": "Short sleep, slower reactions and low mood together point to accumulated fatigue.",
+      "any": [
+        {
+          "indicator": "sleep_hours",
+          "minStatus": "yellow"
+        },
+        {
+          "indicator": "pvt_mean_rt",
+          "minStatus": "yellow"
+        },
+        {
+          "indicator": "mood",
+          "minStatus": "yellow"
+        }
+      ],
+      "minAny": 2,
+      "riskIds": [
+        "sleep",
+        "behavioral"
+      ],
+      "advice": "Protect the next sleep window, avoid critical tasks without a cross-check, re-run the PVT tomorrow.",
+      "sources": [
+        {
+          "title": "Basner et al. 2015, Cognition test battery for spaceflight",
+          "url": "https://doi.org/10.3357/AMHP.4343.2015"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "possible_infection",
+      "name": "Possible infection",
+      "summary": "Raised temperature together with a resting heart rate above your baseline.",
+      "all": [
+        {
+          "indicator": "body_temp",
+          "minStatus": "yellow"
+        },
+        {
+          "indicator": "heart_rate",
+          "minDeviationPct": 10
+        }
+      ],
+      "riskIds": [
+        "immune"
+      ],
+      "advice": "Rest, fluids, re-measure temperature in 4 hours, tell the crew medical officer.",
+      "sources": [
+        {
+          "title": "NASA HRP: Risks of human spaceflight",
+          "url": "https://www.nasa.gov/hrp/risks/"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "cardiovascular_strain",
+      "name": "Cardiovascular strain",
+      "summary": "Blood pressure and resting heart rate are both elevated or drifting upward.",
+      "any": [
+        {
+          "indicator": "systolic_bp",
+          "minStatus": "yellow"
+        },
+        {
+          "indicator": "diastolic_bp",
+          "minStatus": "yellow"
+        },
+        {
+          "indicator": "systolic_bp",
+          "hasAlert": true
+        },
+        {
+          "indicator": "heart_rate",
+          "minStatus": "yellow"
+        }
+      ],
+      "minAny": 2,
+      "riskIds": [
+        "cardiovascular"
+      ],
+      "advice": "Repeat measurements tomorrow morning, review salt and fluid intake, keep planned cardio exercise.",
+      "sources": [
+        {
+          "title": "NASA HRP: Risks of human spaceflight",
+          "url": "https://www.nasa.gov/hrp/risks/"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "self_report_discordance",
+      "name": "Self-report does not match the data",
+      "summary": "You rate your mood as good, but objective signs of strain disagree. People under pressure tend to underrate symptoms.",
+      "all": [
+        {
+          "indicator": "mood",
+          "statusIn": [
+            "green"
+          ]
+        }
+      ],
+      "any": [
+        {
+          "indicator": "pvt_mean_rt",
+          "minDeviationPct": 15
+        },
+        {
+          "indicator": "sleep_hours",
+          "minStatus": "yellow"
+        },
+        {
+          "indicator": "heart_rate",
+          "minDeviationPct": 15
+        }
+      ],
+      "minAny": 2,
+      "riskIds": [
+        "behavioral"
+      ],
+      "advice": "Take an honest second look at how you feel. Consider a private check-in with the crew medical officer.",
+      "sources": [
+        {
+          "title": "NASA: 5 Hazards of Human Spaceflight (isolation and confinement)",
+          "url": "https://www.nasa.gov/hrp/hazards/"
+        }
+      ],
+      "verified": false
+    }
+  ],
+  "readiness": [
+    {
+      "id": "eva",
+      "name": "Spacewalk (EVA)",
+      "gates": [
+        {
+          "indicator": "sleep_hours"
+        },
+        {
+          "indicator": "pvt_mean_rt"
+        },
+        {
+          "indicator": "body_temp",
+          "cautionAt": "yellow",
+          "noGoAt": "yellow"
+        },
+        {
+          "indicator": "systolic_bp"
+        },
+        {
+          "indicator": "heart_rate"
+        },
+        {
+          "indicator": "glucose"
+        }
+      ],
+      "sources": [
+        {
+          "title": "Team assumption pending science review",
+          "url": ""
+        }
+      ],
+      "verified": false,
+      "spaceWeatherGate": true
+    },
+    {
+      "id": "landing",
+      "name": "Landing / return to gravity",
+      "gates": [
+        {
+          "indicator": "systolic_bp"
+        },
+        {
+          "indicator": "diastolic_bp"
+        },
+        {
+          "indicator": "heart_rate"
+        },
+        {
+          "indicator": "sleep_hours"
+        }
+      ],
+      "sources": [
+        {
+          "title": "NASA HRP: Risks of human spaceflight (orthostatic intolerance)",
+          "url": "https://www.nasa.gov/hrp/risks/"
+        }
+      ],
+      "verified": false
+    }
+  ],
+  "schedule": {
+    "intervalDays": {
+      "systolic_bp": 3,
+      "diastolic_bp": 3,
+      "heart_rate": 1,
+      "glucose": 7,
+      "body_temp": 3,
+      "sleep_hours": 1,
+      "mood": 1,
+      "pvt_mean_rt": 3
+    },
+    "minutesPerMeasurement": {
+      "systolic_bp": 3,
+      "diastolic_bp": 0,
+      "heart_rate": 1,
+      "glucose": 5,
+      "body_temp": 2,
+      "sleep_hours": 0.5,
+      "mood": 0.5,
+      "pvt_mean_rt": 3
+    },
+    "attentionIntervalDays": 1,
+    "redRecheckHours": 1
+  },
+  "gamification": {
+    "pointsPerCheckInDay": 10,
+    "pointsPerMeasurement": 2,
+    "fullCheckInBonus": 20,
+    "coreIndicators": [
+      "systolic_bp",
+      "diastolic_bp",
+      "heart_rate",
+      "glucose",
+      "body_temp",
+      "sleep_hours",
+      "mood"
+    ],
+    "pointsPerLevel": 250,
+    "levelTitles": [
+      "Cadet",
+      "Mission Specialist",
+      "Flight Engineer",
+      "Science Officer",
+      "Commander"
+    ]
+  },
+  "spaceWeather": {
+    "sepWarningHours": 48,
+    "cmeWatchHours": 72,
+    "cmeFastSpeedKms": 1000,
+    "flareWatchHours": 48,
+    "careerLimitMsv": 600,
+    "sources": [
+      {
+        "title": "NASA DONKI: Space Weather Database Of Notifications, Knowledge, Information",
+        "url": "https://api.nasa.gov/"
+      },
+      {
+        "title": "NASA-STD-3001 Vol. 1, Crew Health (career radiation limit)",
+        "url": "https://standards.nasa.gov/standard/NASA/NASA-STD-3001-VOL-1"
+      },
+      {
+        "title": "CSA: Monitoring radiation for astronaut health",
+        "url": "https://www.asc-csa.gc.ca/eng/news/articles/2026/2026-02-26-monitoring-radiation-astronaut-health.asp"
+      }
+    ]
+  }
+}
