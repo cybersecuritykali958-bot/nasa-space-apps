@@ -7,75 +7,123 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.MenuBook
+import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.Lightbulb
+import androidx.compose.material.icons.outlined.PriorityHigh
+import androidx.compose.material.icons.outlined.Straighten
+import androidx.compose.material.icons.outlined.WarningAmber
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import space.crewpulse.R
 import space.crewpulse.data.model.Risk
+import space.crewpulse.domain.AlertKind
+import space.crewpulse.domain.DAY
+import space.crewpulse.domain.Direction
+import space.crewpulse.domain.EarlyWarning
+import space.crewpulse.domain.EngineReport
 import space.crewpulse.domain.Evaluation
-import space.crewpulse.ui.components.StatusDot
+import space.crewpulse.domain.Sample
+import space.crewpulse.ui.components.AnimatedNumber
+import space.crewpulse.ui.components.CardRow
+import space.crewpulse.ui.components.ChartLine
+import space.crewpulse.ui.components.ConfidencePill
+import space.crewpulse.ui.components.CrewScaffold
+import space.crewpulse.ui.components.LineChart
+import space.crewpulse.ui.components.StatusPill
+import space.crewpulse.ui.i18n.alertText
+import space.crewpulse.ui.i18n.indicatorAction
+import space.crewpulse.ui.i18n.indicatorHow
+import space.crewpulse.ui.i18n.indicatorName
+import space.crewpulse.ui.i18n.indicatorWhy
+import space.crewpulse.ui.i18n.riskName
+import space.crewpulse.ui.theme.StatusColors
 
-/** The "Why?" card: what the value means, how to measure it, what to do, and the source. */
-@OptIn(ExperimentalMaterial3Api::class)
+/** One indicator: big value, calm chart with threshold and forecast, then explanation rows. */
 @Composable
-fun IndicatorScreen(evaluation: Evaluation?, risks: List<Risk>, onBack: () -> Unit) {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(evaluation?.indicator?.name ?: "Indicator") },
-                navigationIcon = { TextButton(onClick = onBack) { Text("Back") } },
-            )
-        },
-    ) { padding ->
+fun IndicatorScreen(
+    evaluation: Evaluation?,
+    history: List<Sample>,
+    report: EngineReport,
+    risks: List<Risk>,
+    onBack: () -> Unit,
+) {
+    val name = evaluation?.indicator?.let { indicatorName(it) } ?: stringResource(R.string.why_title)
+    CrewScaffold(title = name, onBack = onBack) { pad ->
         if (evaluation == null) {
-            Text("No data", Modifier.padding(padding).padding(16.dp))
-            return@Scaffold
+            Text(stringResource(R.string.no_data), pad.padding(20.dp))
+            return@CrewScaffold
         }
         val ind = evaluation.indicator
+        val alerts = report.alertsFor(ind.id)
+        val trend = alerts.firstOrNull { it.kind == AlertKind.TREND_TO_THRESHOLD }
+
         Column(
-            Modifier
-                .fillMaxSize()
-                .padding(padding)
-                .padding(16.dp)
-                .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
+            pad.fillMaxSize().verticalScroll(rememberScrollState()).padding(horizontal = 20.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                StatusDot(evaluation.status, 22.dp)
-                Text(
-                    "${"%.1f".format(evaluation.value)} ${ind.unit}",
-                    style = MaterialTheme.typography.headlineMedium,
-                    modifier = Modifier.padding(start = 12.dp),
-                )
+                AnimatedNumber(evaluation.value, { "%.1f".format(it) }, MaterialTheme.typography.displaySmall)
+                Text(" ${ind.unit}", style = MaterialTheme.typography.titleLarge, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(1f))
+                StatusPill(evaluation.status)
             }
             evaluation.deviationPct?.let {
-                Text("Deviation from your pre-flight baseline: ${"%+.0f".format(it)}%")
+                Text(stringResource(R.string.deviation, it), color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
-            Section("What to do", ind.actions[evaluation.status] ?: "—")
-            Section("Why it matters in space", ind.whySpace)
-            Section("How to measure", ind.howToMeasure)
+
+            val recent = history.takeLast(30)
+            if (recent.size >= 2) {
+                val last = recent.last().timestampMillis
+                val boundary = EarlyWarning.nextWorseBoundary(ind, evaluation.value, trend?.direction ?: Direction.UP)
+                LineChart(
+                    points = recent.map { ((it.timestampMillis - last).toFloat() / DAY) to it.value.toFloat() },
+                    color = MaterialTheme.colorScheme.primary,
+                    lines = listOfNotNull(boundary?.let { ChartLine(it.first.toFloat(), StatusColors.of(it.second)) }),
+                    forecast = trend?.let { t -> (t.daysToThreshold ?: 0.0).toFloat() to (t.thresholdValue ?: evaluation.value).toFloat() },
+                    height = 180.dp,
+                    modifier = Modifier.padding(vertical = 8.dp),
+                )
+                trend?.daysToThreshold?.let {
+                    Text(stringResource(R.string.threshold_in, it), color = MaterialTheme.colorScheme.onSurfaceVariant, style = MaterialTheme.typography.bodyMedium)
+                }
+            }
+
+            alerts.forEach { a ->
+                CardRow(title = stringResource(R.string.early_warning), subtitle = alertText(a, name), icon = Icons.Outlined.WarningAmber, iconTint = StatusColors.yellow)
+            }
+            CardRow(title = stringResource(R.string.what_to_do), subtitle = indicatorAction(ind, evaluation.status), icon = Icons.Outlined.Lightbulb, iconTint = StatusColors.yellow)
+            CardRow(title = stringResource(R.string.why_space), subtitle = indicatorWhy(ind), icon = Icons.Outlined.Info)
+            CardRow(title = stringResource(R.string.how_to_measure), subtitle = indicatorHow(ind), icon = Icons.Outlined.Straighten)
             val linked = risks.filter { it.id in ind.riskIds }
             if (linked.isNotEmpty()) {
-                Section("NASA HRP risks", linked.joinToString("\n") { "• ${it.name}" })
+                CardRow(
+                    title = stringResource(R.string.hrp_risks),
+                    subtitle = linked.map { riskName(it) }.joinToString("\n"),
+                    icon = Icons.Outlined.PriorityHigh,
+                )
             }
-            Section("Sources", ind.sources.joinToString("\n") { "• ${it.title}\n  ${it.url}" })
+            report.confidence[ind.id]?.let { c ->
+                CardRow(
+                    title = stringResource(R.string.confidence),
+                    subtitle = c.reasons.joinToString("\n").ifEmpty { null },
+                    trailing = { ConfidencePill(c.level) },
+                )
+            }
+            CardRow(
+                title = stringResource(R.string.sources),
+                subtitle = ind.sources.joinToString("\n") { it.title },
+                icon = Icons.AutoMirrored.Outlined.MenuBook,
+            )
             if (!ind.verified) {
-                Text("Thresholds pending science review", color = MaterialTheme.colorScheme.error)
+                Text(stringResource(R.string.pending_review), color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodyMedium)
             }
+            Text("", Modifier.padding(bottom = 12.dp))
         }
-    }
-}
-
-@Composable
-private fun Section(title: String, body: String) {
-    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-        Text(title, style = MaterialTheme.typography.titleSmall)
-        Text(body, style = MaterialTheme.typography.bodyMedium)
     }
 }

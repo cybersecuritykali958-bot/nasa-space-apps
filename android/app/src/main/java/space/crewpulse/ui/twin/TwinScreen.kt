@@ -1,17 +1,158 @@
 package space.crewpulse.ui.twin
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.FitnessCenter
+import androidx.compose.material.icons.outlined.Healing
+import androidx.compose.material.icons.outlined.WbSunny
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
+import androidx.compose.material3.Slider
+import androidx.compose.material3.Switch
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import space.crewpulse.ui.components.PlaceholderScreen
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import space.crewpulse.R
+import space.crewpulse.data.model.Status
+import space.crewpulse.domain.DigitalTwin
+import space.crewpulse.ui.components.AnimatedNumber
+import space.crewpulse.ui.components.ChartLine
+import space.crewpulse.ui.components.CrewCard
+import space.crewpulse.ui.components.LineChart
+import space.crewpulse.ui.theme.StatusColors
+
+private enum class Scenario { MARS, ISS, CURRENT }
+
+/** Digital Twin: fixed controls on top (scenario, values, day, exercise), calm charts below. */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TwinScreen(
+    project: (adherence: Double, phases: List<DigitalTwin.Phase>?) -> List<DigitalTwin.State>,
+    onBack: (() -> Unit)?,
+) {
+    var scenario by remember { mutableStateOf(Scenario.MARS) }
+    var exercise by remember { mutableStateOf(true) }
+    var dayFraction by remember { mutableFloatStateOf(1f) }
+    val phases = when (scenario) {
+        Scenario.CURRENT -> null
+        Scenario.ISS -> DigitalTwin.SCENARIOS["iss_6mo"]
+        Scenario.MARS -> DigitalTwin.SCENARIOS["mars_mission"]
+    }
+    val states = remember(scenario, exercise) { project(if (exercise) 1.0 else 0.0, phases) }
+
+    Column(Modifier.fillMaxSize().statusBarsPadding()) {
+        Column(Modifier.padding(horizontal = 20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            Text(stringResource(R.string.twin_title), style = MaterialTheme.typography.headlineMedium, modifier = Modifier.padding(top = 16.dp))
+            val labels = listOf(
+                Scenario.MARS to stringResource(R.string.scenario_mars),
+                Scenario.ISS to stringResource(R.string.scenario_iss),
+                Scenario.CURRENT to stringResource(R.string.scenario_current),
+            )
+            SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
+                labels.forEachIndexed { i, (s, label) ->
+                    SegmentedButton(
+                        selected = scenario == s,
+                        onClick = { scenario = s },
+                        shape = SegmentedButtonDefaults.itemShape(i, labels.size),
+                        icon = {},
+                    ) { Text(label, maxLines = 1) }
+                }
+            }
+            if (states.isEmpty()) {
+                Text(stringResource(R.string.loading))
+                return@Column
+            }
+            val selected = states[((states.size - 1) * dayFraction).toInt().coerceIn(0, states.size - 1)]
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Tile(Icons.Outlined.Healing, stringResource(R.string.bone), selected.bonePct, { "%.0f%%".format(it) }, selected.boneStatus, Modifier.weight(1f))
+                Tile(Icons.Outlined.FitnessCenter, stringResource(R.string.muscle), selected.musclePct, { "%.0f%%".format(it) }, selected.muscleStatus, Modifier.weight(1f))
+                Tile(Icons.Outlined.WbSunny, stringResource(R.string.dose), selected.doseMsv, { "%.0f".format(it) }, selected.doseStatus, Modifier.weight(1f), unit = "mSv")
+            }
+            Text(stringResource(R.string.mission_day, selected.day, states.size), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Slider(value = dayFraction, onValueChange = { dayFraction = it })
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(stringResource(R.string.adherence), style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f))
+                Switch(checked = exercise, onCheckedChange = { exercise = it })
+            }
+        }
+
+        if (states.isNotEmpty()) {
+            val selected = states[((states.size - 1) * dayFraction).toInt().coerceIn(0, states.size - 1)]
+            val extrapolationFrom = DigitalTwin.DATA_LIMIT_DAYS.toFloat().takeIf { states.size > DigitalTwin.DATA_LIMIT_DAYS }
+            Column(
+                Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 20.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+            ) {
+                Chart(stringResource(R.string.bone), states.map { it.day.toFloat() to it.bonePct.toFloat() }, selected.boneStatus,
+                    listOf(ChartLine(DigitalTwin.BONE_GREEN_MIN.toFloat(), StatusColors.yellow), ChartLine(DigitalTwin.BONE_RED_BELOW.toFloat(), StatusColors.red)),
+                    extrapolationFrom, selected.day.toFloat())
+                Chart(stringResource(R.string.muscle), states.map { it.day.toFloat() to it.musclePct.toFloat() }, selected.muscleStatus,
+                    listOf(ChartLine(DigitalTwin.MUSCLE_GREEN_MIN.toFloat(), StatusColors.yellow), ChartLine(DigitalTwin.MUSCLE_RED_BELOW.toFloat(), StatusColors.red)),
+                    extrapolationFrom, selected.day.toFloat())
+                Chart(stringResource(R.string.dose), states.map { it.day.toFloat() to it.doseMsv.toFloat() }, selected.doseStatus,
+                    listOf(ChartLine((DigitalTwin.DOSE_LIMIT_MSV * DigitalTwin.DOSE_YELLOW_FRACTION).toFloat(), StatusColors.yellow),
+                        ChartLine(DigitalTwin.DOSE_LIMIT_MSV.toFloat(), StatusColors.red)),
+                    extrapolationFrom, selected.day.toFloat())
+                Text(stringResource(R.string.reid, selected.reidPct), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                if (selected.extrapolated) {
+                    Text(stringResource(R.string.extrapolation), color = StatusColors.yellow, style = MaterialTheme.typography.bodyMedium)
+                }
+                Text(stringResource(R.string.twin_note), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(bottom = 16.dp))
+            }
+        }
+    }
+}
 
 @Composable
-fun TwinScreen(onBack: () -> Unit) = PlaceholderScreen(
-    title = "Digital Twin",
-    owner = "@LoranSent (model), @harvio1 (UI)",
-    todo = listOf(
-        "Mission day slider: 0 - 900 days",
-        "Projected bone density, muscle mass, cumulative radiation dose",
-        "Environment switch: ISS / Moon / Mars transit / Mars surface",
-        "What-if: skip exercise for 2 weeks",
-    ),
-    onBack = onBack,
-)
+private fun Tile(icon: ImageVector, label: String, value: Double, format: (Double) -> String, status: Status, modifier: Modifier, unit: String? = null) {
+    CrewCard(modifier = modifier) {
+        Icon(icon, null, tint = if (status == Status.GREEN) MaterialTheme.colorScheme.primary else StatusColors.of(status))
+        Text(label, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, modifier = Modifier.padding(top = 8.dp))
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            AnimatedNumber(value, format, MaterialTheme.typography.titleLarge, durationMillis = 300)
+            if (unit != null) Text(" $unit", style = MaterialTheme.typography.bodyMedium, maxLines = 1)
+            Box(Modifier.padding(start = 6.dp).size(8.dp).background(StatusColors.of(status), CircleShape))
+        }
+    }
+}
+
+@Composable
+private fun Chart(title: String, points: List<Pair<Float, Float>>, status: Status, lines: List<ChartLine>, extrapolationFrom: Float?, marker: Float) {
+    Column(Modifier.fillMaxWidth()) {
+        Text(title, style = MaterialTheme.typography.titleSmall)
+        LineChart(
+            points = points,
+            color = if (status == Status.GREEN) MaterialTheme.colorScheme.primary else StatusColors.of(status),
+            lines = lines,
+            dashedFromX = extrapolationFrom,
+            markerX = marker,
+            height = 90.dp,
+            modifier = Modifier.padding(top = 6.dp),
+        )
+    }
+}

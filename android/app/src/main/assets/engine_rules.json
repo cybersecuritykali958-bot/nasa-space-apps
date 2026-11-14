@@ -312,7 +312,17 @@
       "pvt_mean_rt": 3
     },
     "attentionIntervalDays": 1,
-    "redRecheckHours": 1
+    "redRecheckHours": 1,
+    "timeOfDay": {
+      "heart_rate": "07:00",
+      "systolic_bp": "07:30",
+      "diastolic_bp": "07:30",
+      "body_temp": "07:30",
+      "sleep_hours": "07:30",
+      "glucose": "07:45",
+      "pvt_mean_rt": "13:00",
+      "mood": "21:00"
+    }
   },
   "gamification": {
     "pointsPerCheckInDay": 10,

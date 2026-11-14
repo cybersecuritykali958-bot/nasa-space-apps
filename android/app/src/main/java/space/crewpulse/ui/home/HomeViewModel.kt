@@ -35,7 +35,10 @@ import space.crewpulse.domain.InputValidator
 import space.crewpulse.domain.PvtResult
 import space.crewpulse.domain.Reminders
 import space.crewpulse.domain.ValidationResult
-import space.crewpulse.domain.SystemStatus
+import space.crewpulse.domain.Sample
+
+/** Kept for screens written against the skeleton, where SystemStatus lived in ui.home. */
+typealias SystemStatus = space.crewpulse.domain.SystemStatus
 
 /**
  * Everything the screens need. `report` is the full engine output; see docs/BACKEND.md.
@@ -51,10 +54,16 @@ data class HomeUiState(
     val environments: List<Environment> = emptyList(),
     val risks: List<Risk> = emptyList(),
     val report: EngineReport = EngineReport.EMPTY,
+    /** Measurement history per indicator, oldest first (for charts). */
+    val history: Map<String, List<Sample>> = emptyMap(),
     /** Result of runBenchmark(), null until it ran. */
     val benchmark: EngineBenchmark.Report? = null,
 ) {
     val systems: List<SystemStatus> get() = report.systems
+
+    /** For the mission banner. */
+    val environmentName: String get() = environment?.name.orEmpty()
+    val commDelayMin: Double? get() = environment?.commDelayMinOneWay
 
     fun evaluation(indicatorId: String): Evaluation? = report.evaluation(indicatorId)
 }
@@ -196,6 +205,7 @@ class HomeViewModel(private val container: AppContainer) : ViewModel() {
                     environments = s.environments,
                     risks = s.risks,
                     report = report,
+                    history = samples,
                 )
             }
         }

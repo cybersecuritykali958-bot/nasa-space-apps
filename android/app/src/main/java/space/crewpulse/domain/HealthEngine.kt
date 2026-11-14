@@ -62,7 +62,7 @@ object HealthEngine {
         val radiation = SpaceWeather.budget(latest["cumulative_dose"], input.environment, input.rules.spaceWeather)
 
         val core = EngineReport(systems, alerts, confidence, patterns, triage, readiness)
-        val plan = MeasurementPlanner.plan(input.indicators, input.history, core, input.nowMillis, input.rules.schedule)
+        val plan = MeasurementPlanner.plan(input.indicators, input.history, core, input.nowMillis, input.rules.schedule, input.zone)
         val game = Gamification.compute(input.history, plan, input.nowMillis, input.zone, input.rules.gamification)
         return core.copy(plan = plan, game = game, spaceWeather = spaceWeather, radiation = radiation)
     }
