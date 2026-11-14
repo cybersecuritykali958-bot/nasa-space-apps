@@ -320,4 +320,23 @@
     <string name="watch_value_heart_rate">%1$s bpm</string>
     <string name="watch_value_sleep_hours">%1$s h</string>
     <string name="watch_value_body_temp">%1$s °C</string>
+    <string name="body3d_hint">Drag to rotate. Tap an organ to see its system.</string>
+    <!-- Badge sign-in (draft) -->
+    <string name="login_title">Crew access</string>
+    <string name="login_tap">Hold your base badge to the back of the phone.</string>
+    <string name="login_only_staff">Only base personnel with an issued badge can sign in.</string>
+    <string name="login_nfc_off">NFC is off or not available on this phone. Use a demo badge.</string>
+    <string name="login_reading">Reading badge…</string>
+    <string name="login_greeting">%1$s, %2$s!</string>
+    <string name="login_badge_id">Badge %1$s</string>
+    <string name="login_denied">Badge not recognized</string>
+    <string name="login_denied_hint">Access is for base personnel only.</string>
+    <string name="login_demo_crew">Demo: crew badge</string>
+    <string name="login_demo_unknown">Demo: unknown card</string>
+    <string name="login_demo_note">Demo badges, fictional crew</string>
+    <string name="login_continue">Continue</string>
+    <string name="role_commander">Commander · Astronaut</string>
+    <string name="role_cmo">Crew medical officer</string>
+    <string name="role_engineer">Base engineer</string>
+    <string name="role_staff">Base personnel</string>
 </resources>

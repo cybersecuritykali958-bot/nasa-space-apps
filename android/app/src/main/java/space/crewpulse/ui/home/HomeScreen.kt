@@ -53,6 +53,7 @@ fun HomeScreen(
     state: HomeUiState,
     onIndicator: (String) -> Unit,
     onNavigate: (String) -> Unit,
+    userName: String? = null,
 ) {
     Column(
         Modifier
@@ -64,7 +65,7 @@ fun HomeScreen(
     ) {
         Row(Modifier.fillMaxWidth().padding(top = 16.dp), verticalAlignment = Alignment.Top) {
             Column(Modifier.weight(1f)) {
-                Text(greeting(), style = MaterialTheme.typography.headlineMedium)
+                Text(userName?.let { "${greeting()}, $it" } ?: greeting(), style = MaterialTheme.typography.headlineMedium)
             }
             IconButton(onClick = { onNavigate(Routes.SETTINGS) }) {
                 Icon(Icons.Outlined.Settings, contentDescription = stringResource(R.string.settings_title))

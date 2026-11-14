@@ -1,0 +1,49 @@
+{
+  "frames": 24,
+  "cols": 6,
+  "rows": 4,
+  "frameWidth": 256,
+  "frameHeight": 416,
+  "layers": [
+    {
+      "id": "body",
+      "sheet": 0,
+      "channel": "r"
+    },
+    {
+      "id": "radiation",
+      "sheet": 0,
+      "channel": "g"
+    },
+    {
+      "id": "behavioral",
+      "sheet": 0,
+      "channel": "b"
+    },
+    {
+      "id": "vision",
+      "sheet": 1,
+      "channel": "r"
+    },
+    {
+      "id": "cardiovascular",
+      "sheet": 1,
+      "channel": "g"
+    },
+    {
+      "id": "metabolic",
+      "sheet": 1,
+      "channel": "b"
+    },
+    {
+      "id": "immune",
+      "sheet": 2,
+      "channel": "r"
+    },
+    {
+      "id": "musculoskeletal",
+      "sheet": 2,
+      "channel": "g"
+    }
+  ]
+}

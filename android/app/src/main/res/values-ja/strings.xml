@@ -320,4 +320,23 @@
     <string name="watch_value_heart_rate">%1$s bpm</string>
     <string name="watch_value_sleep_hours">%1$s 時間</string>
     <string name="watch_value_body_temp">%1$s °C</string>
+    <string name="body3d_hint">ドラッグで回転。臓器をタップするとシステムを表示します。</string>
+    <!-- Badge sign-in (draft) -->
+    <string name="login_title">クルーアクセス</string>
+    <string name="login_tap">基地のバッジをスマートフォンの背面にかざしてください。</string>
+    <string name="login_only_staff">発行されたバッジを持つ基地職員のみサインインできます。</string>
+    <string name="login_nfc_off">このスマートフォンでは NFC がオフか利用できません。デモバッジを使用してください。</string>
+    <string name="login_reading">バッジを読み取り中…</string>
+    <string name="login_greeting">%1$s、%2$s さん！</string>
+    <string name="login_badge_id">バッジ %1$s</string>
+    <string name="login_denied">バッジを認識できません</string>
+    <string name="login_denied_hint">基地職員専用です。</string>
+    <string name="login_demo_crew">デモ：クルーバッジ</string>
+    <string name="login_demo_unknown">デモ：不明なカード</string>
+    <string name="login_demo_note">デモバッジ、架空のクルー</string>
+    <string name="login_continue">続ける</string>
+    <string name="role_commander">コマンダー · 宇宙飛行士</string>
+    <string name="role_cmo">クルー医療担当</string>
+    <string name="role_engineer">基地エンジニア</string>
+    <string name="role_staff">基地職員</string>
 </resources>

@@ -80,6 +80,7 @@ import space.crewpulse.ui.settings.SettingsScreen
 import space.crewpulse.ui.trends.TrendsScreen
 import space.crewpulse.ui.twin.TwinScreen
 import space.crewpulse.ui.watch.WatchConnectScreen
+import space.crewpulse.ui.login.BadgeLoginScreen
 
 /** All destinations. Tabs are shown in the bottom bar; the rest open on top of a tab. */
 object Routes {
@@ -108,7 +109,7 @@ private val TABS = listOf(
     Tab(Routes.MISSION, R.string.tab_mission, Icons.Outlined.RocketLaunch, Icons.Filled.RocketLaunch),
 )
 
-private enum class LaunchStage { LOADING, WATCH, MAIN }
+private enum class LaunchStage { LOADING, LOGIN, WATCH, MAIN }
 
 @Composable
 fun AppNavHost(container: AppContainer, onLanguageChange: (String) -> Unit) {
@@ -123,15 +124,18 @@ fun AppNavHost(container: AppContainer, onLanguageChange: (String) -> Unit) {
         splash = false
     }
     // Watch connection is offered on every launch (demo flow); saveable so rotation does not repeat it.
+    var loginDone by rememberSaveable { mutableStateOf(false) }
     var watchDone by rememberSaveable { mutableStateOf(false) }
     val stage = when {
         splash || state.loading -> LaunchStage.LOADING
+        !loginDone -> LaunchStage.LOGIN
         !watchDone -> LaunchStage.WATCH
         else -> LaunchStage.MAIN
     }
     Crossfade(targetState = stage, animationSpec = tween(500), label = "launch") { s ->
         when (s) {
             LaunchStage.LOADING -> OrbitLoader(stringResource(R.string.loading_sync))
+            LaunchStage.LOGIN -> BadgeLoginScreen(container.badges, onSignedIn = { loginDone = true })
             LaunchStage.WATCH -> WatchConnectScreen(container.watch, onDone = { watchDone = true })
             LaunchStage.MAIN -> MainScaffold(container, nav, home, state, onLanguageChange)
         }
@@ -167,8 +171,10 @@ private fun MainScaffold(
         ) {
             // Tabs
             composable(Routes.HOME) {
+                val user by container.badges.current.collectAsStateWithLifecycle()
                 HomeScreen(
                     state = state,
+                    userName = user?.name?.substringBefore(' '),
                     onIndicator = { go(Routes.indicator(it)) },
                     onNavigate = { route -> if (TABS.any { it.route == route }) nav.switchTab(route) else go(route) },
                 )

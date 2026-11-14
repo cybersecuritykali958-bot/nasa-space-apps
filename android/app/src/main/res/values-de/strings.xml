@@ -320,4 +320,23 @@
     <string name="watch_value_heart_rate">%1$s S/min</string>
     <string name="watch_value_sleep_hours">%1$s h</string>
     <string name="watch_value_body_temp">%1$s °C</string>
+    <string name="body3d_hint">Zum Drehen ziehen. Tippe auf ein Organ, um sein System zu sehen.</string>
+    <!-- Badge sign-in (draft) -->
+    <string name="login_title">Crew-Zugang</string>
+    <string name="login_tap">Halte deinen Basisausweis an die Rückseite des Telefons.</string>
+    <string name="login_only_staff">Nur Basispersonal mit ausgegebenem Ausweis kann sich anmelden.</string>
+    <string name="login_nfc_off">NFC ist aus oder auf diesem Telefon nicht verfügbar. Nutze einen Demo-Ausweis.</string>
+    <string name="login_reading">Ausweis wird gelesen…</string>
+    <string name="login_greeting">%1$s, %2$s!</string>
+    <string name="login_badge_id">Ausweis %1$s</string>
+    <string name="login_denied">Ausweis nicht erkannt</string>
+    <string name="login_denied_hint">Zugang nur für Basispersonal.</string>
+    <string name="login_demo_crew">Demo: Crew-Ausweis</string>
+    <string name="login_demo_unknown">Demo: fremde Karte</string>
+    <string name="login_demo_note">Demo-Ausweise, fiktive Crew</string>
+    <string name="login_continue">Weiter</string>
+    <string name="role_commander">Kommandant · Astronaut</string>
+    <string name="role_cmo">Crew-Mediziner</string>
+    <string name="role_engineer">Basisingenieur</string>
+    <string name="role_staff">Basispersonal</string>
 </resources>

@@ -320,4 +320,23 @@
     <string name="watch_value_heart_rate">%1$s уд/хв</string>
     <string name="watch_value_sleep_hours">%1$s год</string>
     <string name="watch_value_body_temp">%1$s °C</string>
+    <string name="body3d_hint">Потягніть, щоб повернути. Торкніться органа, щоб побачити систему.</string>
+    <!-- Badge sign-in (draft) -->
+    <string name="login_title">Доступ екіпажу</string>
+    <string name="login_tap">Прикладіть пропуск бази до задньої панелі телефона.</string>
+    <string name="login_only_staff">Увійти може лише персонал бази з виданим пропуском.</string>
+    <string name="login_nfc_off">NFC вимкнено або недоступне на цьому телефоні. Скористайтеся демо-пропуском.</string>
+    <string name="login_reading">Зчитування пропуску…</string>
+    <string name="login_greeting">%1$s, %2$s!</string>
+    <string name="login_badge_id">Пропуск %1$s</string>
+    <string name="login_denied">Пропуск не розпізнано</string>
+    <string name="login_denied_hint">Доступ лише для персоналу бази.</string>
+    <string name="login_demo_crew">Демо: пропуск екіпажу</string>
+    <string name="login_demo_unknown">Демо: чужа картка</string>
+    <string name="login_demo_note">Демо-пропуски, вигаданий екіпаж</string>
+    <string name="login_continue">Продовжити</string>
+    <string name="role_commander">Командир · Астронавт</string>
+    <string name="role_cmo">Медик екіпажу</string>
+    <string name="role_engineer">Інженер бази</string>
+    <string name="role_staff">Персонал бази</string>
 </resources>

@@ -1,0 +1,8 @@
+{
+  "note": "DRAFT demo roster: fictional base personnel. A real deployment would load a roster signed by the agency.",
+  "members": [
+    { "badgeId": "CP-0001", "name": "Alex Rivera", "role": "commander" },
+    { "badgeId": "CP-0002", "name": "Mira Sato", "role": "cmo" },
+    { "badgeId": "CP-0003", "name": "Jonas Weber", "role": "engineer" }
+  ]
+}
