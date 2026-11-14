@@ -6,20 +6,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import space.crewpulse.data.model.Status
 
-/** Cabin-at-night palette — see docs/DESIGN.md */
-private val DeepSpace = Color(0xFF050D1A)
-private val CabinPanel = Color(0xFF122440)
-private val CabinElevated = Color(0xFF1A3358)
-private val AuroraTeal = Color(0xFF5EEAD4)
-private val AuroraBlue = Color(0xFF7DD3FC)
-private val Starlight = Color(0xFFE8EEF5)
-private val Muted = Color(0xFF94A3B8)
-private val Outline = Color(0xFF3D5A7A)
+/** Cabin-at-night palette, matching the CrewPulse mockups (docs/DESIGN.md). */
+private val DeepSpace = Color(0xFF060D18)
+private val CabinPanel = Color(0xFF0D1A2B)
+private val CabinElevated = Color(0xFF12233A)
+private val Teal = Color(0xFF2DD4BF)
+private val SkyBlue = Color(0xFF7DD3FC)
+private val Starlight = Color(0xFFE6EDF5)
+private val Muted = Color(0xFF8DA2B8)
+private val Outline = Color(0xFF26405E)
 
 private val Scheme = darkColorScheme(
-    primary = AuroraTeal,
-    onPrimary = Color(0xFF002A27),
-    secondary = AuroraBlue,
+    primary = Teal,
+    onPrimary = Color(0xFF00201C),
+    secondary = SkyBlue,
     onSecondary = Color(0xFF0C2035),
     background = DeepSpace,
     onBackground = Starlight,
@@ -28,16 +28,16 @@ private val Scheme = darkColorScheme(
     surfaceContainerHigh = CabinElevated,
     onSurfaceVariant = Muted,
     outline = Outline,
-    outlineVariant = Color(0xFF2A4260),
+    outlineVariant = Color(0xFF1C3350),
     error = Color(0xFFF87171),
     onError = Color(0xFF450A0A),
 )
 
 object StatusColors {
-    val green = Color(0xFF4ADE80)
-    val yellow = Color(0xFFFBBF24)
-    val red = Color(0xFFF87171)
-    val unknown = Color(0xFF94A3B8)
+    val green = Color(0xFF34D399)
+    val yellow = Color(0xFFF5A524)
+    val red = Color(0xFFF26B6B)
+    val unknown = Color(0xFF8DA2B8)
 
     fun of(status: Status): Color = when (status) {
         Status.GREEN -> green
@@ -48,15 +48,13 @@ object StatusColors {
 }
 
 object CrewColors {
-    val commDelayBadge = Color(0xFF2563EB)
-    val missionAccent = AuroraTeal
+    val teal = Teal
+    val glow = Teal.copy(alpha = 0.35f)
+    val commDelayBadge = Color(0xFF1E3A5F)
+    val missionAccent = Teal
 }
 
 @Composable
 fun CrewPulseTheme(content: @Composable () -> Unit) {
-    MaterialTheme(
-        colorScheme = Scheme,
-        typography = CrewTypography,
-        content = content,
-    )
+    MaterialTheme(colorScheme = Scheme, typography = CrewTypography, content = content)
 }

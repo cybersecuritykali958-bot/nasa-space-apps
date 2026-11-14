@@ -33,7 +33,8 @@
 - The demo never depends on live APIs: everything needed is in `assets/`; the network is a bonus with a cache.
 
 ## Code rules
-- Code, names, comments and UI texts in English.
+- Code, names and comments in English.
+- UI texts only via string resources (`stringResource(R.string.x)`), in all four languages: `res/values` (en), `values-uk`, `values-ja`, `values-de`. Never hard-code UI text. Scientific content from assets stays in English.
 - Small composables; state in ViewModels (`StateFlow`).
 - New dependencies go into `gradle/libs.versions.toml` only after the team lead agrees.
 - Secrets only in `android/local.properties` (not committed).

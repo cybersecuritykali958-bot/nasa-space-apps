@@ -114,3 +114,6 @@ data class EngineReport(
 }
 
 internal const val DAY_MILLIS = 24L * 60 * 60 * 1000
+
+/** One day in milliseconds, public for UI charts. */
+const val DAY: Long = DAY_MILLIS

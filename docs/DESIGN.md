@@ -11,6 +11,22 @@ Owner: @gutsonithemvp. Figma link: _add here_
 6. **Today's mission:** measurement plan, streak, points, badges.
 7. Later: PVT, Digital Twin (mission day slider), validation screen.
 
+## Implemented (Compose, matches the mockup)
+| Screen | File | Data |
+|---|---|---|
+| Home: mission banner (tap to change environment), demo/my data switch, body figure, what to do, early warning, space weather, quick actions | `ui/home/HomeScreen.kt` | `state.report`, `state.environment` |
+| Daily check-in (validated by the backend, saves to Room) | `ui/checkin/` | `InputValidator`, `ReadingRepository` |
+| Why this matters: value, chart with threshold and forecast, advice, sources, confidence | `ui/indicator/IndicatorScreen.kt` | evaluation, history, alerts |
+| Readiness & triage: Earth response vs window, EVA / landing GO-NO-GO, space weather, radiation budget | `ui/readiness/ReadinessScreen.kt` | `report.triage`, `readiness`, `spaceWeather`, `radiation` |
+| Digital Twin: skeleton, bone / muscle / dose charts, day slider, exercise switch, scenarios | `ui/twin/TwinScreen.kt` | `projectTwin` |
+| Reaction test (PVT-B) | `ui/pvt/PvtScreen.kt` | `PvtSession`, `savePvt` |
+| Mission & you: level, streak, today's mission, reminder, badges | `ui/mission/MissionScreen.kt` | `report.game`, `report.plan` |
+| Trends | `ui/trends/TrendsScreen.kt` | `state.history` |
+
+Shared components: `BodyFigure` (Canvas), `LineChart` (Canvas, no chart library), `Pill`/`StatusPill`/`VerdictPill`/`ConfidencePill`, `InfoRow`, `CrewCard`, `CrewScaffold`.
+
+**Languages:** English, Ukrainian, Japanese, German. Switch with the language button on Home (top right); the choice is saved and the screen is recreated. Translations live in `res/values*/strings.xml` (machine-assisted, please review: especially Japanese).
+
 ## Body figure
 - SVG, each system is a separate `path` with an `id`: `cardiovascular`, `metabolic`, `immune`, `behavioral`, `musculoskeletal`, `vision`, `radiation` (radiation is a halo around the figure).
 - Hand it to @harvio1 in `android/app/src/main/res/drawable/` (frontend converts it to a VectorDrawable).

@@ -23,6 +23,14 @@ class SettingsStore(context: Context) {
         _environmentId.value = id
     }
 
+    /** UI language code: "en", "uk", "ja" or "de". Applied by MainActivity (see LocaleHelper). */
+    val language: String get() = prefs.getString(KEY_LANGUAGE, null) ?: DEFAULT_LANGUAGE
+
+    /** Must be followed by recreating the activity, which re-reads the language. */
+    fun setLanguage(code: String) {
+        prefs.edit().putString(KEY_LANGUAGE, code).commit()
+    }
+
     fun setProfile(profile: Profile) {
         prefs.edit().putString(KEY_PROFILE, profile.name).apply()
         _profile.value = profile
@@ -31,6 +39,8 @@ class SettingsStore(context: Context) {
     private companion object {
         const val KEY_PROFILE = "profile"
         const val KEY_ENVIRONMENT = "environment"
+        const val KEY_LANGUAGE = "language"
+        const val DEFAULT_LANGUAGE = "en"
         const val DEFAULT_ENVIRONMENT = "mars_transit"
     }
 }

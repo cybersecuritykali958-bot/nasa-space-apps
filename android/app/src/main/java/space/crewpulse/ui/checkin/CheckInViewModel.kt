@@ -10,7 +10,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import space.crewpulse.AppContainer
+import space.crewpulse.data.Profile
 import space.crewpulse.data.model.Indicator
+import space.crewpulse.domain.InputValidator
 
 data class CheckInField(
     val indicator: Indicator,
@@ -80,8 +82,26 @@ class CheckInViewModel(private val container: AppContainer) : ViewModel() {
     fun consumeSavedMessage() = _state.update { it.copy(savedMessage = null) }
 
     fun submit() {
-        if (validate() == null) return
-        _state.update { it.copy(savedMessage = "Check-in saved locally (demo). Room sync next.") }
+        val values = validate() ?: return
+        viewModelScope.launch {
+            // Backend validation (plausibility limits), then save to Room and show the user's own data.
+            val result = InputValidator.validate(values.toMap(), container.assets.indicators(), container.assets.engineRules().input)
+            if (!result.isValid) {
+                _state.update { s ->
+                    s.copy(
+                        bloodPressure = s.bloodPressure.copy(
+                            systolic = s.bloodPressure.systolic?.let { it.copy(error = result.errors[it.indicator.id] ?: it.error) },
+                            diastolic = s.bloodPressure.diastolic?.let { it.copy(error = result.errors[it.indicator.id] ?: it.error) },
+                        ),
+                        fields = s.fields.map { f -> f.copy(error = result.errors[f.indicator.id] ?: f.error) },
+                    )
+                }
+                return@launch
+            }
+            container.readings.saveCheckIn(result.accepted)
+            container.settings.setProfile(Profile.ME)
+            _state.update { it.copy(savedMessage = SAVED) }
+        }
     }
 
     private fun validate(): List<Pair<String, Double>>? {
@@ -122,6 +142,8 @@ class CheckInViewModel(private val container: AppContainer) : ViewModel() {
     }
 
     companion object {
+        /** Marker for the screen, which shows the translated "saved" message. */
+        const val SAVED = "saved"
         private const val INDICATOR_SYSTOLIC = "systolic_bp"
         private const val INDICATOR_DIASTOLIC = "diastolic_bp"
         private const val INDICATOR_MOOD = "mood"

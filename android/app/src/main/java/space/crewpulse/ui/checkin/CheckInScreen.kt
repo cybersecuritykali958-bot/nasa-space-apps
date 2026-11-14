@@ -33,7 +33,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.ui.res.stringResource
 import space.crewpulse.AppContainer
+import space.crewpulse.R
+import space.crewpulse.ui.i18n.indicatorName
 import space.crewpulse.ui.components.CrewCard
 import space.crewpulse.ui.components.CrewScaffold
 
@@ -43,24 +46,25 @@ fun CheckInScreen(container: AppContainer, onBack: () -> Unit) {
     val vm: CheckInViewModel = viewModel(factory = CheckInViewModel.factory(container))
     val state by vm.state.collectAsStateWithLifecycle()
     val snackbar = remember { SnackbarHostState() }
+    val savedText = stringResource(R.string.checkin_saved)
 
     LaunchedEffect(state.savedMessage) {
-        val msg = state.savedMessage ?: return@LaunchedEffect
-        snackbar.showSnackbar(msg)
+        if (state.savedMessage == null) return@LaunchedEffect
+        snackbar.showSnackbar(savedText)
         vm.consumeSavedMessage()
         onBack()
     }
 
     CrewScaffold(
-        title = "Daily check-in",
-        subtitle = "Glove-friendly controls",
+        title = stringResource(R.string.checkin_title),
+        subtitle = stringResource(R.string.checkin_subtitle),
         onBack = onBack,
         snackbarHost = { SnackbarHost(snackbar) },
     ) { paddingModifier ->
         when {
             state.loading -> CircularProgressIndicator(Modifier.padding(24.dp))
             state.loadError != null -> Text(
-                "Could not load form: ${state.loadError}",
+                stringResource(R.string.data_error, state.loadError.orEmpty()),
                 color = MaterialTheme.colorScheme.error,
                 modifier = paddingModifier.padding(16.dp),
             )
@@ -73,7 +77,7 @@ fun CheckInScreen(container: AppContainer, onBack: () -> Unit) {
                 verticalArrangement = Arrangement.spacedBy(14.dp),
             ) {
                 Text(
-                    "Enter vitals from your cuff, glucometer, and self-report.",
+                    stringResource(R.string.checkin_intro),
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -90,7 +94,7 @@ fun CheckInScreen(container: AppContainer, onBack: () -> Unit) {
                     modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                 ) {
-                    Text("Save check-in", style = MaterialTheme.typography.titleMedium)
+                    Text(stringResource(R.string.save_checkin), style = MaterialTheme.typography.titleMedium)
                 }
             }
         }
@@ -107,7 +111,7 @@ private fun BloodPressureCard(
 ) {
     CrewCard {
         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            Text("Blood pressure", style = MaterialTheme.typography.titleMedium)
+            Text(stringResource(R.string.blood_pressure), style = MaterialTheme.typography.titleMedium)
             state.systolic?.let {
                 MetricTextField(it, onSystolic, onToggleSystolicHint)
             }
@@ -129,7 +133,7 @@ private fun MoodCard(field: CheckInField, onSelect: (Int) -> Unit, onToggleHint:
     val selected = field.valueText.toIntOrNull()
     CrewCard {
         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            Text("Mood (1 = very low, 5 = very good)", style = MaterialTheme.typography.titleMedium)
+            Text(stringResource(R.string.mood_scale), style = MaterialTheme.typography.titleMedium)
             FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 (1..5).forEach { score ->
                     FilterChip(
@@ -156,7 +160,7 @@ private fun MetricTextField(field: CheckInField, onValueChange: (String) -> Unit
             value = field.valueText,
             onValueChange = onValueChange,
             modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp),
-            label = { Text("${field.indicator.name} (${field.indicator.unit})") },
+            label = { Text("${indicatorName(field.indicator)} (${field.indicator.unit})") },
             isError = field.error != null,
             supportingText = field.error?.let { { Text(it) } },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
@@ -171,7 +175,7 @@ private fun MetricTextField(field: CheckInField, onValueChange: (String) -> Unit
 @Composable
 private fun HintBlock(expanded: Boolean, howToMeasure: String, onToggle: () -> Unit) {
     TextButton(onClick = onToggle) {
-        Text(if (expanded) "Hide how to measure" else "How to measure", color = MaterialTheme.colorScheme.secondary)
+        Text(stringResource(if (expanded) R.string.hide_how_to_measure else R.string.how_to_measure), color = MaterialTheme.colorScheme.secondary)
     }
     if (expanded) Text(howToMeasure, style = MaterialTheme.typography.bodyMedium)
 }
