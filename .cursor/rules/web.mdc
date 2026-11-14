@@ -1,0 +1,10 @@
+---
+description: Правила для фронтенда (Next.js, TypeScript, Tailwind)
+globs: ["web/**/*.ts", "web/**/*.tsx"]
+alwaysApply: false
+---
+
+- TypeScript в строгом режиме, без `any` без причины.
+- Next.js App Router, стили через Tailwind, компоненты из shadcn/ui.
+- Данные берём из API (`NEXT_PUBLIC_API_URL`), пока их нет — из `web/mocks/`.
+- Маленькие компоненты, без дублирования кода.

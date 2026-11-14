@@ -1,0 +1,19 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Пример",
+        "value": 1
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          30.52,
+          50.45
+        ]
+      }
+    }
+  ]
+}
