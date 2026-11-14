@@ -8,6 +8,7 @@ Output goes straight into the app: `android/app/src/main/assets/`.
 | Script | Produces |
 |---|---|
 | `generate_demo_mission.py` | `demo_mission.json`: synthetic 180-day mission (Python stdlib only) |
+| `digital_twin.py` | Reference Digital Twin model (bone, muscle, dose) and test vectors for the Kotlin port; writes nothing |
 
 ```bash
 python science/generate_demo_mission.py
