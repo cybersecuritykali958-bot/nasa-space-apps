@@ -16,6 +16,7 @@ data class EngineRules(
     val schedule: ScheduleConfig = ScheduleConfig(),
     val gamification: GamificationConfig = GamificationConfig(),
     val spaceWeather: SpaceWeatherConfig = SpaceWeatherConfig(),
+    val input: InputConfig = InputConfig(),
 )
 
 /** Statistical process control settings. Defaults are textbook values (see sources). */
@@ -172,3 +173,10 @@ data class SpaceWeatherEventDto(
     val flareClass: String? = null,
     val link: String = "",
 )
+
+@Serializable
+data class ValueRange(val min: Double, val max: Double)
+
+/** Plausibility limits against typos (not medical thresholds). */
+@Serializable
+data class InputConfig(val limits: Map<String, ValueRange> = emptyMap())

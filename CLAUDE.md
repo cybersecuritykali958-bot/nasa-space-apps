@@ -14,7 +14,8 @@
 - Manual DI through `AppContainer`. Do not add Hilt.
 - NASA DONKI via `HttpURLConnection` + kotlinx.serialization (no Retrofit), offline cache in `assets/donki_cache.json`.
 - Backend engine: `docs/BACKEND.md` (how it works and how screens use it).
-- Planned: CameraX + ML Kit (camera pulse), Vico (charts), WorkManager (reminders from `report.plan`).
+- WorkManager for background reminders from `report.plan`.
+- Planned: CameraX + ML Kit (camera pulse), Vico (charts).
 - Python 3.12 in `science/` for data and algorithm checks.
 
 ## Zones (edit only yours)

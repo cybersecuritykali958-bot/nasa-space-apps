@@ -9,8 +9,12 @@ import space.crewpulse.data.db.ReadingEntity
 class ReadingRepository(private val dao: ReadingDao) {
 
     /** Saves one check-in: all values share the same timestamp. */
-    suspend fun saveCheckIn(values: Map<String, Double>, atMillis: Long = System.currentTimeMillis()) {
-        dao.insertAll(checkInToReadings(values, atMillis))
+    suspend fun saveCheckIn(
+        values: Map<String, Double>,
+        atMillis: Long = System.currentTimeMillis(),
+        source: String = "manual",
+    ) {
+        dao.insertAll(checkInToReadings(values, atMillis, source))
     }
 
     /** Latest value per indicator for the given profile. */

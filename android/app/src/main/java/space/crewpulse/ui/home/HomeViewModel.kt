@@ -18,6 +18,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import space.crewpulse.AppContainer
 import space.crewpulse.data.Profile
+import space.crewpulse.data.reminders.ReminderWorker
+import space.crewpulse.data.toSamples
 import space.crewpulse.data.model.DemoMission
 import space.crewpulse.data.model.EngineRules
 import space.crewpulse.data.model.Environment
@@ -28,7 +30,11 @@ import space.crewpulse.domain.EngineInput
 import space.crewpulse.domain.EngineReport
 import space.crewpulse.domain.Evaluation
 import space.crewpulse.domain.HealthEngine
-import space.crewpulse.domain.Sample
+import space.crewpulse.domain.DigitalTwin
+import space.crewpulse.domain.InputValidator
+import space.crewpulse.domain.PvtResult
+import space.crewpulse.domain.Reminders
+import space.crewpulse.domain.ValidationResult
 import space.crewpulse.domain.SystemStatus
 
 /**
@@ -86,10 +92,65 @@ class HomeViewModel(private val container: AppContainer) : ViewModel() {
     /** Switch mission environment (id from environments.json). Changes radiation and triage. */
     fun setEnvironment(id: String) = container.settings.setEnvironment(id)
 
-    /** Saves a check-in, e.g. mapOf("heart_rate" to 64.0). Home updates automatically. */
-    fun saveCheckIn(values: Map<String, Double>) = viewModelScope.launch {
-        container.readings.saveCheckIn(values)
+    /**
+     * Validates and saves a check-in, e.g. mapOf("heart_rate" to 64.0). Home updates automatically.
+     * Returns the validation result right away: show `errors` next to the fields. Nothing is saved
+     * unless every value is valid, so the user can fix a typo without a half-saved check-in.
+     */
+    fun saveCheckIn(values: Map<String, Double>): ValidationResult {
+        val s = static ?: return notReady()
+        val result = InputValidator.validate(values, s.indicators, s.rules.input)
+        if (result.isValid) viewModelScope.launch { container.readings.saveCheckIn(result.accepted) }
+        return result
     }
+
+    /** Sets the user's pre-flight baseline for one indicator (e.g. from the pre-flight medical). */
+    fun setBaseline(indicatorId: String, value: Double): ValidationResult {
+        val s = static ?: return notReady()
+        val result = InputValidator.validate(mapOf(indicatorId to value), s.indicators, s.rules.input)
+        if (result.isValid) viewModelScope.launch { container.baselines.setManual(indicatorId, value) }
+        return result
+    }
+
+    /** Back to the automatic baseline (mean of the first check-ins). */
+    fun clearBaseline(indicatorId: String) = viewModelScope.launch { container.baselines.clearManual(indicatorId) }
+
+    /** Saves a finished PVT as the "pvt_mean_rt" reading. Unreliable runs (too few responses) are not saved. */
+    fun savePvt(result: PvtResult): Boolean {
+        if (!result.isReliable) return false
+        viewModelScope.launch {
+            container.readings.saveCheckIn(mapOf("pvt_mean_rt" to result.meanReactionMillis), source = "pvt")
+        }
+        return true
+    }
+
+    /**
+     * Digital Twin projection. Defaults to the current environment for [days] days.
+     * For a full mission pass phases, e.g. DigitalTwin.SCENARIOS["mars_mission"].
+     */
+    fun projectTwin(
+        adherence: Double,
+        days: Int = 900,
+        phases: List<DigitalTwin.Phase>? = null,
+    ): List<DigitalTwin.State> {
+        val s = static ?: return emptyList()
+        val envId = _state.value.environment?.id ?: return emptyList()
+        return DigitalTwin.simulate(
+            phases = phases ?: listOf(DigitalTwin.Phase(envId, days)),
+            environments = s.environments.associateBy { it.id },
+            adherence = adherence,
+        )
+    }
+
+    /** Posts the reminder for the current plan right now (for the demo; needs notification permission). */
+    fun sendReminderNow(): Boolean {
+        val plan = _state.value.report.plan ?: return false
+        val msg = Reminders.message(plan, Long.MAX_VALUE) ?: return false
+        ReminderWorker.notify(container.appContext, msg.title, msg.text)
+        return true
+    }
+
+    private fun notReady() = ValidationResult(emptyMap(), mapOf("_" to "Still loading, try again in a moment."))
 
     /** Fetches fresh NASA DONKI events. Safe to call offline: keeps the cached data. */
     fun refreshSpaceWeather() = viewModelScope.launch { container.spaceWeather.refresh() }
@@ -115,9 +176,7 @@ class HomeViewModel(private val container: AppContainer) : ViewModel() {
             Triple(p, e, w)
         }.flatMapLatest { (profile, envId, weather) ->
             combine(container.readings.observeHistory(profile), container.baselines.observe(profile)) { history, baselines ->
-                val samples = history.mapValues { (_, list) ->
-                    list.map { Sample(it.timestampMillis, it.value, it.source) }
-                }
+                val samples = history.toSamples()
                 val first = samples.values.flatten().minOfOrNull { it.timestampMillis }
                 val last = samples.values.flatten().maxOfOrNull { it.timestampMillis }
                 val environment = s.environments.firstOrNull { it.id == envId }

@@ -47,9 +47,16 @@ class AssetContractTest {
         val rules = load<EngineRules>("engine_rules.json")
         val conditions = rules.patterns.flatMap { it.all + it.any }.map { it.indicator } +
             rules.readiness.flatMap { r -> r.gates.map { it.indicator } } +
-            rules.schedule.intervalDays.keys + rules.gamification.coreIndicators
+            rules.schedule.intervalDays.keys + rules.gamification.coreIndicators + rules.input.limits.keys
         assertTrue("engine_rules.json references unknown indicators", indicatorIds.containsAll(conditions))
         assertTrue(rules.patterns.flatMap { it.riskIds }.all { it in riskIds })
+
+        // Every demo value must pass input validation, otherwise the limits are too strict.
+        assertTrue("input limits missing", rules.input.limits.keys.containsAll(indicatorIds))
+        mission.days.forEach { day ->
+            val r = space.crewpulse.domain.InputValidator.validate(day.readings, indicators, rules.input)
+            assertTrue("day ${day.day} rejected: ${r.errors}", r.errors.isEmpty())
+        }
 
         val weather = load<SpaceWeatherFile>("donki_cache.json")
         assertTrue("donki cache should hold real events", weather.events.isNotEmpty())
