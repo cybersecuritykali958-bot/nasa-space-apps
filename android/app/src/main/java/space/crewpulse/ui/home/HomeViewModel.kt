@@ -25,6 +25,7 @@ data class HomeUiState(
     val commDelayMin: Double? = null,
     val systems: List<SystemStatus> = emptyList(),
     val risks: List<Risk> = emptyList(),
+    val alerts: List<String> = emptyList(),
 ) {
     fun evaluation(indicatorId: String): Evaluation? =
         systems.asSequence().flatMap { it.evaluations }.firstOrNull { it.indicator.id == indicatorId }
@@ -55,6 +56,12 @@ class HomeViewModel(private val container: AppContainer) : ViewModel() {
             val systems = evaluations.groupBy { it.indicator.system }.map { (system, evals) ->
                 SystemStatus(system, StatusEngine.worst(evals.map { it.status }), evals)
             }
+            val alerts = buildList {
+                mission.events.filter { it.day == today.day }.forEach { add(it.note) }
+                if (today.day in 91..95 && mission.events.any { it.type == "solar_particle_event" }) {
+                    add("Elevated radiation risk — check shielding and limit EVA.")
+                }
+            }
             HomeUiState(
                 loading = false,
                 astronaut = mission.astronaut,
@@ -63,6 +70,7 @@ class HomeViewModel(private val container: AppContainer) : ViewModel() {
                 commDelayMin = env?.commDelayMinOneWay,
                 systems = systems.sortedBy { it.systemId },
                 risks = risks,
+                alerts = alerts,
             )
         }.onSuccess { _state.value = it }
             .onFailure { _state.value = HomeUiState(loading = false, error = it.message) }

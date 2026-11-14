@@ -49,6 +49,6 @@ fun AppNavHost(container: AppContainer) {
         composable(Routes.CHECKIN) { CheckInScreen(container, back) }
         composable(Routes.TRENDS) { TrendsScreen(container, back) }
         composable(Routes.PVT) { PvtScreen(back) }
-        composable(Routes.TWIN) { TwinScreen(back) }
+        composable(Routes.TWIN) { TwinScreen(container, back) }
     }
 }

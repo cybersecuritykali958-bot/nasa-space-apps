@@ -21,6 +21,7 @@ import space.crewpulse.domain.BodySystems
 import space.crewpulse.ui.components.BodyFigurePlaceholder
 import space.crewpulse.ui.components.CrewCard
 import space.crewpulse.ui.components.CrewScaffold
+import space.crewpulse.ui.components.MissionAlertBanner
 import space.crewpulse.ui.components.MissionBanner
 import space.crewpulse.ui.components.QuickAction
 import space.crewpulse.ui.components.QuickActions
@@ -61,6 +62,15 @@ fun HomeScreen(
                     .padding(horizontal = 16.dp, vertical = 8.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
+                item {
+                    state.alerts.forEach { msg ->
+                        MissionAlertBanner(
+                            title = "Mission alert",
+                            body = msg,
+                            modifier = Modifier.padding(bottom = 8.dp),
+                        )
+                    }
+                }
                 item {
                     MissionBanner(
                         astronaut = state.astronaut,

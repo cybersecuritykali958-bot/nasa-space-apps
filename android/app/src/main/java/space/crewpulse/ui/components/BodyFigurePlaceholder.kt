@@ -38,25 +38,12 @@ fun BodyFigurePlaceholder(
     CrewCard(modifier = modifier, accent = MaterialTheme.colorScheme.outline) {
         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
             Text("Body systems overview", style = MaterialTheme.typography.titleSmall)
-            Box(
-                Modifier
-                    .fillMaxWidth()
-                    .height(160.dp)
-                    .clip(RoundedCornerShape(20.dp))
-                    .background(MaterialTheme.colorScheme.background),
-                contentAlignment = Alignment.Center,
-            ) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text("CREW", style = MaterialTheme.typography.headlineMedium, color = MaterialTheme.colorScheme.primary)
-                    Text(
-                        "Interactive figure coming from design",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(horizontal = 16.dp),
-                    )
-                }
-            }
+            BodyFigureMap(systems = systems, onSystemClick = onSystemClick)
+            Text(
+                "Tap a colored zone (radiation = ring).",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
             FlowRow(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
