@@ -1,12 +1,3 @@
 {
-  "mcpServers": {
-    "earthdata": {
-      "command": "docker",
-      "args": ["run", "-i", "--rm", "datalayer/earthdata-mcp-server:latest"]
-    },
-    "playwright": {
-      "command": "npx",
-      "args": ["@playwright/mcp@latest"]
-    }
-  }
+  "mcpServers": {}
 }

@@ -1,10 +1,11 @@
 # AGENTS.md
 
-Общие инструкции для ИИ-агентов (Cursor, Codex и др.). Полная версия правил проекта — в `CLAUDE.md`, читай её первой.
+Instructions for AI agents (Cursor, Codex, etc.). Read `CLAUDE.md` first: it has the full rules (in Russian).
 
-- Проект: NASA Space Apps Challenge, срок 48 часов, команда из 5 человек.
-- Папки: `web/` (Next.js), `api/` (FastAPI), `data/` (скрипты и данные), `docs/`.
-- Правь только файлы своей зоны. Контракт данных (JSON/GeoJSON) описан в `data/README.md`, менять его только по согласованию с тимлидом.
-- Не зависеть от живых API NASA во время демо: данные заранее сохраняются в `data/processed/`.
-- Секреты только в `.env`, пример в `.env.example`.
-- После изменений запусти сборку или тесты и кратко опиши результат.
+- Project: CrewPulse, offline-first Android app (Kotlin, Jetpack Compose) for astronaut self-assessment. NASA Space Apps 2026.
+- Gradle project lives in `android/`. Python data scripts in `science/`.
+- Zones: `ui/` → frontend, `data/` + `domain/` → backend, `assets/` + `science/` → science, `docs/` → design. Edit only your zone.
+- Data contract: `docs/DATA_CONTRACT.md` + `data/model/Contract.kt`. Change only with team lead approval.
+- No live network dependency in the demo. Secrets only in `android/local.properties`.
+- Every medical number needs a source. If unsure, leave `TODO(science)`.
+- After changes run `./gradlew testDebugUnitTest assembleDebug` in `android/` and report the result.

@@ -1,13 +1,17 @@
-# env
+# secrets
 .env
 .env.*
-!.env.example
+local.properties
 
-# node
-node_modules/
-.next/
-out/
-npm-debug.log*
+# android / gradle
+.gradle/
+build/
+.kotlin/
+*.iml
+.idea/
+captures/
+*.apk
+*.aab
 
 # python
 __pycache__/
@@ -15,12 +19,10 @@ __pycache__/
 .venv/
 venv/
 
-# data
-data/raw/*
-!data/raw/.gitkeep
-
 # os / editor
 .DS_Store
 Thumbs.db
-.idea/
 .vscode/
+
+# local databases
+*.db

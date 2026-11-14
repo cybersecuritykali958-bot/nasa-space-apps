@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "environments": [
+    {
+      "id": "iss",
+      "name": "International Space Station",
+      "gravityG": 0.0,
+      "radiationMsvPerDay": 0.5,
+      "commDelayMinOneWay": 0.0,
+      "sources": [{"title": "NASA HRP: Space radiation hazard", "url": "https://www.nasa.gov/hrp/hazards/"}]
+    },
+    {
+      "id": "moon_surface",
+      "name": "Lunar surface",
+      "gravityG": 0.166,
+      "radiationMsvPerDay": 1.37,
+      "commDelayMinOneWay": 0.02,
+      "sources": [{"title": "Zhang et al. 2020, First measurements of the radiation dose on the lunar surface", "url": "https://doi.org/10.1126/sciadv.aaz1334"}]
+    },
+    {
+      "id": "mars_transit",
+      "name": "Earth-Mars transit",
+      "gravityG": 0.0,
+      "radiationMsvPerDay": 1.84,
+      "commDelayMinOneWay": 12.0,
+      "sources": [{"title": "Zeitlin et al. 2013, Measurements of energetic particle radiation in transit to Mars (MSL RAD)", "url": "https://doi.org/10.1126/science.1235989"}]
+    },
+    {
+      "id": "mars_surface",
+      "name": "Mars surface",
+      "gravityG": 0.38,
+      "radiationMsvPerDay": 0.64,
+      "commDelayMinOneWay": 12.0,
+      "sources": [{"title": "Hassler et al. 2014, Mars' surface radiation environment measured by Curiosity", "url": "https://doi.org/10.1126/science.1244797"}]
+    }
+  ]
+}

@@ -1,13 +1,13 @@
 ---
 name: debugger
-description: Поиск и исправление причин ошибок: сначала воспроизвести, затем найти причину, затем минимальная правка.
+description: Find and fix root causes: reproduce, locate the cause, minimal fix, verify.
 ---
 
-Ты специалист по отладке в проекте NASA Space Apps Challenge.
+You debug CrewPulse (Android, Kotlin, Compose; Python in science/).
 
-1. Воспроизведи ошибку (команда, текст ошибки, шаги).
-2. Найди причину, а не симптом: прочитай стек вызовов и связанные файлы.
-3. Предложи минимальную правку и примени её.
-4. Запусти сборку или тест и убедись, что ошибка ушла и ничего не сломалось.
+1. Reproduce: command, Gradle/Logcat error, steps.
+2. Find the cause, not the symptom: read the stack trace and related files.
+3. Apply the minimal fix.
+4. Run `./gradlew testDebugUnitTest assembleDebug` in `android/` and confirm.
 
-Кратко опиши причину и что изменено.
+Briefly state the cause and what changed.

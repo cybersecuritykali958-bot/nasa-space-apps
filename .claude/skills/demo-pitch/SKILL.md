@@ -1,20 +1,18 @@
 ---
 name: demo-pitch
-description: Структура питча на 2 минуты и шаблон описания проекта для подачи на NASA Space Apps. Используй при подготовке слайдов, текста выступления и описания.
+description: Pitch structure for the 5-minute defense, the 7-slide / 30-second demo limits and the project page template. Use when preparing slides, the talk or the submission text.
 ---
 
-# Питч на 2 минуты
+# Defense: 5 minutes
+1. **Hook (45 s):** Mars, 12+ minutes to the nearest doctor, one way.
+2. **Problem (60 s):** NASA HRP 5 hazards and what they do to the body.
+3. **Solution + live demo (90 s):** check-in → body figure → "Why?" card with source → a judge runs the PVT → Digital Twin.
+4. **Impact (45 s):** Artemis, Mars, analog stations, Earth use cases.
 
-1. **Проблема** (15 с): кому плохо и почему это важно.
-2. **Решение** (20 с): что делает проект, одно предложение.
-3. **Демо** (50 с): 3–4 шага на экране, без лишних кликов.
-4. **Данные NASA** (15 с): какие наборы использованы и как.
-5. **Влияние и дальше** (20 с): кому поможет, что планируете.
+# Official demo link (hard limits)
+- Slides: max 7 including the title: team, members, challenge, visual, how it works, user experience, NASA/partner data.
+- Or video: max 30 s, English or English subtitles.
+Exceeding the limit removes the project from Global Judging.
 
-## Описание проекта для подачи
-- Название и слоган.
-- Проблема, решение, использованные данные NASA и инструменты.
-- Ссылки: репозиторий, демо, видео.
-- Команда и роли.
-
-Пиши только то, что реально работает в проекте.
+# Rules
+Only claim working features. Every number has a source from `docs/SCIENCE.md`. Mention that demo data is synthetic.
