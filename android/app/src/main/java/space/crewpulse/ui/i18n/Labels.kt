@@ -86,3 +86,77 @@ fun alertText(alert: Alert, indicatorName: String): String {
         )
     }
 }
+
+private val LEVEL_TITLES = mapOf(
+    "Cadet" to R.string.level_cadet,
+    "Mission Specialist" to R.string.level_specialist,
+    "Flight Engineer" to R.string.level_engineer,
+    "Science Officer" to R.string.level_science,
+    "Commander" to R.string.level_commander,
+)
+
+@Composable
+fun levelTitle(title: String): String = LEVEL_TITLES[title]?.let { stringResource(it) } ?: title
+
+/**
+ * Triage explanation built from the engine's structured result, so it is translated.
+ * The engine's own English sentence (`TriageDecision.reason`) stays available for logs and docs.
+ */
+@Composable
+fun triageReason(report: space.crewpulse.domain.EngineReport): String {
+    val t = report.triage
+    val attention = report.systems.count {
+        it.status == space.crewpulse.data.model.Status.YELLOW || it.status == space.crewpulse.data.model.Status.RED
+    }
+    return when (t.responder) {
+        Responder.ONBOARD_PROTOCOL -> stringResource(R.string.reason_onboard, t.earthResponseMin ?: 0.0, t.responseWindowMin ?: 0.0)
+        Responder.FLIGHT_SURGEON -> stringResource(R.string.reason_surgeon, t.earthResponseMin ?: 0.0)
+        Responder.CREW_MEDICAL_OFFICER -> stringResource(
+            if (report.patterns.isNotEmpty()) R.string.reason_cmo_pattern else R.string.reason_cmo,
+            attention,
+        )
+        Responder.SELF -> when {
+            report.systems.isEmpty() -> stringResource(R.string.reason_no_data)
+            attention > 0 -> stringResource(R.string.reason_self_yellow)
+            report.alerts.isNotEmpty() -> stringResource(R.string.reason_self_alerts, report.alerts.size)
+            else -> stringResource(R.string.reason_self_ok)
+        }
+    }
+}
+
+/** One readiness reason in the current language. */
+@Composable
+fun readinessItemText(item: space.crewpulse.domain.ReadinessItem, state: space.crewpulse.ui.home.HomeUiState): String {
+    val ind = item.indicatorId?.let { state.evaluation(it)?.indicator }
+    val name = item.indicatorId?.let { id -> ind?.let { indicatorName(it) } ?: indicatorName(id, id) }.orEmpty()
+    return when (item.kind) {
+        space.crewpulse.domain.ReadinessItemKind.STATUS -> stringResource(
+            R.string.ready_status, name, "%.1f".format(item.value ?: 0.0) + " " + (ind?.unit ?: ""),
+            space.crewpulse.ui.components.statusWord(item.status ?: space.crewpulse.data.model.Status.UNKNOWN),
+        )
+        space.crewpulse.domain.ReadinessItemKind.EARLY_WARNING -> stringResource(R.string.ready_warning, name)
+        space.crewpulse.domain.ReadinessItemKind.MISSING -> stringResource(R.string.ready_missing, name)
+        space.crewpulse.domain.ReadinessItemKind.SPACE_WEATHER -> stringResource(
+            if (item.spaceWeather == space.crewpulse.domain.SpaceWeatherLevel.WARNING) R.string.sw_warning else R.string.sw_watch,
+        )
+        space.crewpulse.domain.ReadinessItemKind.ALL_GREEN -> stringResource(R.string.ready_all_green)
+    }
+}
+
+/** Minutes as "34 min" or, from two hours on, "24 h". */
+@Composable
+fun durationText(minutes: Double?): Pair<String, String> = when {
+    minutes == null -> "—" to stringResource(R.string.min)
+    minutes >= 120 -> "%.0f".format(minutes / 60) to stringResource(R.string.hours)
+    else -> "%.0f".format(minutes) to stringResource(R.string.min)
+}
+
+private val ENVIRONMENTS = mapOf(
+    "iss" to R.string.env_iss,
+    "moon_surface" to R.string.env_moon,
+    "mars_transit" to R.string.env_mars_transit,
+    "mars_surface" to R.string.env_mars_surface,
+)
+
+@Composable
+fun environmentName(id: String?, fallback: String): String = id?.let { ENVIRONMENTS[it] }?.let { stringResource(it) } ?: fallback

@@ -40,7 +40,7 @@ private enum class Scenario { CURRENT, ISS, MARS }
 @Composable
 fun TwinScreen(
     project: (adherence: Double, phases: List<DigitalTwin.Phase>?) -> List<DigitalTwin.State>,
-    onBack: () -> Unit,
+    onBack: (() -> Unit)?,
 ) {
     var scenario by remember { mutableStateOf(Scenario.MARS) }
     var exercise by remember { mutableStateOf(true) }

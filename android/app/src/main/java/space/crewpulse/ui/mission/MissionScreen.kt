@@ -42,6 +42,7 @@ import space.crewpulse.ui.components.CrewCard
 import space.crewpulse.ui.components.CrewScaffold
 import space.crewpulse.ui.home.HomeUiState
 import space.crewpulse.ui.i18n.badgeLabel
+import space.crewpulse.ui.i18n.levelTitle
 import space.crewpulse.ui.i18n.indicatorName
 import space.crewpulse.ui.theme.CrewColors
 import space.crewpulse.ui.theme.StatusColors
@@ -49,7 +50,7 @@ import space.crewpulse.ui.theme.StatusColors
 /** Gamification: level, streak, today's measurement mission and badges. */
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun MissionScreen(state: HomeUiState, onReminder: () -> Boolean, onBack: () -> Unit) {
+fun MissionScreen(state: HomeUiState, onReminder: () -> Boolean, onBack: (() -> Unit)?) {
     val game = state.report.game
     val plan = state.report.plan
     var reminderResult by remember { mutableStateOf<Boolean?>(null) }
@@ -67,7 +68,7 @@ fun MissionScreen(state: HomeUiState, onReminder: () -> Boolean, onBack: () -> U
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Hexagon(Modifier.size(48.dp)) { Icon(Icons.Filled.Star, null, tint = CrewColors.teal) }
                     Column(Modifier.padding(start = 12.dp).weight(1f)) {
-                        Text(game.levelTitle, style = MaterialTheme.typography.titleLarge)
+                        Text(levelTitle(game.levelTitle), style = MaterialTheme.typography.titleLarge)
                         Text(stringResource(R.string.level, game.level), color = MaterialTheme.colorScheme.onSurfaceVariant)
                         Text(stringResource(R.string.xp, game.points, game.pointsToNextLevel), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
@@ -93,7 +94,9 @@ fun MissionScreen(state: HomeUiState, onReminder: () -> Boolean, onBack: () -> U
                     val name = state.evaluation(task.indicatorId)?.indicator?.let { indicatorName(it) } ?: task.indicatorName
                     Row(Modifier.padding(vertical = 6.dp), verticalAlignment = Alignment.CenterVertically) {
                         Text(name, modifier = Modifier.weight(1f))
-                        Text("~%.0f min".format(task.minutes), color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(end = 8.dp))
+                        if (task.minutes >= 1) {
+                            Text("~%.0f ".format(task.minutes) + stringResource(R.string.min), color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(end = 8.dp))
+                        }
                         Icon(
                             Icons.Filled.CheckCircle, null,
                             tint = if (task.priority == TaskPriority.HIGH) StatusColors.red else if (task.priority == TaskPriority.NORMAL) StatusColors.yellow else MaterialTheme.colorScheme.outline,

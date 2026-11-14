@@ -30,12 +30,15 @@ import space.crewpulse.ui.components.CrewCard
 import space.crewpulse.ui.components.CrewScaffold
 import space.crewpulse.ui.components.VerdictPill
 import space.crewpulse.ui.home.HomeUiState
+import space.crewpulse.ui.i18n.durationText
+import space.crewpulse.ui.i18n.readinessItemText
 import space.crewpulse.ui.i18n.responderLabel
+import space.crewpulse.ui.i18n.triageReason
 import space.crewpulse.ui.theme.StatusColors
 
 /** Triage with communication delay, GO / NO-GO for operations, space weather and radiation budget. */
 @Composable
-fun ReadinessScreen(state: HomeUiState, onRefreshWeather: () -> Unit, onBack: () -> Unit) {
+fun ReadinessScreen(state: HomeUiState, onRefreshWeather: () -> Unit, onBack: (() -> Unit)?) {
     val report = state.report
     val t = report.triage
     CrewScaffold(title = stringResource(R.string.readiness_title), onBack = onBack) { pad ->
@@ -62,7 +65,7 @@ fun ReadinessScreen(state: HomeUiState, onRefreshWeather: () -> Unit, onBack: ()
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(top = 12.dp).fillMaxWidth(),
                 )
-                Text(t.reason, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(triageReason(state.report), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
 
             report.readiness.forEach { r ->
@@ -80,13 +83,18 @@ fun ReadinessScreen(state: HomeUiState, onRefreshWeather: () -> Unit, onBack: ()
                         )
                         VerdictPill(r.verdict)
                     }
-                    r.reasons.forEach { reason ->
+                    r.items.forEach { item ->
+                        val itemColor = when (item.verdict) {
+                            Verdict.GO -> StatusColors.green
+                            Verdict.CAUTION -> StatusColors.yellow
+                            Verdict.NO_GO -> StatusColors.red
+                        }
                         Row(Modifier.padding(top = 6.dp)) {
                             Icon(
-                                if (r.verdict == Verdict.GO) Icons.Filled.Check else Icons.Filled.Warning,
-                                contentDescription = null, tint = accent,
+                                if (item.verdict == Verdict.GO) Icons.Filled.Check else Icons.Filled.Warning,
+                                contentDescription = null, tint = itemColor,
                             )
-                            Text(reason, Modifier.padding(start = 8.dp), style = MaterialTheme.typography.bodyMedium)
+                            Text(readinessItemText(item, state), Modifier.padding(start = 8.dp), style = MaterialTheme.typography.bodyMedium)
                         }
                     }
                 }
@@ -142,7 +150,8 @@ fun ReadinessScreen(state: HomeUiState, onRefreshWeather: () -> Unit, onBack: ()
 private fun TimeTile(label: String, minutes: Double?, color: Color, modifier: Modifier) {
     CrewCard(modifier = modifier, accent = color) {
         Text(label, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-        Text(minutes?.let { "%.0f".format(it) } ?: "—", style = MaterialTheme.typography.displaySmall, color = color)
-        Text(stringResource(R.string.min), style = MaterialTheme.typography.bodyMedium, color = color)
+        val (value, unit) = durationText(minutes)
+        Text(value, style = MaterialTheme.typography.displaySmall, color = color)
+        Text(unit, style = MaterialTheme.typography.bodyMedium, color = color)
     }
 }

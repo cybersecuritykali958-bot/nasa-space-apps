@@ -75,12 +75,26 @@ data class TriageDecision(
 
 enum class Verdict { GO, CAUTION, NO_GO }
 
+enum class ReadinessItemKind { STATUS, EARLY_WARNING, MISSING, SPACE_WEATHER, ALL_GREEN }
+
+/** Structured reason behind a readiness verdict, so the UI can phrase it in any language. */
+data class ReadinessItem(
+    val kind: ReadinessItemKind,
+    val verdict: Verdict,
+    val indicatorId: String? = null,
+    val value: Double? = null,
+    val status: Status? = null,
+    val spaceWeather: SpaceWeatherLevel? = null,
+)
+
 data class ReadinessResult(
     val operationId: String,
     val operationName: String,
     val verdict: Verdict,
+    /** English sentences, for logs and docs. */
     val reasons: List<String>,
     val verified: Boolean,
+    val items: List<ReadinessItem> = emptyList(),
 )
 
 /** Everything the UI needs from the engine in one object. */

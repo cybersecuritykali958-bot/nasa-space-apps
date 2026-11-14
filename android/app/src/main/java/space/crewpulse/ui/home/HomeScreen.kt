@@ -1,272 +1,180 @@
 package space.crewpulse.ui.home
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Warning
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.FilterChip
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import space.crewpulse.R
 import space.crewpulse.data.Profile
-import space.crewpulse.data.model.Environment
 import space.crewpulse.data.model.Status
 import space.crewpulse.domain.SpaceWeatherLevel
+import space.crewpulse.domain.StatusEngine
 import space.crewpulse.ui.components.BodyFigure
 import space.crewpulse.ui.components.CrewCard
-import space.crewpulse.ui.components.StatusDot
 import space.crewpulse.ui.components.StatusPill
-import space.crewpulse.ui.i18n.LocaleHelper
 import space.crewpulse.ui.i18n.alertText
+import space.crewpulse.ui.i18n.environmentName
 import space.crewpulse.ui.i18n.indicatorName
 import space.crewpulse.ui.i18n.responderLabel
-import space.crewpulse.ui.i18n.systemLabel
+import space.crewpulse.ui.i18n.levelTitle
+import space.crewpulse.ui.i18n.triageReason
+import space.crewpulse.ui.navigation.Routes
 import space.crewpulse.ui.theme.StatusColors
 
-/** Navigation targets used by the Home screen. */
-object HomeRoutes {
-    const val CHECKIN = "checkin"
-    const val PVT = "pvt"
-    const val TWIN = "twin"
-    const val TRENDS = "trends"
-    const val READINESS = "readiness"
-    const val MISSION = "mission"
-}
-
+/** Home: a short overview. Details live in the tabs (Health, Readiness, Twin, Mission). */
 @Composable
 fun HomeScreen(
     state: HomeUiState,
-    currentLanguage: String,
     onIndicator: (String) -> Unit,
     onNavigate: (String) -> Unit,
-    onProfile: (Profile) -> Unit,
-    onEnvironment: (String) -> Unit,
-    onLanguage: (String) -> Unit,
 ) {
-    LazyColumn(
+    Column(
         Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
             .statusBarsPadding()
+            .verticalScroll(rememberScrollState())
             .padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        item { Header(currentLanguage, onLanguage) }
+        Row(Modifier.fillMaxWidth().padding(top = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+            Text(stringResource(R.string.app_name), style = MaterialTheme.typography.headlineMedium, modifier = Modifier.weight(1f))
+            IconButton(onClick = { onNavigate(Routes.SETTINGS) }) {
+                Icon(Icons.Filled.Settings, contentDescription = stringResource(R.string.settings_title))
+            }
+        }
         when {
-            state.loading -> item { Text(stringResource(R.string.loading)) }
-            state.error != null -> item {
-                Text(stringResource(R.string.data_error, state.error), color = MaterialTheme.colorScheme.error)
-            }
-            else -> {
-                item { MissionBanner(state, onEnvironment) }
-                item { ProfileSwitch(state.profile, onProfile) }
-                item {
-                    BodyFigure(
-                        statuses = state.systems.associate { it.systemId to it.status },
-                        modifier = Modifier.padding(horizontal = 48.dp),
-                    )
-                }
-                item { WhatToDoCard(state, onNavigate) }
-                state.report.alerts.firstOrNull()?.let { alert ->
-                    item {
-                        val ind = state.evaluation(alert.indicatorId)?.indicator
-                        WarningBanner(
-                            alertText(alert, ind?.let { indicatorName(it) } ?: alert.indicatorId),
-                        ) { onIndicator(alert.indicatorId) }
-                    }
-                }
-                state.report.spaceWeather?.takeIf { it.level != SpaceWeatherLevel.QUIET }?.let { sw ->
-                    item {
-                        WarningBanner(
-                            if (sw.level == SpaceWeatherLevel.WARNING) stringResource(R.string.sw_warning) else stringResource(R.string.sw_watch),
-                            red = sw.level == SpaceWeatherLevel.WARNING,
-                        ) { onNavigate(HomeRoutes.READINESS) }
-                    }
-                }
-                item { QuickActionsRow(onNavigate) }
-                item {
-                    Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                        NavCard(stringResource(R.string.readiness_title), Icons.Filled.CheckCircle, Modifier.weight(1f)) {
-                            onNavigate(HomeRoutes.READINESS)
-                        }
-                        NavCard(stringResource(R.string.mission_title), Icons.Filled.Star, Modifier.weight(1f)) {
-                            onNavigate(HomeRoutes.MISSION)
-                        }
-                    }
-                }
-                item { Text(stringResource(R.string.body_systems), style = MaterialTheme.typography.titleMedium) }
-                items(state.systems, key = { it.systemId }) { system ->
-                    CrewCard {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            StatusDot(system.status, 16.dp)
-                            Text(
-                                systemLabel(system.systemId),
-                                style = MaterialTheme.typography.titleMedium,
-                                modifier = Modifier.padding(start = 10.dp).weight(1f),
-                            )
-                            StatusPill(system.status)
-                        }
-                        system.evaluations.forEach { eval ->
-                            Row(
-                                Modifier
-                                    .fillMaxWidth()
-                                    .clickable { onIndicator(eval.indicator.id) }
-                                    .padding(vertical = 8.dp),
-                                verticalAlignment = Alignment.CenterVertically,
-                            ) {
-                                StatusDot(eval.status, 10.dp)
-                                Text(
-                                    indicatorName(eval.indicator),
-                                    modifier = Modifier.padding(start = 10.dp).weight(1f),
-                                    style = MaterialTheme.typography.bodyMedium,
-                                )
-                                Text(
-                                    "${"%.1f".format(eval.value)} ${eval.indicator.unit}",
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                )
-                            }
-                        }
-                    }
-                }
-                item {
-                    Text(
-                        stringResource(R.string.demo_data_note),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.padding(bottom = 24.dp),
-                    )
-                }
-            }
+            state.loading -> Text(stringResource(R.string.loading))
+            state.error != null -> Text(stringResource(R.string.data_error, state.error), color = MaterialTheme.colorScheme.error)
+            else -> Overview(state, onIndicator, onNavigate)
         }
     }
 }
 
 @Composable
-private fun Header(currentLanguage: String, onLanguage: (String) -> Unit) {
-    var open by remember { mutableStateOf(false) }
-    Row(Modifier.fillMaxWidth().padding(top = 8.dp), verticalAlignment = Alignment.CenterVertically) {
-        Text(stringResource(R.string.app_name), style = MaterialTheme.typography.headlineMedium, modifier = Modifier.weight(1f))
-        Box {
-            TextButton(onClick = { open = true }) {
-                Text(currentLanguage.uppercase(), style = MaterialTheme.typography.labelLarge)
-            }
-            DropdownMenu(expanded = open, onDismissRequest = { open = false }) {
-                LocaleHelper.LANGUAGES.forEach { lang ->
-                    DropdownMenuItem(
-                        text = { Text(lang.nativeName) },
-                        onClick = {
-                            open = false
-                            if (lang.code != currentLanguage) onLanguage(lang.code)
-                        },
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun MissionBanner(state: HomeUiState, onEnvironment: (String) -> Unit) {
-    var open by remember { mutableStateOf(false) }
-    Box {
-        Surface(
-            shape = RoundedCornerShape(10.dp),
-            color = MaterialTheme.colorScheme.surfaceContainerHigh,
-            border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)),
-            modifier = Modifier.clickable { open = true },
-        ) {
+private fun Overview(state: HomeUiState, onIndicator: (String) -> Unit, onNavigate: (String) -> Unit) {
+    // Mission banner: who, where, how far from Earth.
+    Surface(
+        shape = RoundedCornerShape(10.dp),
+        color = MaterialTheme.colorScheme.surfaceContainerHigh,
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)),
+        modifier = Modifier.clickable { onNavigate(Routes.SETTINGS) },
+    ) {
+        Column(Modifier.padding(horizontal = 12.dp, vertical = 8.dp)) {
             Text(
-                stringResource(
-                    R.string.home_banner,
-                    state.environmentName,
-                    state.missionDay,
-                    "%.0f".format(state.commDelayMin ?: 0.0),
-                ),
-                modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+                stringResource(R.string.home_banner, environmentName(state.environment?.id, state.environmentName), state.missionDay, "%.0f".format(state.commDelayMin ?: 0.0)),
                 style = MaterialTheme.typography.labelLarge,
                 color = MaterialTheme.colorScheme.primary,
             )
-        }
-        DropdownMenu(expanded = open, onDismissRequest = { open = false }) {
-            state.environments.forEach { env: Environment ->
-                DropdownMenuItem(text = { Text(env.name) }, onClick = { open = false; onEnvironment(env.id) })
-            }
+            Text(
+                stringResource(if (state.profile == Profile.DEMO) R.string.profile_demo else R.string.profile_me),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
         }
     }
-}
 
-@Composable
-private fun ProfileSwitch(profile: Profile, onProfile: (Profile) -> Unit) {
-    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-        FilterChip(
-            selected = profile == Profile.DEMO,
-            onClick = { onProfile(Profile.DEMO) },
-            label = { Text(stringResource(R.string.profile_demo)) },
+    // Body figure and overall status.
+    val overall = StatusEngine.worst(state.systems.map { it.status })
+    val attention = state.systems.count { it.status == Status.YELLOW || it.status == Status.RED }
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        BodyFigure(
+            statuses = state.systems.associate { it.systemId to it.status },
+            modifier = Modifier.weight(0.45f).clickable { onNavigate(Routes.HEALTH) },
         )
-        FilterChip(
-            selected = profile == Profile.ME,
-            onClick = { onProfile(Profile.ME) },
-            label = { Text(stringResource(R.string.profile_me)) },
-        )
+        Column(Modifier.weight(0.55f).padding(start = 12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text(stringResource(R.string.overall_status), style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            StatusPill(overall)
+            Text(
+                if (attention == 0) stringResource(R.string.all_nominal) else stringResource(R.string.systems_attention, attention),
+                style = MaterialTheme.typography.bodyLarge,
+            )
+            OutlinedButton(onClick = { onNavigate(Routes.HEALTH) }) { Text(stringResource(R.string.open_health)) }
+        }
     }
-}
 
-@Composable
-private fun WhatToDoCard(state: HomeUiState, onNavigate: (String) -> Unit) {
+    // What to do now.
     val t = state.report.triage
     CrewCard(
         accent = StatusColors.of(t.status).takeIf { t.status != Status.GREEN },
-        modifier = Modifier.clickable { onNavigate(HomeRoutes.READINESS) },
+        modifier = Modifier.clickable { onNavigate(Routes.READINESS) },
     ) {
         Text(stringResource(R.string.what_to_do), style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary)
         Text(responderLabel(t.responder), style = MaterialTheme.typography.titleLarge, modifier = Modifier.padding(top = 4.dp))
-        Text(t.reason, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-        state.report.patterns.firstOrNull()?.let { p ->
-            Text(p.advice, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(top = 6.dp))
+        Text(triageReason(state.report), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+    }
+
+    // The single most important warning.
+    state.report.spaceWeather?.takeIf { it.level == SpaceWeatherLevel.WARNING }?.let {
+        Banner(stringResource(R.string.sw_warning), StatusColors.red) { onNavigate(Routes.READINESS) }
+    } ?: state.report.alerts.firstOrNull()?.let { alert ->
+        val ind = state.evaluation(alert.indicatorId)?.indicator
+        Banner(alertText(alert, ind?.let { indicatorName(it) } ?: alert.indicatorId), StatusColors.yellow) { onIndicator(alert.indicatorId) }
+    }
+
+    // Main actions.
+    Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+        Button(onClick = { onNavigate(Routes.CHECKIN) }, modifier = Modifier.weight(1f).heightIn(min = 56.dp)) {
+            Icon(Icons.Filled.CheckCircle, null)
+            Text(stringResource(R.string.qa_checkin), Modifier.padding(start = 8.dp))
+        }
+        OutlinedButton(onClick = { onNavigate(Routes.PVT) }, modifier = Modifier.weight(1f).heightIn(min = 56.dp)) {
+            Icon(Icons.Filled.PlayArrow, null)
+            Text(stringResource(R.string.qa_pvt), Modifier.padding(start = 8.dp))
         }
     }
+
+    // Today's mission in one line.
+    state.report.plan?.let { plan ->
+        CrewCard(modifier = Modifier.clickable { onNavigate(Routes.MISSION) }) {
+            Text(stringResource(R.string.todays_mission), style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary)
+            Text(
+                if (plan.next24h.isEmpty()) stringResource(R.string.all_done)
+                else stringResource(R.string.today_short, plan.next24h.size, plan.minutesNext24h),
+                style = MaterialTheme.typography.bodyLarge,
+            )
+            state.report.game?.let {
+                Text(stringResource(R.string.streak_short, it.currentStreakDays, levelTitle(it.levelTitle)), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+        }
+    }
+
+    Text(
+        stringResource(R.string.demo_data_note),
+        style = MaterialTheme.typography.bodyMedium,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+        modifier = Modifier.padding(bottom = 16.dp),
+    )
 }
 
 @Composable
-private fun WarningBanner(text: String, red: Boolean = false, onClick: () -> Unit) {
-    val color = if (red) StatusColors.red else StatusColors.yellow
+private fun Banner(text: String, color: Color, onClick: () -> Unit) {
     Surface(
         shape = RoundedCornerShape(12.dp),
         color = color.copy(alpha = 0.12f),
@@ -277,44 +185,5 @@ private fun WarningBanner(text: String, red: Boolean = false, onClick: () -> Uni
             Icon(Icons.Filled.Warning, contentDescription = null, tint = color)
             Text(text, modifier = Modifier.padding(start = 10.dp), style = MaterialTheme.typography.bodyMedium, color = color)
         }
-    }
-}
-
-@Composable
-private fun QuickActionsRow(onNavigate: (String) -> Unit) {
-    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-        RoundAction(stringResource(R.string.qa_checkin), Icons.Filled.CheckCircle) { onNavigate(HomeRoutes.CHECKIN) }
-        RoundAction(stringResource(R.string.qa_pvt), Icons.Filled.PlayArrow) { onNavigate(HomeRoutes.PVT) }
-        RoundAction(stringResource(R.string.qa_twin), Icons.Filled.Person) { onNavigate(HomeRoutes.TWIN) }
-        RoundAction(stringResource(R.string.qa_trends), Icons.Filled.DateRange) { onNavigate(HomeRoutes.TRENDS) }
-    }
-}
-
-@Composable
-private fun RoundAction(label: String, icon: ImageVector, onClick: () -> Unit) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.width(80.dp).clickable(onClick = onClick).padding(vertical = 4.dp),
-    ) {
-        Surface(
-            shape = CircleShape,
-            color = MaterialTheme.colorScheme.surfaceContainerHigh,
-            border = BorderStroke(1.5.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.7f)),
-            modifier = Modifier.size(56.dp),
-        ) {
-            Box(contentAlignment = Alignment.Center) {
-                Icon(icon, contentDescription = label, tint = MaterialTheme.colorScheme.primary)
-            }
-        }
-        Spacer(Modifier.size(6.dp))
-        Text(label, style = MaterialTheme.typography.bodyMedium, maxLines = 1)
-    }
-}
-
-@Composable
-private fun NavCard(title: String, icon: ImageVector, modifier: Modifier, onClick: () -> Unit) {
-    CrewCard(modifier = modifier.clickable(onClick = onClick)) {
-        Icon(icon, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
-        Text(title, style = MaterialTheme.typography.titleSmall, modifier = Modifier.padding(top = 8.dp))
     }
 }
