@@ -12,20 +12,24 @@ Owner: @gutsonithemvp. Figma link: _add here_
 7. Later: PVT, Digital Twin (mission day slider), validation screen.
 
 ## Implemented (Compose, matches the mockup)
-| Screen | File | Data |
+Navigation: bottom bar with five tabs; detail screens open on top. Settings via the gear on Home.
+
+| Tab / screen | File | Data |
 |---|---|---|
-| Home: mission banner (tap to change environment), demo/my data switch, body figure, what to do, early warning, space weather, quick actions | `ui/home/HomeScreen.kt` | `state.report`, `state.environment` |
-| Daily check-in (validated by the backend, saves to Room) | `ui/checkin/` | `InputValidator`, `ReadingRepository` |
-| Why this matters: value, chart with threshold and forecast, advice, sources, confidence | `ui/indicator/IndicatorScreen.kt` | evaluation, history, alerts |
-| Readiness & triage: Earth response vs window, EVA / landing GO-NO-GO, space weather, radiation budget | `ui/readiness/ReadinessScreen.kt` | `report.triage`, `readiness`, `spaceWeather`, `radiation` |
-| Digital Twin: skeleton, bone / muscle / dose charts, day slider, exercise switch, scenarios | `ui/twin/TwinScreen.kt` | `projectTwin` |
-| Reaction test (PVT-B) | `ui/pvt/PvtScreen.kt` | `PvtSession`, `savePvt` |
-| Mission & you: level, streak, today's mission, reminder, badges | `ui/mission/MissionScreen.kt` | `report.game`, `report.plan` |
-| Trends | `ui/trends/TrendsScreen.kt` | `state.history` |
+| **Home**: mission banner, body figure with overall status, what to do now, the most important warning, Check-in and Reaction buttons, today's mission in one line | `ui/home/HomeScreen.kt` | `state.report`, `state.environment` |
+| **Health**: all body systems and indicators, entry to check-in and trends | `ui/health/HealthScreen.kt` | `state.systems` |
+| **Readiness**: Earth response vs response window, EVA / landing GO-NO-GO with reasons, space weather, radiation budget | `ui/readiness/ReadinessScreen.kt` | `report.triage`, `readiness`, `spaceWeather`, `radiation` |
+| **Twin**: skeleton, bone / muscle / dose charts, day slider, exercise switch, scenarios | `ui/twin/TwinScreen.kt` | `projectTwin` |
+| **Mission**: level, streak, today's mission, reminder, badges | `ui/mission/MissionScreen.kt` | `report.game`, `report.plan` |
+| Why this matters (detail): value, chart with threshold and forecast, advice, sources, confidence | `ui/indicator/IndicatorScreen.kt` | evaluation, history, alerts |
+| Daily check-in (detail): validated by the backend, saved to Room | `ui/checkin/` | `InputValidator`, `ReadingRepository` |
+| Reaction test (detail, PVT-B) | `ui/pvt/PvtScreen.kt` | `PvtSession`, `savePvt` |
+| Trends (detail) | `ui/trends/TrendsScreen.kt` | `state.history` |
+| Settings (detail): language, demo / my data, mission environment, about | `ui/settings/SettingsScreen.kt` | `SettingsStore` |
 
 Shared components: `BodyFigure` (Canvas), `LineChart` (Canvas, no chart library), `Pill`/`StatusPill`/`VerdictPill`/`ConfidencePill`, `InfoRow`, `CrewCard`, `CrewScaffold`.
 
-**Languages:** English, Ukrainian, Japanese, German. Switch with the language button on Home (top right); the choice is saved and the screen is recreated. Translations live in `res/values*/strings.xml` (machine-assisted, please review: especially Japanese).
+**Languages:** English, Ukrainian, Japanese, German. Switch in Settings (gear on Home); the choice is saved and the screen is recreated. Translations live in `res/values*/strings.xml` (machine-assisted, please review: especially Japanese).
 
 ## Body figure
 - SVG, each system is a separate `path` with an `id`: `cardiovascular`, `metabolic`, `immune`, `behavioral`, `musculoskeletal`, `vision`, `radiation` (radiation is a halo around the figure).
@@ -36,3 +40,8 @@ Shared components: `BodyFigure` (Canvas), `LineChart` (Canvas, no chart library)
 - Status is green / yellow / red **plus** an icon or text (never color alone, for color-blind users).
 - All UI texts in English.
 - Placeholder colors are in `ui/theme/Theme.kt`; hand final colors to @harvio1.
+
+## Readability rules
+- The app root is a `Surface` with `onBackground` content color: plain `Text` is light by default. Never use `Color.Black` for text.
+- Secondary text uses `onSurfaceVariant`; status always comes with a word (pill), not color alone.
+- Engine output is phrased in the UI from structured fields (`ui/i18n/Labels.kt`), so it is translated.
