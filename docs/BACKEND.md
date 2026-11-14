@@ -1,74 +1,74 @@
-# Бэкенд CrewPulse: Autonomous Health Reasoning Engine
+# CrewPulse backend: Autonomous Health Reasoning Engine
 
-Владелец: @jarororoor. Код: `android/app/src/main/java/space/crewpulse/data/` и `domain/`.
+Owner: @jarororoor. Code: `android/app/src/main/java/space/crewpulse/data/` and `domain/`.
 
-## 1. Концепция
+## 1. Concept
 
-Движок в телефоне, который **замечает проблему за дни до порога, объясняет почему и говорит, что делать, когда Земля не успеет ответить**. Работает без интернета, у каждого порога и правила есть источник.
+An on-device engine that **notices a problem days before a threshold, explains why, and says what to do when Earth cannot answer in time**. It works offline, and every threshold and rule has a source.
 
-| Вопрос астронавта | Что отвечает движок | Где в коде |
+| Astronaut's question | Engine's answer | Code |
 |---|---|---|
-| Что происходит? | Цвет каждого показателя: норма для всех **и** личная норма. Раннее предупреждение по трендам. Уверенность в данных | `StatusEngine`, `EarlyWarning`, `ConfidenceEstimator` |
-| Что это значит? | Связки показателей с цепочкой доказательств, включая детектор расхождений «говорю, что всё хорошо, а данные против» | `PatternMatcher` |
-| Что делать сейчас? | Кто действует (сам / медик экипажа / Земля / бортовой протокол) с учётом задержки связи. GO / NO-GO перед выходом в открытый космос и посадкой | `Triage`, `Readiness` |
-| Когда мерить? | Адаптивное расписание: проблемное часто, стабильное редко. Считает сэкономленное время экипажа | `MeasurementPlanner` |
-| Зачем мерить каждый день? | Серии, очки, уровни, значки, «миссия дня» | `Gamification` |
-| Что с космической погодой? | Реальные события NASA DONKI → «в укрытие» + радиационный бюджет до лимита карьеры 600 мЗв | `SpaceWeather`, `SpaceWeatherRepository` |
-| Можно ли движку верить? | Самопроверка: прогон 180 дней миссии, время опережения, ложные тревоги | `EngineBenchmark` |
+| What is happening? | Status of every indicator against population norms **and** the personal baseline. Early warning on trends. Confidence in the data | `StatusEngine`, `EarlyWarning`, `ConfidenceEstimator` |
+| What does it mean? | Multi-indicator patterns with an evidence chain, including a discordance detector ("I say I'm fine, the data disagrees") | `PatternMatcher` |
+| What do I do now? | Who acts (self / crew medical officer / Earth / onboard protocol) given the communication delay. GO / NO-GO before a spacewalk or landing | `Triage`, `Readiness` |
+| When should I measure? | Adaptive schedule: problems often, stable things rarely. Shows crew time saved | `MeasurementPlanner` |
+| Why measure every day? | Streaks, points, levels, badges, daily mission | `Gamification` |
+| What about space weather? | Real NASA DONKI events → "go to the shielded area" + radiation budget to the 600 mSv career limit | `SpaceWeather`, `SpaceWeatherRepository` |
+| Can I trust the engine? | Self-validation: replay of the 180-day mission, lead time, false alarms | `EngineBenchmark` |
 
-## 2. Как работает приложение (поток данных)
+## 2. How the app works (data flow)
 
 ```
- Чек-ин / PVT / камера ──► ReadingRepository ──► Room (readings)
- Демо-миссия (assets) ──► DemoSeeder ─────────────┘     │
- Личная норма ──► BaselineRepository ──► Room (baselines)│
- NASA DONKI ──► SpaceWeatherRepository (live → кэш → assets)
+ Check-in / PVT / camera ──► ReadingRepository ──► Room (readings)
+ Demo mission (assets) ──► DemoSeeder ─────────────┘     │
+ Personal baseline ──► BaselineRepository ──► Room (baselines)
+ NASA DONKI ──► SpaceWeatherRepository (live → cache → assets)
                                                           ▼
  engine_rules.json + indicators.json ──►  HealthEngine.analyze(EngineInput)
                                                           │
                                                           ▼
-                                       EngineReport  ──► HomeViewModel.state ──► экраны
+                                       EngineReport  ──► HomeViewModel.state ──► screens
 ```
 
-1. Пользователь сохраняет чек-ин → значения пишутся в Room.
-2. Room сам уведомляет `HomeViewModel` (Flow), тот собирает `EngineInput` и вызывает `HealthEngine.analyze`.
-3. Движок возвращает один объект `EngineReport` со всем: статусы, тревоги, паттерны, триаж, готовность, план, игра, космическая погода.
-4. Экраны просто рисуют `state.report`. Логики в экранах нет.
+1. The user saves a check-in → values go to Room.
+2. Room notifies `HomeViewModel` (Flow); it builds an `EngineInput` and calls `HealthEngine.analyze`.
+3. The engine returns one `EngineReport` with everything: statuses, alerts, patterns, triage, readiness, plan, game, space weather.
+4. Screens only draw `state.report`. No logic in screens.
 
-Переключатели (`setProfile`, `setEnvironment`) сохраняются между запусками и сразу пересчитывают отчёт.
+Switches (`setProfile`, `setEnvironment`) persist across launches and recompute the report immediately.
 
-## 3. Как фронтенд пользуется бэкендом
+## 3. How the frontend uses the backend
 
-Всё доступно через `HomeViewModel` (один на всё приложение, создаётся в `AppNavHost`).
+Everything goes through `HomeViewModel` (one per app, created in `AppNavHost`).
 
-### Действия
+### Actions
 ```kotlin
 home.saveCheckIn(mapOf("systolic_bp" to 121.0, "diastolic_bp" to 78.0, "heart_rate" to 64.0,
                        "glucose" to 90.0, "body_temp" to 36.6, "sleep_hours" to 7.2, "mood" to 4.0))
-home.setProfile(Profile.ME)           // или Profile.DEMO
-home.setEnvironment("mars_surface")   // id из environments.json
-home.refreshSpaceWeather()            // свежие данные NASA, офлайн безопасно
-home.runBenchmark()                   // самопроверка движка → state.benchmark
+home.setProfile(Profile.ME)           // or Profile.DEMO
+home.setEnvironment("mars_surface")   // id from environments.json
+home.refreshSpaceWeather()            // fresh NASA data, safe offline
+home.runBenchmark()                   // engine self-validation → state.benchmark
 ```
 
-### Чтение (`val state by home.state.collectAsStateWithLifecycle()`)
-| Поле | Что это | Пример UI |
+### Reading (`val state by home.state.collectAsStateWithLifecycle()`)
+| Field | What it is | UI example |
 |---|---|---|
-| `state.systems` | Системы тела и их цвет (`SystemStatus`) | Фигура тела |
-| `state.evaluation("heart_rate")` | Значение, цвет, отклонение от личной нормы | Карточка «Почему?» |
-| `state.report.alerts` | Ранние предупреждения (`Alert.message`, `daysToThreshold`) | Баннер «давление растёт, порог через ~7 дней» |
-| `state.report.confidence["heart_rate"]` | `HIGH/MEDIUM/LOW` + причины | Значок «перемерь» |
-| `state.report.patterns` | Найденные связки + `evidence` + совет | Карточка «Cardiovascular strain» |
-| `state.report.triage` | `responder`, `headline`, `reason`, `earthResponseMin` | Главный блок «что делать» |
-| `state.report.readiness` | `GO / CAUTION / NO_GO` для выхода и посадки | Экран «Готовность» |
-| `state.report.plan` | Что мерить в ближайшие 24 ч, сэкономленные минуты | Список задач |
-| `state.report.game` | Очки, уровень, серия, значки, миссия дня | Шапка профиля |
-| `state.report.spaceWeather` | `QUIET/WATCH/WARNING` + источник данных | Плашка космической погоды |
-| `state.report.radiation` | Доза, остаток до 600 мЗв, дней осталось | Радиационный бюджет |
-| `state.environment`, `state.environments` | Текущая и все среды | Переключатель МКС / Луна / Марс |
-| `state.benchmark` | Отчёт самопроверки (`summary()`) | Экран «Validation» |
+| `state.systems` | Body systems and their color (`SystemStatus`) | Body figure |
+| `state.evaluation("heart_rate")` | Value, color, deviation from the personal baseline | "Why?" card |
+| `state.report.alerts` | Early warnings (`Alert.message`, `daysToThreshold`) | Banner "blood pressure rising, threshold in ~7 days" |
+| `state.report.confidence["heart_rate"]` | `HIGH/MEDIUM/LOW` + reasons | "Re-measure" badge |
+| `state.report.patterns` | Matched patterns + `evidence` + advice | "Cardiovascular strain" card |
+| `state.report.triage` | `responder`, `headline`, `reason`, `earthResponseMin` | Main "what to do" block |
+| `state.report.readiness` | `GO / CAUTION / NO_GO` for spacewalk and landing | Readiness screen |
+| `state.report.plan` | What to measure in the next 24 h, minutes saved | Task list |
+| `state.report.game` | Points, level, streak, badges, daily mission | Profile header |
+| `state.report.spaceWeather` | `QUIET/WATCH/WARNING` + data source | Space weather banner |
+| `state.report.radiation` | Dose, remaining to 600 mSv, days left | Radiation budget |
+| `state.environment`, `state.environments` | Current and all environments | ISS / Moon / Mars switch |
+| `state.benchmark` | Self-validation report (`summary()`) | Validation screen |
 
-### Пример: блок триажа и баннер раннего предупреждения
+### Example: triage block and early-warning banner
 ```kotlin
 @Composable
 fun TriageCard(state: HomeUiState) {
@@ -84,70 +84,70 @@ fun TriageCard(state: HomeUiState) {
 }
 ```
 
-## 4. Что выдаёт движок на демо-астронавте (день 180, перелёт к Марсу)
+## 4. Engine output for the demo astronaut (day 180, Earth–Mars transit)
 
-Из `DemoScenarioTest`, это ровно то, что увидит экран:
+From `DemoScenarioTest`, exactly what the screen gets:
 
-- **Системы:** сердце и сосуды — жёлтый, радиация — жёлтый, остальные зелёные.
-- **Ранние предупреждения:** систолическое давление ещё **в норме** (129.5 < 130), но сдвинуто на +4.3 SD от личной вариабельности и дрейфует 18 дней. Аналогично диастолическое давление и пульс.
-- **Паттерн:** «Cardiovascular strain» с доказательствами (давление +10 %, пульс +15 % к личной норме).
-- **Триаж:** «Talk to the crew medical officer»: 2 системы требуют внимания плюс найден паттерн.
-- **Готовность:** выход в открытый космос — CAUTION, посадка — CAUTION.
-- **Радиация:** 361 из 600 мЗв, при 1.84 мЗв/сут хватит на ~130 дней.
-- **План:** 6 замеров сегодня (~7 мин), сэкономлено ~8 мин против «всё каждый день».
-- **Космическая погода:** реальные данные DONKI на сегодня.
+- **Systems:** heart and vessels yellow, radiation yellow, the rest green.
+- **Early warnings:** systolic blood pressure is still **in range** (129.5 < 130) but shifted +4.3 SD of the personal variation and drifting for 18 days. Same for diastolic pressure and heart rate.
+- **Pattern:** "Cardiovascular strain" with evidence (pressure +10 %, heart rate +15 % vs baseline).
+- **Triage:** "Talk to the crew medical officer": 2 systems need attention and a pattern was found.
+- **Readiness:** spacewalk CAUTION, landing CAUTION.
+- **Radiation:** 361 of 600 mSv; at 1.84 mSv/day that leaves ~130 days.
+- **Plan:** 6 measurements today (~7 min), ~8 min saved vs "everything every day".
+- **Space weather:** real DONKI data for today.
 
-Сценарий для защиты: переключить среду с Марса на МКС при красном показателе. Решение триажа меняется с «бортовой протокол» на «связаться с врачом на Земле».
+Defense scenario: with a red value, switch the environment from Mars to ISS. The triage decision changes from "onboard protocol" to "contact the flight surgeon".
 
-## 5. Самопроверка движка (валидация)
+## 5. Engine self-validation
 
-`EngineBenchmark` прогоняет 180 дней демо-миссии так, будто движок запускался каждое утро:
+`EngineBenchmark` replays the 180-day demo mission as if the engine ran every morning:
 
 > Replayed 180 days: **caught 10 of 14 events, 5 before the threshold (mean lead 16.6 days), 6 false alarm(s).**
 
-Как читать честно:
-- Медленные изменения (давление, пульс, доза) пойманы **за 7–30 дней** до порога.
-- Внезапные события (неделя без сна, 3 дня температуры) предсказать нельзя, они ловятся в день события. Так и должно быть.
-- 6 ложных тревог на 9 показателей за 180 дней.
-- Данные синтетические. На реальных данных метрики нужно перепроверить.
+How to read it honestly:
+- Gradual changes (blood pressure, heart rate, dose) are caught **7–30 days** before the threshold.
+- Sudden events (a week of poor sleep, 3 days of fever) cannot be predicted; they are caught on the day. That is expected.
+- 6 false alarms across 9 indicators over 180 days.
+- The data is synthetic; metrics must be re-checked on real data.
 
-Методика описана в KDoc `EngineBenchmark`, запуск: `./gradlew testDebugUnitTest --tests '*EngineBenchmarkTest*' -i`.
+Methodology is in the `EngineBenchmark` KDoc. Run: `./gradlew testDebugUnitTest --tests '*EngineBenchmarkTest*' -i`.
 
-## 6. Алгоритмы и параметры
+## 6. Algorithms and parameters
 
-Все числа лежат в `assets/engine_rules.json` и меняются без кода.
+All numbers live in `assets/engine_rules.json` and change without code.
 
-| Часть | Метод | Параметры | Источник |
+| Part | Method | Parameters | Source |
 |---|---|---|---|
-| Статус | Диапазоны `bands` + % отклонения от личной нормы, берётся худший | `indicators.json` | AHA, ADA, AASM, HRP |
-| Личная норма | Среднее первых 3 замеров или заданная вручную | `BaselineCalculator.FIRST_READINGS` | — |
-| EWMA | z = λx + (1−λ)z, тревога за пределами L·σ·√(λ/(2−λ)) | λ = 0.2, L = 3.0 | Roberts 1959; Lucas & Saccucci 1990 |
-| CUSUM | Табличный CUSUM, перезапуск после окончания эпизода | k = 0.5σ, h = 5σ | Page 1954 |
-| Тренд | МНК за 14 дней, |t| ≥ 3, прогноз пересечения в пределах 30 дней | `trend*` | — |
-| σ | Разброс первых 14 замеров (личный, не популяционный) | `baselineWindow` | — |
-| Триаж | Ответ Земли = 2 × задержка + 10 мин обработки, сравнивается с окном реакции (красный 30 мин) | `triage` | **допущение команды, ждёт проверки науки** |
-| Космическая погода | SEP за 48 ч → WARNING; быстрый CME (≥1000 км/с) за 72 ч или X-вспышка → WATCH | `spaceWeather` | NASA DONKI, NASA-STD-3001 |
+| Status | `bands` ranges + % deviation from personal baseline, worst wins | `indicators.json` | AHA, ADA, AASM, HRP |
+| Personal baseline | Mean of the first 3 readings, or set manually | `BaselineCalculator.FIRST_READINGS` | — |
+| EWMA | z = λx + (1−λ)z, alert outside L·σ·√(λ/(2−λ)) | λ = 0.2, L = 3.0 | Roberts 1959; Lucas & Saccucci 1990 |
+| CUSUM | Tabular CUSUM, restarted when an episode ends | k = 0.5σ, h = 5σ | Page 1954 |
+| Trend | OLS over 14 days, \|t\| ≥ 3, crossing forecast within 30 days | `trend*` | — |
+| σ | Spread of the first 14 readings (personal, not population) | `baselineWindow` | — |
+| Triage | Earth response = 2 × delay + 10 min handling, compared with the response window (red 30 min) | `triage` | **team assumption, pending science review** |
+| Space weather | SEP within 48 h → WARNING; fast CME (≥1000 km/s) within 72 h or X-class flare → WATCH | `spaceWeather` | NASA DONKI, NASA-STD-3001 |
 
-## 7. Как развивать с помощью ИИ
+## 7. Extending with AI
 
-Перед любой задачей агент читает `CLAUDE.md`, этот файл и `docs/DATA_CONTRACT.md`. Для Claude Code есть скилл `health-engine`.
+Before any task the agent reads `CLAUDE.md`, this file and `docs/DATA_CONTRACT.md`. Claude Code also has the `health-engine` skill.
 
-**Новое правило-паттерн (без кода).** Добавить объект в `patterns` в `engine_rules.json`. Условия: `minStatus`, `statusIn`, `minDeviationPct`, `maxDeviationPct`, `hasAlert`.
-> Промпт: «Добавь в engine_rules.json паттерн "dehydration": пульс ≥ +10 % к норме и давление ниже нормы. Источник — HRP. Запусти тесты.»
+**New pattern rule (no code).** Add an object to `patterns` in `engine_rules.json`. Conditions: `minStatus`, `statusIn`, `minDeviationPct`, `maxDeviationPct`, `hasAlert`.
+> Prompt: "Add a 'dehydration' pattern to engine_rules.json: heart rate ≥ +10 % vs baseline and blood pressure below normal. Source: HRP. Run the tests."
 
-**Новый показатель.** Добавить в `indicators.json` (+ при желании в `schedule.intervalDays`). Остальное подхватится само.
-> Промпт: «Добавь показатель SpO2 (%, система cardiovascular) с порогами и источником, интервалом замера 1 день. Проверь AssetContractTest.»
+**New indicator.** Add it to `indicators.json` (and optionally `schedule.intervalDays`). Everything else picks it up.
+> Prompt: "Add an SpO2 indicator (%, system cardiovascular) with thresholds and a source, measured daily. Check AssetContractTest."
 
-**Новый экран на данных движка.**
-> Промпт для @harvio1: «Сделай экран Readiness: для каждого `state.report.readiness` карточка с вердиктом GO/CAUTION/NO_GO и списком причин. Данные бери только из HomeUiState, логику не дублируй.»
+**New screen on engine data.**
+> Prompt for @harvio1: "Build a Readiness screen: for each `state.report.readiness` a card with the GO/CAUTION/NO_GO verdict and its reasons. Use only HomeUiState, do not duplicate logic."
 
-**Новая логика в движке.** Новый объект в `domain/` → результат в `EngineReport` → вызов в `HealthEngine.analyze` → unit-тест в `app/src/test/`.
-> Промпт: «Добавь в domain/ PVT-логику: класс, который по списку времён реакции считает среднее, промахи > 500 мс и фальстарты. Покрой тестами.»
+**New engine logic.** New object in `domain/` → result in `EngineReport` → call in `HealthEngine.analyze` → unit test in `app/src/test/`.
+> Prompt: "Add PVT logic in domain/: a class that takes reaction times and computes the mean, lapses > 500 ms and false starts. Cover it with tests."
 
-**Правила:** не менять формат JSON без тимлида, не придумывать медицинские числа (`verified: false` + `TODO(science)`), запускать `./gradlew testDebugUnitTest assembleDebug`.
+**Rules:** do not change the JSON format without the team lead, never invent medical numbers (`verified: false` + `TODO(science)`), run `./gradlew testDebugUnitTest assembleDebug`.
 
-## 8. Ограничения (честно для жюри)
-- Демо-данные синтетические. Пороги и правила помечены `verified: false`, пока их не проверила наука.
-- Окно реакции в триаже — допущение команды.
-- Это поддержка решений и обучение, не медицинское изделие.
-- Канал вспышек DONKI (FLR) сейчас отвечает 404, используются SEP и CME. Код готов к FLR, если канал заработает.
+## 8. Limitations (stated openly to the judges)
+- Demo astronaut data is synthetic. Thresholds and rules stay `verified: false` until the science review.
+- The triage response window is a team assumption.
+- Decision support and training, not a medical device.
+- The DONKI flare feed (FLR) currently returns 404; SEP and CME are used. The code already handles FLR when the feed returns.

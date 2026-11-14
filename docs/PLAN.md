@@ -1,36 +1,39 @@
-# План реализации CrewPulse
+# CrewPulse implementation plan
 
-Подача: **15.11.2026 23:55**. Всё время по Киеву.
+Submission: **2026-11-15 23:55**. All times Kyiv.
 
-## MVP (не режем никогда)
-1. Чек-ин 6 показателей (давление, пульс, глюкоза, температура, сон, настроение).
-2. Фигура тела, где каждая система окрашена в зелёный, жёлтый или красный.
-3. Карточка «Почему?»: что делать, почему это важно в космосе, как измерить, источник.
-4. Тренды по 180-дневной демо-миссии.
-5. Демо-астронавт (синтетические данные, честно помечены).
+## MVP (never cut)
+1. Check-in of 6 indicators (blood pressure, heart rate, glucose, temperature, sleep, mood).
+2. Body figure with each system colored green / yellow / red.
+3. "Why?" card: what to do, why it matters in space, how to measure, source.
+4. Trends over the 180-day demo mission.
+5. Demo astronaut (synthetic data, clearly labeled).
 
-## Вау-модули (строго по очереди)
-1. PVT-тест реакции.
-2. Digital Twin: прогноз костей, мышц, дозы до лимита 600 мЗв.
-3. Выбор среды и задержка связи: «решай сам» или «жди Землю N минут».
-4. NASA DONKI: реальные солнечные события → алерт «в укрытие» (с кэшем).
-5. Пульс с камеры (rPPG). Не успели — остаётся ручной ввод.
+## Backend engine (done, see `docs/BACKEND.md`)
+Early warning, confidence, patterns with discordance detector, triage with communication delay, GO / NO-GO, NASA DONKI space weather, radiation budget, adaptive measurement plan, gamification, self-validation.
 
-## Шаги
-| # | Когда | Что | Кто | Готово, когда |
+## Wow modules (in order)
+1. PVT reaction test.
+2. Digital Twin: projected bone, muscle and dose up to the 600 mSv limit.
+3. ~~Environment switch and communication delay~~ (backend done, needs UI).
+4. ~~NASA DONKI~~ (backend done, needs UI).
+5. Camera pulse (rPPG). If it does not make it, manual input stays.
+
+## Steps
+| # | When | What | Who | Done when |
 |---|---|---|---|---|
-| 0 | 14.11 до 11:00 | Android Studio, эмулятор, доступ к репо | все | у всех запускается приложение |
-| 1–3 | 14.11 | Каркас, контракт данных, моки | тимлид | ✅ ветка `feat/android-skeleton` |
-| 4 | 14.11 до 15:00 | Макеты 4 экранов, SVG фигуры тела | @gutsonithemvp | ссылка на Figma в `docs/DESIGN.md` |
-| 5 | 14.11 11:00–21:00 | MVP параллельно: экраны / Room + чек-ин / проверка порогов / демо-данные | все | ввод данных меняет цвет системы |
-| — | 14.11 13:00 | Менторы: научная логика порогов | тимлид, @LoranSent | — |
-| 6 | 14.11 22:00 | Первая сквозная сборка | тимлид | сценарий MVP проходит на телефоне |
-| 7 | 15.11 09:00–19:00 | Вау-модули 1→5 | по таблице ролей | каждый модуль в `main` без поломки MVP |
-| — | 15.11 14:00 | Менторы: показываем рабочее приложение | все | — |
-| 8 | 15.11 19:00 | **Заморозка функций**, только багфиксы, релиз APK | тимлид | APK в GitHub Releases |
-| 9 | 15.11 19:00–22:00 | Слайды / видео 30 с, тексты Project Page | @gutsonithemvp, тимлид | `docs/SUBMISSION.md` заполнен |
-| 10 | 15.11 22:00–23:00 | Подача, проверка ссылок в инкогнито | тимлид | отправлено до 23:00 |
-| 11 | 16–18.11 | Репетиции, защита 17–18.11 в 14:00 | все | — |
+| 0 | 14.11 by 11:00 | Android Studio, emulator, repo access | all | the app runs for everyone |
+| 1–3 | 14.11 | Skeleton, data contract, mocks | team lead | ✅ merged |
+| 4 | 14.11 by 15:00 | Mockups of key screens, body figure SVG | @gutsonithemvp | Figma link in `docs/DESIGN.md` |
+| 5 | 14.11 11:00–21:00 | MVP in parallel: screens / engine / threshold review / demo data | all | a check-in changes a system color |
+| — | 14.11 13:00 | Mentors: scientific logic of thresholds and early warning | team lead, @LoranSent | — |
+| 6 | 14.11 22:00 | First end-to-end build | team lead | MVP flow works on a phone |
+| 7 | 15.11 09:00–19:00 | Wow modules 1→5, UI for engine output | see roles | each module in `main` without breaking MVP |
+| — | 15.11 14:00 | Mentors: show the working app | all | — |
+| 8 | 15.11 19:00 | **Feature freeze**, bug fixes only, APK release | team lead | APK in GitHub Releases |
+| 9 | 15.11 19:00–22:00 | Slides / 30 s video, Project Page texts | @gutsonithemvp, team lead | `docs/SUBMISSION.md` complete |
+| 10 | 15.11 22:00–23:00 | Submit, check links in incognito | team lead | submitted before 23:00 |
+| 11 | 16–18.11 | Rehearsals, defense on 17–18.11 at 14:00 | all | — |
 
-## Если не успеваем
-Режем с конца: пульс с камеры → DONKI → среды → Digital Twin. MVP и PVT остаются.
+## If we run late
+Cut from the end: camera pulse → Digital Twin → PVT. MVP and the engine UI (triage, alerts) stay.

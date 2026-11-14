@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Instructions for AI agents (Cursor, Codex, etc.). Read `CLAUDE.md` first: it has the full rules (in Russian).
+Instructions for AI agents (Cursor, Codex, etc.). Read `CLAUDE.md` first: it has the full rules.
 
 - Project: CrewPulse, offline-first Android app (Kotlin, Jetpack Compose) for astronaut self-assessment. NASA Space Apps 2026.
 - Gradle project lives in `android/`. Python data scripts in `science/`.

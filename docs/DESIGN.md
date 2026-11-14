@@ -1,20 +1,22 @@
-# Дизайн-бриф
+# Design brief
 
-Владелец: @gutsonithemvp. Ссылка на Figma: _вставить_
+Owner: @gutsonithemvp. Figma link: _add here_
 
-## Экраны (приоритет)
-1. **Главная:** фигура тела, зоны систем окрашены по статусу; сверху день миссии и среда; кнопки Check-in / PVT / Twin / Trends.
-2. **Чек-ин:** 6 полей, у каждого подсказка «как измерить», крупные кнопки (перчатки, невесомость).
-3. **Карточка показателя («Почему?»):** значение + цвет, что делать, почему важно в космосе, источник.
-4. **Тренды:** график с цветными полосами норм и отметками событий.
-5. Потом: PVT, Digital Twin (ползунок дня миссии), алерт о солнечной вспышке.
+## Screens (priority)
+1. **Home:** body figure with system zones colored by status; mission day and environment on top; triage block ("what to do now"); space weather banner; buttons Check-in / PVT / Twin / Trends.
+2. **Check-in:** 6 fields with a "how to measure" hint each, large buttons (gloves, microgravity).
+3. **Indicator card ("Why?"):** value + color, what to do, why it matters in space, source, confidence, early warning ("trending up, threshold in ~7 days").
+4. **Trends:** chart with colored range bands and event markers.
+5. **Readiness:** GO / CAUTION / NO-GO for spacewalk and landing with reasons.
+6. **Today's mission:** measurement plan, streak, points, badges.
+7. Later: PVT, Digital Twin (mission day slider), validation screen.
 
-## Фигура тела
-- SVG, каждая система — отдельный `path` с `id`: `cardiovascular`, `metabolic`, `immune`, `behavioral`, `musculoskeletal`, `vision`, `radiation` (радиация — ореол вокруг фигуры).
-- Отдать @harvio1 в `android/app/src/main/res/drawable/` (фронтенд конвертирует в VectorDrawable).
+## Body figure
+- SVG, each system is a separate `path` with an `id`: `cardiovascular`, `metabolic`, `immune`, `behavioral`, `musculoskeletal`, `vision`, `radiation` (radiation is a halo around the figure).
+- Hand it to @harvio1 in `android/app/src/main/res/drawable/` (frontend converts it to a VectorDrawable).
 
-## Стиль
-- Тёмная тема (каюта, ночь), высокий контраст, читаемо на проекторе.
-- Статусы: зелёный / жёлтый / красный + иконка или текст (не только цвет, для дальтоников).
-- Все тексты интерфейса на английском.
-- Цвета-заглушки сейчас лежат в `ui/theme/Theme.kt`, итоговые передать @harvio1.
+## Style
+- Dark theme (cabin, night), high contrast, readable on a projector.
+- Status is green / yellow / red **plus** an icon or text (never color alone, for color-blind users).
+- All UI texts in English.
+- Placeholder colors are in `ui/theme/Theme.kt`; hand final colors to @harvio1.
