@@ -46,7 +46,7 @@ fun AppNavHost(container: AppContainer) {
             val id = entry.arguments?.getString("id").orEmpty()
             IndicatorScreen(homeState.evaluation(id), homeState.risks, back)
         }
-        composable(Routes.CHECKIN) { CheckInScreen(back) }
+        composable(Routes.CHECKIN) { CheckInScreen(container, back) }
         composable(Routes.TRENDS) { TrendsScreen(back) }
         composable(Routes.PVT) { PvtScreen(back) }
         composable(Routes.TWIN) { TwinScreen(back) }
