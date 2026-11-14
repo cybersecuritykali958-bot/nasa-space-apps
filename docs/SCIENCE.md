@@ -114,9 +114,20 @@ Short answers for the 5-minute defense. Every claim points to a source in this f
 | 14 | Is the mood scale validated? | No. It is a single screening question. Validated tools used in isolation studies are the Mental Health Checklist, PANAS and POMS; replacing our item with a short validated scale is future work. |
 | 15 | Is this a medical device? | No. It is a research prototype for self-monitoring that supports the crew medical officer and the flight surgeon, not replaces them. |
 
+## Engine methods (backend, see `docs/BACKEND.md`)
+| Method | Parameters | Source | Verified |
+|---|---|---|---|
+| CUSUM | k = 0.5σ, h = 5σ, restarted when an episode ends | Page 1954, doi:10.1093/biomet/41.1-2.100 | ☐ |
+| EWMA | λ = 0.2, L = 3.0 | Roberts 1959, doi:10.1080/00401706.1959.10489860; Lucas & Saccucci 1990, doi:10.1080/00401706.1990.10484583 | ☐ |
+| Triage response window | red 30 min, yellow 24 h, ground handling 10 min | team assumption | ☐ needs a source or rationale |
+| Space weather | SEP within 48 h → shelter, fast CME ≥1000 km/s within 72 h → watch | NASA DONKI | ☐ |
+| Patterns and GO / NO-GO | `engine_rules.json` | see `sources` on each rule | ☐ |
+
+**Engine self-validation on the demo mission:** 10 of 14 events caught, 5 before the threshold (mean lead 16.6 days), 6 false alarms over 180 days (`docs/BACKEND.md`, section 5). Re-run after threshold changes: `./gradlew testDebugUnitTest --tests '*EngineBenchmarkTest*' -i`.
+
 ## Resources from the challenge description
-- NASA: 5 Hazards of Human Spaceflight, Risks of Human Spaceflight, Ongoing HRP Research in Space.
-- CSA: Monitoring Radiation for Astronaut Health; Why Do We Conduct Science Experiments in Space?
+- NASA: [5 Hazards](https://www.nasa.gov/hrp/hazards/), [Risks of Human Spaceflight](https://www.nasa.gov/hrp/risks/), [Ongoing HRP Research](https://www.nasa.gov/hrp/ongoing-hrp-research/).
+- CSA: [Monitoring radiation for astronaut health](https://www.asc-csa.gc.ca/eng/news/articles/2026/2026-02-26-monitoring-radiation-astronaut-health.asp), [How does radiation affect the human body in space?](https://www.asc-csa.gc.ca/eng/astronauts/space-medicine/radiation.asp); Why Do We Conduct Science Experiments in Space?
 
 ## Remaining science tasks
 1. ~~Go through the table: check numbers and URLs, set `verified: true`.~~ Done 2026-11-14, except the limitations above.

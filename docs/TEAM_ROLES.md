@@ -1,32 +1,32 @@
-# Роли команды KHNUIA
+# Team KHNUIA roles
 
-| # | Роль | Кто | Зона | Инструмент |
+| # | Role | Who | Zone | Tool |
 |---|---|---|---|---|
-| 1 | Тимлид / архитектор | Claude Code (ведёт @lazzzzz1) | корень, Gradle, CI, `docs/PLAN.md` | Claude Code |
-| 2 | Фронтенд (экраны) | @harvio1 | `ui/` | Cursor / Android Studio |
-| 3 | Бэкенд (логика в телефоне) | @jarororoor | `data/`, `domain/` | Claude Code / Cursor |
-| 4 | Наука | @LoranSent | `assets/indicators.json`, `risks.json`, `environments.json`, `docs/SCIENCE.md` | Claude Code |
-| 5 | Инженер данных | @interpolfuckyou | `science/`, `assets/demo_mission.json` | Claude Code |
-| 6 | Дизайн и презентация | @gutsonithemvp | `docs/DESIGN.md`, `docs/PITCH.md`, `docs/SUBMISSION.md`, слайды, видео | Figma / Canva |
+| 1 | Team lead / architect | Claude Code (driven by @lazzzzz1) | root, Gradle, CI, `docs/PLAN.md` | Claude Code |
+| 2 | Frontend (screens) | @harvio1 | `ui/` | Cursor / Android Studio |
+| 3 | Backend (on-device logic) | @jarororoor | `data/`, `domain/`, `docs/BACKEND.md` | Claude Code / Cursor |
+| 4 | Science | @LoranSent | `assets/indicators.json`, `risks.json`, `environments.json`, `engine_rules.json` (rules), `docs/SCIENCE.md` | Claude Code |
+| 5 | Data engineering | @interpolfuckyou | `science/`, `assets/demo_mission.json`, `assets/donki_cache.json` | Claude Code |
+| 6 | Design and presentation | @gutsonithemvp | `docs/DESIGN.md`, `docs/PITCH.md`, `docs/SUBMISSION.md`, slides, video | Figma / Canva |
 
-Пути `ui/`, `data/`, `domain/` указаны относительно `android/app/src/main/java/space/crewpulse/`.
+Paths `ui/`, `data/`, `domain/` are relative to `android/app/src/main/java/space/crewpulse/`.
 
-## Кто что делает
+## Responsibilities
 
-**Тимлид.** Каркас, контракт, мержи каждые 1–2 часа, сборка APK, подача, выступление.
+**Team lead.** Skeleton, contract, merges every 1–2 hours, APK build, submission, the talk at the defense.
 
-**@harvio1, фронтенд.** Фигура тела (главный экран), форма чек-ина, карточка «Почему?», графики трендов, экраны PVT и Digital Twin. Сначала на демо-данных, потом на данных из Room.
+**@harvio1, frontend.** Body figure (home screen), check-in form, "Why?" card, trend charts, triage block, readiness, measurement plan, gamification header, space weather banner. All data comes from `HomeViewModel.state.report` (see `docs/BACKEND.md`).
 
-**@jarororoor, бэкенд.** Сохранение чек-ина в Room, личный базовый уровень, `StatusEngine`, логика PVT (тайминг в мс), NASA DONKI с кэшем, пульс с камеры (CameraX + ML Kit), если успеем.
+**@jarororoor, backend.** Room storage, personal baseline, health engine (early warning, confidence, patterns, triage, readiness), NASA DONKI, measurement plan, gamification, self-validation. Next: PVT logic, camera pulse (if time allows).
 
-**@LoranSent, наука.** Проверить каждый порог и источник в `indicators.json` и поставить `verified: true`. Формулы Digital Twin: кости, мышцы, доза. Таблица источников в `docs/SCIENCE.md`. Ответы учёным на защите.
+**@LoranSent, science.** Verify every threshold and source in `indicators.json` and set `verified: true`. Review pattern rules, triage windows and readiness gates in `engine_rules.json`. Digital Twin formulas. Source table in `docs/SCIENCE.md`. Answers to scientists at the defense.
 
-**@interpolfuckyou, данные.** Генератор демо-миссии (`science/generate_demo_mission.py`), проверка алгоритма пульса rPPG на Python до переноса в Kotlin, кэш DONKI для офлайна.
+**@interpolfuckyou, data.** Demo mission generator (`science/generate_demo_mission.py`), DONKI cache (`science/fetch_donki.py`), rPPG camera pulse prototype in Python before porting to Kotlin.
 
-**@gutsonithemvp, дизайн.** Макеты 4 экранов, SVG фигуры тела с зонами систем, иконка, 7 слайдов, видео на 30 с с англ. субтитрами, тексты Project Page.
+**@gutsonithemvp, design.** Mockups of the key screens, body figure SVG with system zones, app icon, 7 slides, 30-second video with English subtitles, Project Page texts.
 
-## Пары
-- @gutsonithemvp → @harvio1: макеты и SVG → экраны.
-- @LoranSent → @jarororoor: пороги и формулы → движок.
-- @interpolfuckyou → @jarororoor: демо-данные и алгоритм пульса.
-- @LoranSent + @gutsonithemvp + тимлид: наука → слайды и питч.
+## Pairs
+- @gutsonithemvp → @harvio1: mockups and SVG → screens.
+- @LoranSent → @jarororoor: thresholds and rules → engine.
+- @interpolfuckyou → @jarororoor: demo data, DONKI cache, pulse algorithm.
+- @LoranSent + @gutsonithemvp + team lead: science → slides and pitch.

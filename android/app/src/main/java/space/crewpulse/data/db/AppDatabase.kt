@@ -5,9 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [ReadingEntity::class], version = 1, exportSchema = true)
+@Database(entities = [ReadingEntity::class, BaselineEntity::class], version = 2, exportSchema = true)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun readingDao(): ReadingDao
+    abstract fun baselineDao(): BaselineDao
 
     companion object {
         fun build(context: Context): AppDatabase =

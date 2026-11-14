@@ -1,54 +1,58 @@
 # CLAUDE.md: CrewPulse (NASA Space Apps 2026)
 
-## Проект
-- **Челлендж:** Create Health Monitoring Software for Astronauts on Space Missions.
-- **Идея:** офлайн Android-приложение для самоосмотра астронавта: измерить → увидеть статус систем тела → понять, что делать, даже когда Земля отвечает через 20+ минут.
-- **Жюри:** учёные. Главное — научная обоснованность: у каждого порога и цифры есть источник.
-- **Приоритет:** рабочий демо-сценарий важнее количества функций.
-- **Подача:** 15.11.2026 23:55 (Киев). Защита 17–18.11.
+## Project
+- **Challenge:** Create Health Monitoring Software for Astronauts on Space Missions.
+- **Idea:** offline Android app for astronaut self-assessment: measure → see the status of each body system → know what to do, even when Earth answers in 20+ minutes.
+- **Judges:** scientists. Scientific validity matters most: every threshold and number has a source.
+- **Priority:** a working demo flow beats feature count.
+- **Submission:** 2026-11-15 23:55 (Kyiv). Defense 2026-11-17/18.
+- **Language:** everything in the repo is in English (docs, code, comments, commits, PRs).
 
-## Стек
+## Stack
 - Kotlin, Jetpack Compose, Material 3, Navigation Compose.
-- Room (локальная БД), kotlinx.serialization (JSON из `assets/`).
-- Ручной DI через `AppContainer`. Hilt не добавлять.
-- Позже по плану: CameraX + ML Kit (пульс с камеры), Retrofit (NASA DONKI), Vico (графики), WorkManager (напоминания).
-- Python 3.12 в `science/` для данных и проверки алгоритмов.
+- Room (local DB), kotlinx.serialization (JSON from `assets/`).
+- Manual DI through `AppContainer`. Do not add Hilt.
+- NASA DONKI via `HttpURLConnection` + kotlinx.serialization (no Retrofit), offline cache in `assets/donki_cache.json`.
+- Backend engine: `docs/BACKEND.md` (how it works and how screens use it).
+- Planned: CameraX + ML Kit (camera pulse), Vico (charts), WorkManager (reminders from `report.plan`).
+- Python 3.12 in `science/` for data and algorithm checks.
 
-## Зоны (правь только свою)
-| Путь | Владелец |
+## Zones (edit only yours)
+| Path | Owner |
 |---|---|
 | `android/app/src/main/java/space/crewpulse/ui/` | @harvio1 |
 | `android/app/src/main/java/space/crewpulse/data/`, `domain/` | @jarororoor |
 | `android/app/src/main/assets/`, `science/` | @LoranSent, @interpolfuckyou |
-| `docs/` (дизайн, слайды, тексты) | @gutsonithemvp |
-| корень, `android/*.kts`, `gradle/`, `.github/`, `.claude/`, `.cursor/`, `docs/PLAN.md` | тимлид |
+| `docs/` (design, slides, texts) | @gutsonithemvp |
+| root, `android/*.kts`, `gradle/`, `.github/`, `.claude/`, `.cursor/`, `docs/PLAN.md` | team lead |
 
-## Контракт данных
-- Формат JSON описан в `docs/DATA_CONTRACT.md`, Kotlin-модели в `data/model/Contract.kt`.
-- Менять оба только вместе и только с согласия тимлида.
-- Демо не зависит от живых API: всё нужное лежит в `assets/`, сеть только как бонус с кэшем.
+## Data contract
+- JSON format: `docs/DATA_CONTRACT.md`; Kotlin models: `data/model/Contract.kt`, `data/model/EngineRules.kt`.
+- Change both together and only with team lead approval.
+- The demo never depends on live APIs: everything needed is in `assets/`; the network is a bonus with a cache.
 
-## Правила кода
-- Код, имена и комментарии на английском, тексты интерфейса на английском.
-- Маленькие composable-функции, состояние во ViewModel (`StateFlow`).
-- Новую зависимость добавлять в `gradle/libs.versions.toml` только по согласованию с тимлидом.
-- Секреты только в `android/local.properties` (не коммитится).
-- Логику (`domain/`) покрывать unit-тестами в `app/src/test/`.
+## Code rules
+- Code, names, comments and UI texts in English.
+- Small composables; state in ViewModels (`StateFlow`).
+- New dependencies go into `gradle/libs.versions.toml` only after the team lead agrees.
+- Secrets only in `android/local.properties` (not committed).
+- Cover `domain/` logic with unit tests in `app/src/test/`.
 
 ## Git
-- Ветка `feat/<ник>-<задача>`, PR в `main`, мержит тимлид каждые 1–2 часа.
-- Перед большой правкой агента сделай коммит.
-- CI собирает APK и гоняет тесты на каждый PR. Красный CI не мержим.
+- Branch `feat/<nick>-<task>`, PR into `main`, the team lead merges every 1–2 hours.
+- Commit before a large agent edit.
+- CI builds the APK and runs tests on every PR. Do not merge a red CI.
 
-## Команды
+## Commands
 ```bash
 cd android && ./gradlew testDebugUnitTest assembleDebug
 python science/generate_demo_mission.py
+python science/fetch_donki.py     # refresh the NASA DONKI offline cache (key in android/local.properties)
 ```
 
-## Как работать агенту
-- Сначала прочитай нужные файлы и `docs/PLAN.md`.
-- Делай только то, что просят, без лишнего рефакторинга.
-- Не трогай чужие зоны и контракт без явной просьбы.
-- После изменений запусти тесты и сборку, кратко опиши результат.
-- Не придумывай медицинские цифры: нет источника — пометь `TODO(science)`.
+## How agents should work
+- Read the relevant files and `docs/PLAN.md` first.
+- Do only what is asked, no unrelated refactoring.
+- Do not touch other zones or the contract without an explicit request.
+- After changes run tests and the build, report the result briefly.
+- Never invent medical numbers: no source → mark `TODO(science)`.

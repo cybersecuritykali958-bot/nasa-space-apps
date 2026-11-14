@@ -1,18 +1,26 @@
-# Питч и защита
+# Pitch and defense
 
-Защита: 17–18.11 в 14:00, Zoom, **5 минут** + вопросы. Владельцы: тимлид + @gutsonithemvp.
+Defense: 17–18.11 at 14:00, Zoom, **5 minutes** + questions. Owners: team lead + @gutsonithemvp.
 
-## Структура (240 секунд + демо)
-1. **Внимание (45 с):** «Марс. До ближайшего врача 12 минут в одну сторону. Астронавт сам себе врач».
-2. **Проблема (60 с):** 5 hazards NASA HRP; что происходит с телом; почему нужна автономная самооценка.
-3. **Решение + живое демо (90 с):** чек-ин → фигура тела → карточка «Почему?» с источником → член жюри проходит PVT → Digital Twin «тело через 2 года».
-4. **Влияние (45 с):** миссии Artemis и Mars, аналоговые станции, данные для HRP, Земля (полярные станции, подлодки).
+## Structure (240 seconds + demo)
+1. **Hook (45 s):** "Mars. The nearest doctor is 12 minutes away, one way. The astronaut is their own doctor."
+2. **Problem (60 s):** NASA HRP 5 hazards; what they do to the body; why autonomous self-assessment is needed.
+3. **Solution + live demo (90 s):** check-in → body figure → early warning "blood pressure still normal, but drifting; threshold in ~7 days" → triage → switch environment Mars ↔ ISS and the decision changes → spacewalk NO-GO on a real NASA DONKI particle event.
+4. **Impact (45 s):** Artemis and Mars missions, analog stations, data for HRP research, Earth use (polar stations, submarines).
 
-## Вероятные вопросы учёных
-| Вопрос | Ответ (готовит @LoranSent) |
+## Key claims (each backed by the app)
+- "We compare not only with population norms but with the astronaut's own baseline."
+- "EWMA and CUSUM are classic statistical process control methods used in patient monitoring; we apply them to in-flight self-assessment."
+- "The engine knows the communication delay and decides whether the crew can wait for Earth."
+- "Every conclusion is explainable: you see which indicators and why. No black box."
+- "We validated the engine: on the 180-day mission it caught gradual changes 7–30 days before the threshold, with 6 false alarms."
+
+## Likely questions from scientists
+| Question | Answer (prepared by @LoranSent) |
 |---|---|
-| Откуда пороги? | _таблица из SCIENCE.md_ |
-| Почему отклонение от личной базы, а не только норма? | _…_ |
-| Насколько точен пульс с камеры? | _…_ |
-| Данные реальные? | Синтетические, построены на опубликованных скоростях изменений; это честно указано в приложении |
-| Чем отличается от фитнес-трекера? | Космические риски HRP, автономная эскалация с учётом задержки связи, научные источники |
+| Where do the thresholds come from? | _table in SCIENCE.md_ |
+| Why a personal baseline and not only norms? | _…_ |
+| How accurate is the camera pulse? | _…_ |
+| Is the data real? | Demo astronaut data is synthetic, built on published rates and labeled as such. Space weather is real NASA DONKI data |
+| How is this different from a fitness tracker? | HRP space risks, early warning against personal variation, autonomous triage with communication delay, scientific sources |
+| How did you validate the early warning? | Day-by-day replay of the mission: events caught, lead time, false alarms (`docs/BACKEND.md`, section 5) |

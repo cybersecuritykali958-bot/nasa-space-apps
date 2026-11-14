@@ -6,6 +6,7 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import space.crewpulse.data.model.DemoMission
 import space.crewpulse.data.model.Environment
+import space.crewpulse.data.model.EngineRules
 import space.crewpulse.data.model.EnvironmentsFile
 import space.crewpulse.data.model.Indicator
 import space.crewpulse.data.model.IndicatorsFile
@@ -27,6 +28,8 @@ class AssetRepository(private val context: Context) {
         read<RisksFile>("risks.json").risks
 
     suspend fun demoMission(): DemoMission = read("demo_mission.json")
+
+    suspend fun engineRules(): EngineRules = read("engine_rules.json")
 
     private suspend inline fun <reified T> read(name: String): T = withContext(Dispatchers.IO) {
         val text = context.assets.open(name).bufferedReader().use { it.readText() }
