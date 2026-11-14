@@ -82,6 +82,16 @@ Reference implementation: `science/digital_twin.py`, which prints test vectors. 
 
 > CrewPulse is a research prototype, not a medical device, and it does not replace a flight surgeon. The demo astronaut is synthetic: 180 days of data generated from published rates of change around a fixed baseline, and labelled as synthetic in the app. Most thresholds are terrestrial clinical references (AHA, ADA, CDC, NEWS2, AASM); spaceflight-specific limits are used where NASA publishes them (NASA-STD-3001 for radiation dose, bone density and muscle strength). Every threshold in the app links to its source, and values that we derived ourselves (for example the 15 % / 30 % deviation from personal baseline) are marked as such. The mood check-in is a screening question, not a validated psychological scale, and the reaction-time test reports mean response time, which is less sensitive to sleep loss than lapse counts. The Digital Twin is a simple deterministic model: it assumes losses scale linearly with gravity, has no human data for Moon or Mars gravity, and extrapolates beyond 14.4 months, the longest period covered by the bone data we use. It shows trends and orders of magnitude, not individual predictions.
 
+## Science highlights for slides (for @gutsonithemvp and the team lead)
+
+Short facts for slide 7 ("NASA and partner data") and the pitch. Each one is sourced above.
+
+1. **A Mars mission exceeds NASA's career radiation limit.** ~980 mSv for 2 × 180 days of transit + 500 days on the surface, vs a 600 mSv limit (MSL RAD: Zeitlin 2013, Hassler 2014; NASA-STD-3001).
+2. **Our bone model matches ISS data.** 6 months with ARED → −3 % hip bone density; recent ISS crews averaged −3 % at the femoral neck (NASA/SP-20250000273).
+3. **Earth is up to 22 minutes away.** One-way signal delay to Mars is ~3–22 minutes, so the crew has to assess itself first.
+4. **Astronauts sleep ~6 hours.** ISS crews average about 6 h per night (Barger 2014; NASA HRP), and 6 h or less for two weeks impairs attention like up to two nights without sleep (Van Dongen 2003). That is why a 3-minute PVT (Basner 2011) is in the app.
+5. **Every threshold has a source.** 9 indicators, 9 NASA HRP risks, 4 environments; NASA HRP, NASA-STD-3001, MSL RAD, Chang'e-4 LND, CSA, AHA, ADA, CDC, AASM, NEWS2.
+
 ## Defense Q&A (prepared by @LoranSent)
 
 Short answers for the 5-minute defense. Every claim points to a source in this file.
