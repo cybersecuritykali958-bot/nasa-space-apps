@@ -55,7 +55,8 @@ object StatusEngine {
     fun worst(statuses: Collection<Status>): Status =
         statuses.maxByOrNull { severity(it) } ?: Status.UNKNOWN
 
-    private fun severity(status: Status): Int = when (status) {
+    /** UNKNOWN < GREEN < YELLOW < RED. */
+    fun severity(status: Status): Int = when (status) {
         Status.UNKNOWN -> 0
         Status.GREEN -> 1
         Status.YELLOW -> 2
