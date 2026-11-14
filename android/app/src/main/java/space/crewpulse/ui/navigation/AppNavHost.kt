@@ -47,7 +47,7 @@ fun AppNavHost(container: AppContainer) {
             IndicatorScreen(homeState.evaluation(id), homeState.risks, back)
         }
         composable(Routes.CHECKIN) { CheckInScreen(container, back) }
-        composable(Routes.TRENDS) { TrendsScreen(back) }
+        composable(Routes.TRENDS) { TrendsScreen(container, back) }
         composable(Routes.PVT) { PvtScreen(back) }
         composable(Routes.TWIN) { TwinScreen(back) }
     }
