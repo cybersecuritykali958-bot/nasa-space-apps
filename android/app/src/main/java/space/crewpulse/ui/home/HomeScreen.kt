@@ -35,6 +35,8 @@ import space.crewpulse.domain.SpaceWeatherLevel
 import space.crewpulse.domain.StatusEngine
 import space.crewpulse.ui.components.CardRow
 import space.crewpulse.ui.components.CrewIcons
+import space.crewpulse.ui.components.DayRing
+import space.crewpulse.ui.components.MissionTrajectory
 import space.crewpulse.ui.i18n.alertText
 import space.crewpulse.ui.i18n.environmentName
 import space.crewpulse.ui.i18n.indicatorName
@@ -63,18 +65,6 @@ fun HomeScreen(
         Row(Modifier.fillMaxWidth().padding(top = 16.dp), verticalAlignment = Alignment.Top) {
             Column(Modifier.weight(1f)) {
                 Text(greeting(), style = MaterialTheme.typography.headlineMedium)
-                if (!state.loading && state.error == null) {
-                    Text(
-                        stringResource(
-                            R.string.home_subtitle,
-                            environmentName(state.environment?.id, state.environmentName),
-                            state.missionDay,
-                            "%.0f".format(state.commDelayMin ?: 0.0),
-                        ),
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                }
             }
             IconButton(onClick = { onNavigate(Routes.SETTINGS) }) {
                 Icon(Icons.Outlined.Settings, contentDescription = stringResource(R.string.settings_title))
@@ -91,6 +81,26 @@ fun HomeScreen(
 
 @Composable
 private fun Briefing(state: HomeUiState, onIndicator: (String) -> Unit, onNavigate: (String) -> Unit) {
+    // Where the mission is: animated route with the ship at today's position.
+    val envId = state.environment?.id
+    val planned = PLANNED_DAYS[envId] ?: 0
+    MissionTrajectory(
+        environmentId = envId,
+        progress = if (planned > 0) state.missionDay.toFloat() / planned else 0f,
+        caption = if ((state.commDelayMin ?: 0.0) < 1.0) {
+            stringResource(R.string.home_subtitle_live, environmentName(envId, state.environmentName), state.missionDay)
+        } else {
+            stringResource(
+                R.string.home_subtitle,
+                environmentName(envId, state.environmentName),
+                state.missionDay,
+                "%.0f".format(state.commDelayMin ?: 0.0),
+            )
+        },
+        details = if (planned > 0 && envId == "mars_transit") stringResource(R.string.mission_details_transit, state.missionDay, planned, state.commDelayMin ?: 0.0)
+        else stringResource(R.string.mission_details_other, state.commDelayMin ?: 0.0),
+    )
+
     // One status line.
     val overall = StatusEngine.worst(state.systems.map { it.status })
     val attention = state.systems.count { it.status == Status.YELLOW || it.status == Status.RED }
@@ -122,18 +132,37 @@ private fun Briefing(state: HomeUiState, onIndicator: (String) -> Unit, onNaviga
     }
 
     // Today's plan.
-    Text(stringResource(R.string.todays_plan), style = MaterialTheme.typography.titleLarge, modifier = Modifier.padding(top = 12.dp))
     val plan = state.report.plan
+    val (done, total) = todayProgress(state)
+    Row(Modifier.fillMaxWidth().padding(top = 12.dp), verticalAlignment = Alignment.CenterVertically) {
+        Column(Modifier.weight(1f)) {
+            Text(stringResource(R.string.todays_plan), style = MaterialTheme.typography.titleLarge)
+            Text(
+                if (total > 0 && done >= total) stringResource(R.string.day_done) else stringResource(R.string.day_progress, done, total),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+        DayRing(done, total)
+    }
     if (plan == null || plan.next24h.isEmpty()) {
         Text(stringResource(R.string.all_done), color = MaterialTheme.colorScheme.onSurfaceVariant)
     } else {
         val time = DateFormat.getTimeInstance(DateFormat.SHORT)
+        val dayEnd = startOfToday() + DAY_MS
         plan.next24h.forEach { task ->
             val ind = state.evaluation(task.indicatorId)?.indicator
+            val doneToday = state.history[task.indicatorId].orEmpty().any { it.timestampMillis >= startOfToday() }
+            val at = time.format(Date(task.dueAtMillis))
             CardRow(
                 title = ind?.let { indicatorName(it) } ?: task.indicatorName,
-                subtitle = time.format(Date(task.dueAtMillis)),
+                subtitle = when {
+                    doneToday && task.dueAtMillis >= dayEnd -> stringResource(R.string.done_today_next, at)
+                    task.dueAtMillis >= dayEnd -> stringResource(R.string.tomorrow_at, at)
+                    else -> at
+                },
                 icon = CrewIcons.indicator(task.indicatorId),
+                trailing = if (doneToday) ({ StatusMark(Status.GREEN) }) else null,
                 onClick = { onNavigate(if (task.indicatorId == "pvt_mean_rt") Routes.PVT else Routes.CHECKIN) },
             )
         }
@@ -168,3 +197,24 @@ private fun greeting(): String = stringResource(
         else -> R.string.greeting_evening
     },
 )
+
+/** Typical durations, for the route picture only (a Mars transfer usually takes 6 to 9 months). */
+private val PLANNED_DAYS = mapOf("mars_transit" to 260, "iss" to 180)
+
+/** Scheduled measurements done today vs due today (or already done today). */
+private fun todayProgress(state: HomeUiState): Pair<Int, Int> {
+    val plan = state.report.plan ?: return 0 to 0
+    val dayStart = startOfToday()
+    val dayEnd = dayStart + DAY_MS
+    val tasks = plan.next24h + plan.later
+    val measured = tasks.map { it.indicatorId }.filter { id -> state.history[id].orEmpty().any { it.timestampMillis >= dayStart } }.toSet()
+    val dueToday = tasks.filter { it.dueAtMillis < dayEnd }.map { it.indicatorId }.toSet()
+    val all = measured + dueToday
+    return measured.size to all.size
+}
+
+private const val DAY_MS = 24L * 60 * 60 * 1000
+
+private fun startOfToday(): Long = Calendar.getInstance().apply {
+    set(Calendar.HOUR_OF_DAY, 0); set(Calendar.MINUTE, 0); set(Calendar.SECOND, 0); set(Calendar.MILLISECOND, 0)
+}.timeInMillis

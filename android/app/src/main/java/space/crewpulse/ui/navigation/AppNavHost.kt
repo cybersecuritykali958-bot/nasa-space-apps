@@ -21,7 +21,15 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.tween
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import kotlinx.coroutines.delay
+import space.crewpulse.ui.components.OrbitLoader
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -79,9 +87,32 @@ fun AppNavHost(container: AppContainer, onLanguageChange: (String) -> Unit) {
     val nav = rememberNavController()
     val home: HomeViewModel = viewModel(factory = HomeViewModel.factory(container))
     val state by home.state.collectAsStateWithLifecycle()
+
+    // Short loading screen with orbiting planets: at least 1.5 s on start, and while data loads.
+    var splash by remember { mutableStateOf(true) }
+    LaunchedEffect(Unit) {
+        delay(1_500)
+        splash = false
+    }
+    Crossfade(targetState = splash || state.loading, animationSpec = tween(500), label = "splash") { loading ->
+        if (loading) {
+            OrbitLoader(stringResource(R.string.loading_sync))
+        } else {
+            MainScaffold(container, nav, home, state, onLanguageChange)
+        }
+    }
+}
+
+@Composable
+private fun MainScaffold(
+    container: AppContainer,
+    nav: NavHostController,
+    home: HomeViewModel,
+    state: space.crewpulse.ui.home.HomeUiState,
+    onLanguageChange: (String) -> Unit,
+) {
     val back: () -> Unit = { nav.popBackStack() }
     val go: (String) -> Unit = { nav.navigate(it) }
-
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         contentColor = MaterialTheme.colorScheme.onBackground,
