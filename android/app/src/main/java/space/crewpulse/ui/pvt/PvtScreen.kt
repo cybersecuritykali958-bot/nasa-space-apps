@@ -33,7 +33,7 @@ fun PvtScreen(onBack: () -> Unit) {
 
     CrewScaffold(
         title = "Reaction test (PVT)",
-        subtitle = "Psychomotor vigilance · demo ${PvtViewModel.DEMO_TRIALS} trials",
+        subtitle = "Psychomotor vigilance · demo $PVT_DEMO_TRIALS trials",
         onBack = onBack,
     ) { padding ->
         Column(
@@ -45,7 +45,7 @@ fun PvtScreen(onBack: () -> Unit) {
         ) {
             CrewCard {
                 Text(
-                    "Tap only when the panel turns green. Early taps reset the trial. Lapse = slower than ${PvtViewModel.LAPSE_MS} ms.",
+                    "Tap only when the panel turns green. Early taps reset the trial. Lapse = slower than $PVT_LAPSE_MS ms.",
                     style = MaterialTheme.typography.bodyMedium,
                 )
             }

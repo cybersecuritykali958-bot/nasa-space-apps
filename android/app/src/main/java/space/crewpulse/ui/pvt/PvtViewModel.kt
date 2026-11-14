@@ -11,6 +11,9 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
+const val PVT_DEMO_TRIALS = 8
+const val PVT_LAPSE_MS = 500L
+
 enum class PvtPhase {
     Intro, Countdown, Waiting, TapNow, TooEarly, BetweenTrials, Summary,
 }
@@ -18,7 +21,7 @@ enum class PvtPhase {
 data class PvtUiState(
     val phase: PvtPhase = PvtPhase.Intro,
     val trial: Int = 0,
-    val trialsTotal: Int = DEMO_TRIALS,
+    val trialsTotal: Int = PVT_DEMO_TRIALS,
     val lastMs: Long? = null,
     val samples: List<Long> = emptyList(),
     val lapses: Int = 0,
@@ -56,7 +59,7 @@ class PvtViewModel : ViewModel() {
             }
             PvtPhase.TapNow -> {
                 val ms = SystemClock.elapsedRealtime() - stimulusAt
-                val lapse = ms >= LAPSE_MS
+                val lapse = ms >= PVT_LAPSE_MS
                 val samples = st.samples + ms
                 _state.update {
                     it.copy(
@@ -102,8 +105,6 @@ class PvtViewModel : ViewModel() {
     }
 
     companion object {
-        const val DEMO_TRIALS = 8
-        const val LAPSE_MS = 500L
         private const val MIN_DELAY_MS = 2_000L
         private const val MAX_DELAY_MS = 5_000L
     }
