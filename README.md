@@ -1,40 +1,50 @@
-# NASA Space Apps Challenge
+# CrewPulse
 
-Командный проект для хакатона NASA Space Apps Challenge (5 человек).
+**NASA Space Apps Challenge 2026 · Dnipro · team KHNUIA**
+Challenge: *Create Health Monitoring Software for Astronauts on Space Missions*
 
-- **Челлендж:** _заполнить_
-- **Идея:** _одно предложение_
+CrewPulse is an offline-first Android app that lets astronauts run a quick self-exam, see the status of each body system at a glance and know what to do. It keeps working when Earth is 20 minutes away. Every threshold is traced to a NASA or peer-reviewed source.
 
-## Структура
+## Structure
 
-| Папка | Что внутри | Роль |
-|-------|-----------|------|
-| `web/` | Next.js + TypeScript + Tailwind | Фронтенд |
-| `api/` | FastAPI (Python) | Бэкенд |
-| `data/` | Скрипты и готовые наборы данных | Данные |
-| `docs/` | Питч, роли, материалы | Дизайн и презентация |
-| `.claude/`, `.cursor/` | Агенты, скиллы, правила для ИИ | Все |
+| Folder | What | Owner |
+|---|---|---|
+| `android/` | Android app (Kotlin, Jetpack Compose) | whole dev team, see zones below |
+| `android/app/src/main/java/space/crewpulse/ui/` | Screens | @harvio1 |
+| `android/app/src/main/java/space/crewpulse/data/`, `domain/` | Room, data loading, status engine, sensors, NASA API | @jarororoor |
+| `android/app/src/main/assets/` | Science data (JSON) | @LoranSent, @interpolfuckyou |
+| `science/` | Python: demo data, models, algorithm checks | @LoranSent, @interpolfuckyou |
+| `docs/` | Plan, roles, contract, design, pitch, submission | team lead, @gutsonithemvp |
+| root, `.github/`, `.claude/`, `.cursor/` | Configs, CI | team lead |
 
-## Быстрый старт
+## Quick start
 
+1. Install Android Studio (it ships its own JDK).
+2. `gh repo clone cybersecuritykali958-bot/nasa-space-apps`
+3. Android Studio → **Open** → select the `android/` folder (not the repo root).
+4. Wait for Gradle sync, pick an emulator or a phone, press **Run**.
+
+Command line:
 ```bash
-cp .env.example .env        # заполнить ключи
-
-# фронтенд
-cd web && npm install && npm run dev      # http://localhost:3000
-
-# бэкенд
-cd api && python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
-uvicorn main:app --reload                 # http://localhost:8000/docs
-
-# данные
-cd data && pip install -r requirements.txt && python scripts/build_data.py
+cd android
+./gradlew testDebugUnitTest   # unit tests
+./gradlew assembleDebug       # APK in app/build/outputs/apk/debug/
+python ../science/generate_demo_mission.py   # regenerate demo data
 ```
 
-## Правила работы
+Optional NASA API key: add `NASA_API_KEY=...` to `android/local.properties` (never committed). Without it the app uses `DEMO_KEY`.
 
-- Своя ветка на человека: `feat/<имя>-<задача>`, в `main` напрямую не коммитим.
-- Мерж в `main` каждые 1–2 часа, принимает тимлид.
-- Перед крупной правкой агента делаем коммит.
-- Подробнее: `CLAUDE.md`, `docs/TEAM_ROLES.md`.
+## Docs
+
+- [docs/ONBOARDING.md](docs/ONBOARDING.md): set up your machine
+- [docs/PLAN.md](docs/PLAN.md): step-by-step plan and timeline
+- [docs/TEAM_ROLES.md](docs/TEAM_ROLES.md): who does what
+- [docs/DATA_CONTRACT.md](docs/DATA_CONTRACT.md): JSON format
+- [docs/SCIENCE.md](docs/SCIENCE.md): sources and verification status
+- [docs/DESIGN.md](docs/DESIGN.md): design brief
+- [docs/SUBMISSION.md](docs/SUBMISSION.md): Space Apps project page checklist
+- [docs/PITCH.md](docs/PITCH.md): demo script and defense
+
+## Disclaimer
+
+CrewPulse is a decision-support and training prototype, not a medical device. Demo data is synthetic.

@@ -1,0 +1,10 @@
+---
+description: Kotlin / Jetpack Compose rules
+globs: ["android/**/*.kt", "android/**/*.kts"]
+alwaysApply: false
+---
+
+- Kotlin, Jetpack Compose, Material 3. State in ViewModels as StateFlow, no logic in composables.
+- Manual DI via `AppContainer`, no Hilt.
+- Logic in `domain/` with JUnit tests in `app/src/test/`.
+- Run `./gradlew testDebugUnitTest assembleDebug` in `android/` after changes.

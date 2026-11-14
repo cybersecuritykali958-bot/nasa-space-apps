@@ -1,12 +1,12 @@
 ---
-description: Общие правила проекта NASA Space Apps
+description: General CrewPulse project rules
 alwaysApply: true
 ---
 
-Главные правила проекта лежат в `CLAUDE.md` и `AGENTS.md` в корне, читай их.
+Main rules are in `CLAUDE.md` and `AGENTS.md` at the repo root; read them.
 
-- Правь только файлы своей зоны: `web/`, `api/`, `data/`, `docs/`.
-- Не меняй формат данных без согласования с тимлидом.
-- Секреты только в `.env`.
-- Не добавляй зависимости без необходимости.
-- Демо не должно зависеть от живых API NASA.
+- Edit only your zone: `ui/`, `data/` + `domain/`, `assets/` + `science/`, `docs/`.
+- Do not change the data contract without the team lead.
+- Secrets only in `android/local.properties`.
+- No new dependencies without agreement.
+- The demo must work offline. Every medical number needs a source.

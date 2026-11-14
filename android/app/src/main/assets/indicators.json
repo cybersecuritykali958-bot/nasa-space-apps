@@ -1,0 +1,226 @@
+{
+  "version": 1,
+  "indicators": [
+    {
+      "id": "systolic_bp",
+      "name": "Systolic blood pressure",
+      "unit": "mmHg",
+      "system": "cardiovascular",
+      "bands": [
+        {"status": "red", "max": 90},
+        {"status": "green", "min": 90, "max": 130},
+        {"status": "yellow", "min": 130, "max": 140},
+        {"status": "red", "min": 140}
+      ],
+      "baselineDeviationPct": {"yellow": 10, "red": 20},
+      "howToMeasure": "Seated, arm at heart level, after 5 minutes of rest. Use the onboard cuff before exercise.",
+      "whySpace": "Microgravity shifts fluids toward the head and deconditions the heart and vessels. Blood pressure regulation changes in flight and after landing.",
+      "actions": {
+        "green": "No action. Keep the daily routine.",
+        "yellow": "Repeat the measurement in 1 hour. Reduce salt, keep hydration and planned cardio exercise.",
+        "red": "Repeat now. If confirmed, report to the crew medical officer and log for the flight surgeon."
+      },
+      "riskIds": ["cardiovascular"],
+      "sources": [
+        {"title": "AHA: Understanding blood pressure readings", "url": "https://www.heart.org/en/health-topics/high-blood-pressure/understanding-blood-pressure-readings"},
+        {"title": "NASA HRP: Risks of human spaceflight", "url": "https://humanresearchroadmap.nasa.gov/risks/"}
+      ],
+      "verified": false
+    },
+    {
+      "id": "diastolic_bp",
+      "name": "Diastolic blood pressure",
+      "unit": "mmHg",
+      "system": "cardiovascular",
+      "bands": [
+        {"status": "red", "max": 60},
+        {"status": "green", "min": 60, "max": 80},
+        {"status": "yellow", "min": 80, "max": 90},
+        {"status": "red", "min": 90}
+      ],
+      "baselineDeviationPct": {"yellow": 10, "red": 20},
+      "howToMeasure": "Taken together with systolic pressure, same conditions.",
+      "whySpace": "See systolic blood pressure: fluid shift and cardiovascular deconditioning.",
+      "actions": {
+        "green": "No action.",
+        "yellow": "Repeat in 1 hour, review hydration and stress.",
+        "red": "Repeat now. If confirmed, report to the crew medical officer."
+      },
+      "riskIds": ["cardiovascular"],
+      "sources": [
+        {"title": "AHA: Understanding blood pressure readings", "url": "https://www.heart.org/en/health-topics/high-blood-pressure/understanding-blood-pressure-readings"}
+      ],
+      "verified": false
+    },
+    {
+      "id": "heart_rate",
+      "name": "Resting heart rate",
+      "unit": "bpm",
+      "system": "cardiovascular",
+      "bands": [
+        {"status": "red", "max": 40},
+        {"status": "yellow", "min": 40, "max": 50},
+        {"status": "green", "min": 50, "max": 100},
+        {"status": "yellow", "min": 100, "max": 120},
+        {"status": "red", "min": 120}
+      ],
+      "baselineDeviationPct": {"yellow": 15, "red": 30},
+      "howToMeasure": "Right after waking, before getting out of the sleep station. Wearable, finger sensor or the camera pulse scan.",
+      "whySpace": "A resting heart rate well above your own baseline can signal deconditioning, poor sleep, infection or stress.",
+      "actions": {
+        "green": "No action.",
+        "yellow": "Check sleep and hydration. Re-measure tomorrow morning.",
+        "red": "Re-measure now. With symptoms (dizziness, chest pain) report to the crew medical officer immediately."
+      },
+      "riskIds": ["cardiovascular", "sleep"],
+      "sources": [
+        {"title": "NASA HRP: Risks of human spaceflight", "url": "https://humanresearchroadmap.nasa.gov/risks/"}
+      ],
+      "verified": false
+    },
+    {
+      "id": "glucose",
+      "name": "Fasting blood glucose",
+      "unit": "mg/dL",
+      "system": "metabolic",
+      "bands": [
+        {"status": "red", "max": 70},
+        {"status": "green", "min": 70, "max": 100},
+        {"status": "yellow", "min": 100, "max": 126},
+        {"status": "red", "min": 126}
+      ],
+      "baselineDeviationPct": {"yellow": 15, "red": 30},
+      "howToMeasure": "Finger-stick glucometer before breakfast, after at least 8 hours without food.",
+      "whySpace": "Reduced physical load and stress hormones can change insulin sensitivity during long missions.",
+      "actions": {
+        "green": "No action.",
+        "yellow": "Review diet and exercise adherence. Re-test in 2 days.",
+        "red": "Below 70: eat fast carbohydrates and re-test in 15 minutes. 126 or above: re-test and report."
+      },
+      "riskIds": ["nutrition"],
+      "sources": [
+        {"title": "ADA: Diagnosis of diabetes and prediabetes", "url": "https://diabetes.org/about-diabetes/diagnosis"}
+      ],
+      "verified": false
+    },
+    {
+      "id": "body_temp",
+      "name": "Body temperature",
+      "unit": "°C",
+      "system": "immune",
+      "bands": [
+        {"status": "red", "max": 35.0},
+        {"status": "yellow", "min": 35.0, "max": 36.0},
+        {"status": "green", "min": 36.0, "max": 37.3},
+        {"status": "yellow", "min": 37.3, "max": 38.0},
+        {"status": "red", "min": 38.0}
+      ],
+      "howToMeasure": "Oral or ear thermometer, at rest, not right after exercise.",
+      "whySpace": "Spaceflight alters the immune response and can reactivate latent viruses. Fever is an early sign.",
+      "actions": {
+        "green": "No action.",
+        "yellow": "Rest, fluids, re-measure in 4 hours.",
+        "red": "Report to the crew medical officer. Limit contact with crewmates if infection is suspected."
+      },
+      "riskIds": ["immune"],
+      "sources": [
+        {"title": "NASA HRP: Risks of human spaceflight", "url": "https://humanresearchroadmap.nasa.gov/risks/"}
+      ],
+      "verified": false
+    },
+    {
+      "id": "sleep_hours",
+      "name": "Sleep",
+      "unit": "h",
+      "system": "behavioral",
+      "bands": [
+        {"status": "red", "max": 6},
+        {"status": "yellow", "min": 6, "max": 7},
+        {"status": "green", "min": 7}
+      ],
+      "howToMeasure": "Self-report or wearable: total sleep time last night.",
+      "whySpace": "Shifted light-dark cycles, noise and workload cut sleep on missions. Sleep loss reduces alertness and performance.",
+      "actions": {
+        "green": "No action.",
+        "yellow": "Keep a fixed sleep window, dim screens 1 hour before sleep.",
+        "red": "Two nights in a row: tell the commander, avoid critical tasks without a cross-check, run the PVT test."
+      },
+      "riskIds": ["sleep", "behavioral"],
+      "sources": [
+        {"title": "Watson et al. 2015, Recommended amount of sleep for a healthy adult (AASM/SRS)", "url": "https://doi.org/10.5664/jcsm.4758"}
+      ],
+      "verified": false
+    },
+    {
+      "id": "mood",
+      "name": "Mood",
+      "unit": "1-5",
+      "system": "behavioral",
+      "bands": [
+        {"status": "red", "max": 2.5},
+        {"status": "yellow", "min": 2.5, "max": 3.5},
+        {"status": "green", "min": 3.5}
+      ],
+      "howToMeasure": "Self-rating from 1 (very low) to 5 (very good), same time every day.",
+      "whySpace": "Isolation and confinement are one of the five hazards of human spaceflight and affect behavioral health.",
+      "actions": {
+        "green": "No action.",
+        "yellow": "Schedule a private call with family or a psychologist, plan leisure time.",
+        "red": "Several days in a row: talk to the crew medical officer and the ground behavioral health team."
+      },
+      "riskIds": ["behavioral"],
+      "sources": [
+        {"title": "NASA: 5 Hazards of Human Spaceflight", "url": "https://www.nasa.gov/hrp/hazards/"}
+      ],
+      "verified": false
+    },
+    {
+      "id": "pvt_mean_rt",
+      "name": "Reaction time (PVT)",
+      "unit": "ms",
+      "system": "behavioral",
+      "bands": [
+        {"status": "green", "max": 350},
+        {"status": "yellow", "min": 350, "max": 500},
+        {"status": "red", "min": 500}
+      ],
+      "baselineDeviationPct": {"yellow": 15, "red": 30},
+      "howToMeasure": "3-minute reaction test in the app. Same time of day each run.",
+      "whySpace": "Slower reactions are an objective sign of fatigue or sleep loss, before you notice it yourself.",
+      "actions": {
+        "green": "No action.",
+        "yellow": "Postpone non-urgent precision tasks, take a short rest.",
+        "red": "Do not perform critical tasks alone. Report fatigue to the commander."
+      },
+      "riskIds": ["sleep", "behavioral"],
+      "sources": [
+        {"title": "Basner et al. 2015, Development and validation of the Cognition test battery for spaceflight", "url": "https://doi.org/10.3357/AMHP.4343.2015"}
+      ],
+      "verified": false
+    },
+    {
+      "id": "cumulative_dose",
+      "name": "Cumulative radiation dose",
+      "unit": "mSv",
+      "system": "radiation",
+      "bands": [
+        {"status": "green", "max": 300},
+        {"status": "yellow", "min": 300, "max": 540},
+        {"status": "red", "min": 540}
+      ],
+      "howToMeasure": "Personal dosimeter reading, summed over the mission.",
+      "whySpace": "NASA limits career effective dose to 600 mSv. Beyond Earth's magnetic field the daily dose rises several times.",
+      "actions": {
+        "green": "No action.",
+        "yellow": "Minimize time in low-shielded modules, sleep in the shielded quarters.",
+        "red": "Close to the career limit: mission control must review EVA and activity plans."
+      },
+      "riskIds": ["radiation"],
+      "sources": [
+        {"title": "NASA-STD-3001 Vol. 1, Crew Health (career radiation limit)", "url": "https://standards.nasa.gov/standard/NASA/NASA-STD-3001-VOL-1"},
+        {"title": "CSA: Monitoring radiation for astronaut health", "url": "https://www.asc-csa.gc.ca/eng/"}
+      ],
+      "verified": false
+    }
+  ]
+}

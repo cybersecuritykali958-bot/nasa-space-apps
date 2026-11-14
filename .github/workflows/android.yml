@@ -1,0 +1,57 @@
+name: Android
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: android
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: gradle/actions/setup-gradle@748248ddd2a24f49513d8f472f81c3a07d4d50e1 # v4.4.4
+      - name: Check demo data is up to date
+        working-directory: .
+        run: |
+          python3 science/generate_demo_mission.py
+          git diff --exit-code android/app/src/main/assets/demo_mission.json
+      - name: Unit tests
+        run: ./gradlew testDebugUnitTest
+      - name: Build APK
+        run: ./gradlew assembleDebug
+      - uses: actions/upload-artifact@v4
+        with:
+          name: crewpulse-debug-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+
+  # Only this job can write to the repo, and it runs no third-party build code.
+  release:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: crewpulse-debug-apk
+      - name: Attach APK to release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          mv app-debug.apk "CrewPulse-${TAG}.apk"
+          gh release create "$TAG" "CrewPulse-${TAG}.apk" --repo "$GITHUB_REPOSITORY" \
+            --title "CrewPulse $TAG" --notes "Hackathon build. Demo data is synthetic."
