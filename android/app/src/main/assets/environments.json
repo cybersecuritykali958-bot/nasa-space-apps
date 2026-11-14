@@ -7,7 +7,10 @@
       "gravityG": 0.0,
       "radiationMsvPerDay": 0.5,
       "commDelayMinOneWay": 0.0,
-      "sources": [{"title": "NASA HRP: Space radiation hazard", "url": "https://www.nasa.gov/hrp/hazards/"}]
+      "sources": [
+        {"title": "Simonsen et al. 2025 (NASA NTRS), Moon 2 Mars space radiation protection: ISS effective dose about 0.2-0.5 mSv/day", "url": "https://ntrs.nasa.gov/citations/20250006168"},
+        {"title": "Berger et al. 2017, DOSIS & DOSIS 3D: DOSTEL measurements in ISS Columbus, dose equivalent up to 0.65 mSv/day", "url": "https://doi.org/10.1051/swsc/2017005"}
+      ]
     },
     {
       "id": "moon_surface",

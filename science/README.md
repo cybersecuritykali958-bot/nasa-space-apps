@@ -9,6 +9,7 @@ Output goes straight into the app: `android/app/src/main/assets/`.
 |---|---|
 | `generate_demo_mission.py` | `demo_mission.json`: synthetic 180-day mission (Python stdlib only) |
 | `fetch_donki.py` | `donki_cache.json`: real NASA DONKI events for offline use (needs `NASA_API_KEY`) |
+| `digital_twin.py` | Reference Digital Twin model (bone, muscle, dose) and test vectors for the Kotlin port; writes nothing |
 
 ```bash
 python science/generate_demo_mission.py

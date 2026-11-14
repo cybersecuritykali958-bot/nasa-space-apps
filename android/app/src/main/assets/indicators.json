@@ -31,7 +31,7 @@
         "red": 20
       },
       "howToMeasure": "Seated, arm at heart level, after 5 minutes of rest. Use the onboard cuff before exercise.",
-      "whySpace": "Microgravity shifts fluids toward the head and deconditions the heart and vessels. Blood pressure regulation changes in flight and after landing.",
+      "whySpace": "Microgravity shifts fluids toward the head and deconditions the heart and vessels. Blood pressure regulation changes in flight and after landing. Bands follow AHA categories: 120-129 (elevated) stays green, yellow starts at stage 1 hypertension (130), red at stage 2 (140) or hypotension (below 90).",
       "actions": {
         "green": "No action. Keep the daily routine.",
         "yellow": "Repeat the measurement in 1 hour. Reduce salt, keep hydration and planned cardio exercise.",
@@ -50,7 +50,7 @@
           "url": "https://www.nasa.gov/hrp/risks/"
         }
       ],
-      "verified": false
+      "verified": true
     },
     {
       "id": "diastolic_bp",
@@ -97,7 +97,7 @@
           "url": "https://www.heart.org/en/health-topics/high-blood-pressure/understanding-blood-pressure-readings"
         }
       ],
-      "verified": false
+      "verified": true
     },
     {
       "id": "heart_rate",
@@ -107,11 +107,11 @@
       "bands": [
         {
           "status": "red",
-          "max": 40
+          "max": 41
         },
         {
           "status": "yellow",
-          "min": 40,
+          "min": 41,
           "max": 50
         },
         {
@@ -122,11 +122,11 @@
         {
           "status": "yellow",
           "min": 100,
-          "max": 120
+          "max": 131
         },
         {
           "status": "red",
-          "min": 120
+          "min": 131
         }
       ],
       "baselineDeviationPct": {
@@ -146,11 +146,23 @@
       ],
       "sources": [
         {
+          "title": "AHA: All about heart rate (pulse); normal resting 60-100 bpm, trained athletes down to about 40",
+          "url": "https://www.heart.org/en/health-topics/high-blood-pressure/the-facts-about-high-blood-pressure/all-about-heart-rate-pulse"
+        },
+        {
+          "title": "Royal College of Physicians 2017, National Early Warning Score (NEWS2): pulse <=40 and >=131 score 3, temperature <=35.0 score 3",
+          "url": "https://www.rcp.ac.uk/media/ctulqqbn/news2-executive-summary_0.pdf"
+        },
+        {
+          "title": "Buchheit 2014, Monitoring training status with HR measures: typical day-to-day error of resting HR about 10%",
+          "url": "https://doi.org/10.3389/fphys.2014.00073"
+        },
+        {
           "title": "NASA HRP: Risks of human spaceflight",
           "url": "https://www.nasa.gov/hrp/risks/"
         }
       ],
-      "verified": false
+      "verified": true
     },
     {
       "id": "glucose",
@@ -160,6 +172,11 @@
       "bands": [
         {
           "status": "red",
+          "max": 54
+        },
+        {
+          "status": "yellow",
+          "min": 54,
           "max": 70
         },
         {
@@ -185,8 +202,8 @@
       "whySpace": "Reduced physical load and stress hormones can change insulin sensitivity during long missions.",
       "actions": {
         "green": "No action.",
-        "yellow": "Review diet and exercise adherence. Re-test in 2 days.",
-        "red": "Below 70: eat fast carbohydrates and re-test in 15 minutes. 126 or above: re-test and report."
+        "yellow": "Below 70: eat 15 g of fast carbohydrates and re-test in 15 minutes. 100-125: review diet and exercise adherence, re-test in 2 days.",
+        "red": "Below 54: eat 15 g of fast carbohydrates now, re-test in 15 minutes and tell a crewmate. 126 or above: re-test fasting and report."
       },
       "riskIds": [
         "nutrition"
@@ -195,9 +212,13 @@
         {
           "title": "ADA: Diagnosis of diabetes and prediabetes",
           "url": "https://diabetes.org/about-diabetes/diagnosis"
+        },
+        {
+          "title": "ADA 2024, Glycemic goals and hypoglycemia: level 1 below 70, level 2 below 54 mg/dL",
+          "url": "https://doi.org/10.2337/dc24-S006"
         }
       ],
-      "verified": false
+      "verified": true
     },
     {
       "id": "body_temp",
@@ -207,21 +228,21 @@
       "bands": [
         {
           "status": "red",
-          "max": 35.0
+          "max": 35.1
         },
         {
           "status": "yellow",
-          "min": 35.0,
-          "max": 36.0
+          "min": 35.1,
+          "max": 35.7
         },
         {
           "status": "green",
-          "min": 36.0,
-          "max": 37.3
+          "min": 35.7,
+          "max": 37.4
         },
         {
           "status": "yellow",
-          "min": 37.3,
+          "min": 37.4,
           "max": 38.0
         },
         {
@@ -230,7 +251,7 @@
         }
       ],
       "howToMeasure": "Oral or ear thermometer, at rest, not right after exercise.",
-      "whySpace": "Spaceflight alters the immune response and can reactivate latent viruses. Fever is an early sign.",
+      "whySpace": "Spaceflight alters the immune response and can reactivate latent viruses. Fever is an early sign. Core body temperature of astronauts also rises by about 1 °C on long missions, so compare with your own in-flight baseline.",
       "actions": {
         "green": "No action.",
         "yellow": "Rest, fluids, re-measure in 4 hours.",
@@ -241,11 +262,35 @@
       ],
       "sources": [
         {
+          "title": "CDC: Definitions of signs and symptoms of ill travelers (fever: 38 °C / 100.4 °F or higher)",
+          "url": "https://www.cdc.gov/port-health/php/definitions-symptoms-reportable-illness/index.html"
+        },
+        {
+          "title": "Brown et al. 2012, Accidental hypothermia (core temperature below 35 °C)",
+          "url": "https://doi.org/10.1056/NEJMra1114208"
+        },
+        {
+          "title": "Obermeyer et al. 2017, Individual differences in normal body temperature: mean 36.6 °C, 95% range 35.7-37.3 °C",
+          "url": "https://doi.org/10.1136/bmj.j5468"
+        },
+        {
+          "title": "Royal College of Physicians 2017, National Early Warning Score (NEWS2): pulse <=40 and >=131 score 3, temperature <=35.0 score 3",
+          "url": "https://www.rcp.ac.uk/media/ctulqqbn/news2-executive-summary_0.pdf"
+        },
+        {
+          "title": "Crucian et al. 2018, Immune system dysregulation during spaceflight",
+          "url": "https://doi.org/10.3389/fimmu.2018.01437"
+        },
+        {
+          "title": "Stahn et al. 2017, Increased core body temperature in astronauts during long-duration space missions",
+          "url": "https://doi.org/10.1038/s41598-017-15560-w"
+        },
+        {
           "title": "NASA HRP: Risks of human spaceflight",
           "url": "https://www.nasa.gov/hrp/risks/"
         }
       ],
-      "verified": false
+      "verified": true
     },
     {
       "id": "sleep_hours",
@@ -282,9 +327,17 @@
         {
           "title": "Watson et al. 2015, Recommended amount of sleep for a healthy adult (AASM/SRS)",
           "url": "https://doi.org/10.5664/jcsm.4758"
+        },
+        {
+          "title": "Barger et al. 2014, Sleep deficiency in astronauts before, during and after spaceflight (ISS average about 6 h)",
+          "url": "https://doi.org/10.1016/S1474-4422(14)70122-X"
+        },
+        {
+          "title": "Van Dongen et al. 2003, The cumulative cost of additional wakefulness: 6 h or less per night for 14 days impairs like up to 2 nights without sleep",
+          "url": "https://doi.org/10.1093/sleep/26.2.117"
         }
       ],
-      "verified": false
+      "verified": true
     },
     {
       "id": "mood",
@@ -332,11 +385,11 @@
       "bands": [
         {
           "status": "green",
-          "max": 350
+          "max": 355
         },
         {
           "status": "yellow",
-          "min": 350,
+          "min": 355,
           "max": 500
         },
         {
@@ -349,7 +402,7 @@
         "red": 30
       },
       "howToMeasure": "3-minute reaction test in the app. Same time of day each run.",
-      "whySpace": "Slower reactions are an objective sign of fatigue or sleep loss, before you notice it yourself.",
+      "whySpace": "Slower reactions are an objective sign of fatigue or sleep loss, before you notice it yourself. Yellow starts when the average response reaches the 3-minute PVT-B lapse threshold (355 ms), red at the classic 10-minute PVT lapse threshold (500 ms).",
       "actions": {
         "green": "No action.",
         "yellow": "Postpone non-urgent precision tasks, take a short rest.",
@@ -363,6 +416,14 @@
         {
           "title": "Basner et al. 2015, Development and validation of the Cognition test battery for spaceflight",
           "url": "https://doi.org/10.3357/AMHP.4343.2015"
+        },
+        {
+          "title": "Basner, Mollicone, Dinges 2011, Validity and sensitivity of a brief PVT (PVT-B): lapse = 355 ms or slower",
+          "url": "https://doi.org/10.1016/j.actaastro.2011.07.015"
+        },
+        {
+          "title": "Basner, Dinges 2011, Maximizing sensitivity of the PVT to sleep loss: lapse = 500 ms or slower",
+          "url": "https://doi.org/10.1093/sleep/34.5.581"
         }
       ],
       "verified": false
@@ -388,7 +449,7 @@
         }
       ],
       "howToMeasure": "Personal dosimeter reading, summed over the mission.",
-      "whySpace": "NASA limits career effective dose to 600 mSv. Beyond Earth's magnetic field the daily dose rises several times.",
+      "whySpace": "NASA limits career effective dose to 600 mSv and requires doses as low as reasonably achievable (ALARA). Yellow starts at half of the limit, red at 90% of it. Beyond Earth's magnetic field the daily dose rises several times.",
       "actions": {
         "green": "No action.",
         "yellow": "Minimize time in low-shielded modules, sleep in the shielded quarters.",
@@ -399,15 +460,15 @@
       ],
       "sources": [
         {
-          "title": "NASA-STD-3001 Vol. 1, Crew Health (career radiation limit)",
-          "url": "https://standards.nasa.gov/standard/NASA/NASA-STD-3001-VOL-1"
+          "title": "NASA OCHMO: Radiation protection technical brief, NASA-STD-3001 Vol. 1 [V1 4030] career limit below 600 mSv",
+          "url": "https://www.nasa.gov/wp-content/uploads/2023/03/radiation-protection-technical-brief-ochmo.pdf"
         },
         {
           "title": "CSA: Monitoring radiation for astronaut health",
           "url": "https://www.asc-csa.gc.ca/eng/news/articles/2026/2026-02-26-monitoring-radiation-astronaut-health.asp"
         }
       ],
-      "verified": false,
+      "verified": true,
       "cumulative": true
     }
   ]
