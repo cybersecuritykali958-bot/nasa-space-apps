@@ -34,6 +34,7 @@ private val INDICATORS = mapOf(
     "body_temp" to R.string.ind_body_temp,
     "sleep_hours" to R.string.ind_sleep_hours,
     "mood" to R.string.ind_mood,
+    "who5" to R.string.ind_who5,
     "pvt_mean_rt" to R.string.ind_pvt_mean_rt,
     "cumulative_dose" to R.string.ind_cumulative_dose,
 )

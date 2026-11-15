@@ -45,6 +45,7 @@ import space.crewpulse.ui.components.ChartLine
 import space.crewpulse.ui.components.CrewCard
 import space.crewpulse.ui.components.LineChart
 import space.crewpulse.ui.theme.StatusColors
+import kotlin.math.roundToInt
 
 private enum class Scenario { MARS, ISS, CURRENT }
 
@@ -65,6 +66,7 @@ fun TwinScreen(
         Scenario.MARS -> DigitalTwin.SCENARIOS["mars_mission"]
     }
     val states = remember(scenario, exercise) { project(if (exercise) 1.0 else 0.0, phases) }
+    val coach = remember(scenario) { DigitalTwin.coach { a -> project(a, phases) } }
 
     // Embedded under the Physiology header: no own title or status-bar inset.
     Column(if (embedded) Modifier.fillMaxSize() else Modifier.fillMaxSize().statusBarsPadding()) {
@@ -112,6 +114,7 @@ fun TwinScreen(
                 Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 20.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
+                coach?.let { CoachCard(it) }
                 Chart(stringResource(R.string.bone), states.map { it.day.toFloat() to it.bonePct.toFloat() }, selected.boneStatus,
                     listOf(ChartLine(DigitalTwin.BONE_GREEN_MIN.toFloat(), StatusColors.yellow), ChartLine(DigitalTwin.BONE_RED_BELOW.toFloat(), StatusColors.red)),
                     extrapolationFrom, selected.day.toFloat())
@@ -129,6 +132,54 @@ fun TwinScreen(
                 Text(stringResource(R.string.twin_note), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(bottom = 16.dp))
             }
         }
+    }
+}
+
+/** Inverse Digital Twin: how much of the exercise protocol this scenario needs. */
+@Composable
+private fun CoachCard(c: DigitalTwin.Coach) {
+    CrewCard {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(Icons.Outlined.FitnessCenter, null, tint = MaterialTheme.colorScheme.primary)
+            Text(stringResource(R.string.coach_title), style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(start = 10.dp))
+        }
+        val pct = { a: Double -> (a * 100).roundToInt() }
+        if (c.forGreen != null) {
+            Text(
+                stringResource(R.string.coach_green, pct(c.forGreen), c.lastDay),
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier.padding(top = 8.dp),
+            )
+        }
+        if (c.forNoRed != null) {
+            Text(
+                stringResource(R.string.coach_no_red, pct(c.forNoRed)),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(top = 4.dp),
+            )
+        }
+        if (c.forNoRed == null && c.firstRedDayAtFull != null) {
+            Text(
+                stringResource(R.string.coach_impossible, c.firstRedDayAtFull),
+                style = MaterialTheme.typography.bodyLarge,
+                color = StatusColors.red,
+                modifier = Modifier.padding(top = 8.dp),
+            )
+        } else if (c.forGreen == null && c.firstRedDayAtFull == null) {
+            Text(
+                stringResource(R.string.coach_yellow_only, c.lastDay),
+                style = MaterialTheme.typography.bodyLarge,
+                color = StatusColors.yellow,
+                modifier = Modifier.padding(top = 8.dp),
+            )
+        }
+        Text(
+            stringResource(R.string.coach_note),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(top = 8.dp),
+        )
     }
 }
 

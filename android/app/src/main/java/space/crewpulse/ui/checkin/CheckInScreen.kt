@@ -40,6 +40,17 @@ import space.crewpulse.ui.i18n.indicatorHow
 import space.crewpulse.ui.i18n.indicatorName
 import space.crewpulse.ui.components.CrewCard
 import space.crewpulse.ui.components.CrewScaffold
+import space.crewpulse.ui.who5.Who5Item
+import space.crewpulse.ui.who5.Who5ScoreText
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Row
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.ui.Alignment
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
@@ -85,7 +96,7 @@ fun CheckInScreen(container: AppContainer, onBack: () -> Unit) {
                 BloodPressureCard(state.bloodPressure, vm::updateSystolic, vm::updateDiastolic, vm::toggleSystolicHint, vm::toggleDiastolicHint)
                 state.fields.forEachIndexed { index, field ->
                     if (field.indicator.id == "mood") {
-                        MoodCard(field, vm::setMood) { vm.toggleFieldHint(index) }
+                        MoodCard(field, vm::setMood, { vm.toggleFieldHint(index) }, state, vm::toggleWho5, vm::setWho5Answer)
                     } else {
                         MetricCard(field, { vm.updateField(index, it) }) { vm.toggleFieldHint(index) }
                     }
@@ -130,7 +141,14 @@ private fun MetricCard(field: CheckInField, onValueChange: (String) -> Unit, onT
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun MoodCard(field: CheckInField, onSelect: (Int) -> Unit, onToggleHint: () -> Unit) {
+private fun MoodCard(
+    field: CheckInField,
+    onSelect: (Int) -> Unit,
+    onToggleHint: () -> Unit,
+    state: CheckInUiState,
+    onToggleWho5: () -> Unit,
+    onWho5Answer: (Int, Int) -> Unit,
+) {
     val selected = field.valueText.toIntOrNull()
     CrewCard {
         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -150,6 +168,32 @@ private fun MoodCard(field: CheckInField, onSelect: (Int) -> Unit, onToggleHint:
             }
             field.error?.let { Text(it, color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall) }
             HintBlock(field.hintExpanded, indicatorHow(field.indicator), onToggleHint)
+
+            // The 1-5 rating stays (the engine's fatigue rules use it); the validated WHO-5 test unfolds below it.
+            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+            Row(
+                Modifier.fillMaxWidth().clickable(onClick = onToggleWho5).padding(vertical = 4.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Column(Modifier.weight(1f)) {
+                    Text(stringResource(R.string.checkin_who5_open), style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary)
+                    Text(stringResource(R.string.checkin_who5_sub), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
+                Icon(if (state.who5Expanded) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore, contentDescription = null)
+            }
+            AnimatedVisibility(visible = state.who5Expanded) {
+                Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
+                    Text(stringResource(R.string.who5_intro), style = MaterialTheme.typography.bodyMedium)
+                    state.who5Answers.forEachIndexed { i, answer ->
+                        Column { Who5Item(i, answer) { onWho5Answer(i, it) } }
+                    }
+                    Who5ScoreText(state.who5Score)
+                    if (state.who5Incomplete) {
+                        Text(stringResource(R.string.checkin_who5_incomplete), color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodyMedium)
+                    }
+                    Text(stringResource(R.string.who5_notice), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
+            }
         }
     }
 }

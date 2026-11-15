@@ -272,7 +272,15 @@ private fun PlanByPartOfDay(state: HomeUiState, onNavigate: (String) -> Unit) {
                 subtitle = if (overdue) stringResource(R.string.overdue_at, at) else at,
                 icon = CrewIcons.indicator(task.indicatorId),
                 iconTint = if (overdue) StatusColors.yellow else MaterialTheme.colorScheme.primary,
-                onClick = { onNavigate(if (task.indicatorId == "pvt_mean_rt") Routes.PVT else Routes.CHECKIN) },
+                onClick = {
+                    onNavigate(
+                        when (task.indicatorId) {
+                            "pvt_mean_rt" -> Routes.PVT
+                            "who5" -> Routes.WHO5
+                            else -> Routes.CHECKIN
+                        },
+                    )
+                },
             )
         }
     }

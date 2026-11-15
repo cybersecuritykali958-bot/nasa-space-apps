@@ -299,6 +299,7 @@
       "body_temp": 3,
       "sleep_hours": 1,
       "mood": 1,
+      "who5": 14,
       "pvt_mean_rt": 3
     },
     "minutesPerMeasurement": {
@@ -309,6 +310,7 @@
       "body_temp": 2,
       "sleep_hours": 0.5,
       "mood": 0.5,
+      "who5": 1.5,
       "pvt_mean_rt": 3
     },
     "attentionIntervalDays": 1,
@@ -321,7 +323,8 @@
       "sleep_hours": "07:30",
       "glucose": "07:45",
       "pvt_mean_rt": "13:00",
-      "mood": "21:00"
+      "mood": "21:00",
+      "who5": "21:00"
     }
   },
   "gamification": {
@@ -405,6 +408,10 @@
       "mood": {
         "min": 1,
         "max": 5
+      },
+      "who5": {
+        "min": 0,
+        "max": 100
       },
       "pvt_mean_rt": {
         "min": 100,
