@@ -16,9 +16,13 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.PriorityHigh
-import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material.icons.outlined.NotificationsNone
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,6 +41,9 @@ import space.crewpulse.ui.components.CardRow
 import space.crewpulse.ui.components.CrewIcons
 import space.crewpulse.ui.components.DayRing
 import space.crewpulse.ui.components.MissionTrajectory
+import space.crewpulse.ui.components.TabHeader
+import space.crewpulse.ui.mission.Commendations
+import space.crewpulse.ui.mission.GameSummary
 import space.crewpulse.ui.i18n.alertText
 import space.crewpulse.ui.i18n.environmentName
 import space.crewpulse.ui.i18n.indicatorName
@@ -45,14 +52,15 @@ import space.crewpulse.ui.navigation.Routes
 import space.crewpulse.ui.theme.StatusColors
 
 /**
- * Home is a daily briefing: who and where, one status line, and today's plan.
- * Measurements live in the Health tab.
+ * Daily Operations: mission position, gamification, one health status line and today's protocol.
+ * Measurements live in the Physiology tab.
  */
 @Composable
 fun HomeScreen(
     state: HomeUiState,
     onIndicator: (String) -> Unit,
     onNavigate: (String) -> Unit,
+    onReminder: () -> Boolean,
     userName: String? = null,
 ) {
     Column(
@@ -63,25 +71,21 @@ fun HomeScreen(
             .padding(horizontal = 20.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        Row(Modifier.fillMaxWidth().padding(top = 16.dp), verticalAlignment = Alignment.Top) {
-            Column(Modifier.weight(1f)) {
-                Text(userName?.let { "${greeting()}, $it" } ?: greeting(), style = MaterialTheme.typography.headlineMedium)
-            }
-            IconButton(onClick = { onNavigate(Routes.SETTINGS) }) {
-                Icon(Icons.Outlined.Settings, contentDescription = stringResource(R.string.settings_title))
-            }
-        }
+        TabHeader(
+            title = stringResource(R.string.title_operations),
+            subtitle = userName?.let { "${greeting()}, $it" } ?: greeting(),
+        )
 
         when {
             state.loading -> Text(stringResource(R.string.loading))
             state.error != null -> Text(stringResource(R.string.data_error, state.error), color = MaterialTheme.colorScheme.error)
-            else -> Briefing(state, onIndicator, onNavigate)
+            else -> Briefing(state, onIndicator, onNavigate, onReminder)
         }
     }
 }
 
 @Composable
-private fun Briefing(state: HomeUiState, onIndicator: (String) -> Unit, onNavigate: (String) -> Unit) {
+private fun Briefing(state: HomeUiState, onIndicator: (String) -> Unit, onNavigate: (String) -> Unit, onReminder: () -> Boolean) {
     // Where the mission is: animated route with the ship at today's position.
     val envId = state.environment?.id
     val planned = PLANNED_DAYS[envId] ?: 0
@@ -101,6 +105,9 @@ private fun Briefing(state: HomeUiState, onIndicator: (String) -> Unit, onNaviga
         details = if (planned > 0 && envId == "mars_transit") stringResource(R.string.mission_details_transit, state.missionDay, planned, state.commDelayMin ?: 0.0)
         else stringResource(R.string.mission_details_other, state.commDelayMin ?: 0.0),
     )
+
+    // Gamification first: level, points, continuity.
+    state.report.game?.let { GameSummary(it) }
 
     // One status line.
     val overall = StatusEngine.worst(state.systems.map { it.status })
@@ -146,7 +153,12 @@ private fun Briefing(state: HomeUiState, onIndicator: (String) -> Unit, onNaviga
         }
         DayRing(done, total)
     }
-    if (plan != null) PlanByPartOfDay(state, onNavigate)
+    if (plan != null) {
+        PlanByPartOfDay(state, onNavigate)
+        ReminderRow(plan, onReminder)
+    }
+
+    state.report.game?.let { Commendations(it) }
 
     Text(
         stringResource(R.string.demo_data_note),
@@ -154,6 +166,24 @@ private fun Briefing(state: HomeUiState, onIndicator: (String) -> Unit, onNaviga
         color = MaterialTheme.colorScheme.onSurfaceVariant,
         modifier = Modifier.padding(top = 8.dp, bottom = 16.dp),
     )
+}
+
+/** Time saved by the adaptive schedule, and a button that sends the next reminder now (demo). */
+@Composable
+private fun ReminderRow(plan: space.crewpulse.domain.MeasurementPlan, onReminder: () -> Boolean) {
+    var result by remember { mutableStateOf<Boolean?>(null) }
+    Text(
+        stringResource(R.string.minutes_saved, plan.minutesNext24h, plan.minutesSaved),
+        style = MaterialTheme.typography.bodyMedium,
+        color = MaterialTheme.colorScheme.primary,
+    )
+    OutlinedButton(onClick = { result = onReminder() }) {
+        Icon(Icons.Outlined.NotificationsNone, contentDescription = null)
+        Text(stringResource(R.string.send_reminder), Modifier.padding(start = 8.dp))
+    }
+    result?.let {
+        Text(stringResource(if (it) R.string.reminder_sent else R.string.reminder_none), style = MaterialTheme.typography.bodyMedium)
+    }
 }
 
 /** Round status mark: green check, or amber / red exclamation. */

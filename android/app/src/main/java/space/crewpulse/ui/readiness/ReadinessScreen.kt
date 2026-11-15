@@ -38,6 +38,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import space.crewpulse.R
+import space.crewpulse.ui.components.TabHeader
 import space.crewpulse.data.model.Status
 import space.crewpulse.domain.SpaceWeatherLevel
 import space.crewpulse.domain.Verdict
@@ -65,7 +66,7 @@ fun ReadinessScreen(state: HomeUiState, onRefreshWeather: () -> Unit, onBack: ((
         Modifier.fillMaxSize().statusBarsPadding().verticalScroll(rememberScrollState()).padding(horizontal = 20.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        Text(stringResource(R.string.tab_readiness), style = MaterialTheme.typography.headlineMedium, modifier = Modifier.padding(top = 16.dp))
+        TabHeader(stringResource(R.string.title_fitness))
 
         // Earth response vs response window, and the decision.
         CrewCard {

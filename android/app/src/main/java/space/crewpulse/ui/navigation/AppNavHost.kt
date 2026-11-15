@@ -30,20 +30,21 @@ import space.crewpulse.ui.components.SpaceBackground
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Groups
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.MonitorHeart
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.RocketLaunch
 import androidx.compose.material.icons.outlined.FavoriteBorder
-import androidx.compose.material.icons.outlined.Groups
-import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.MonitorHeart
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.RocketLaunch
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import space.crewpulse.ui.components.LanguageControl
+import space.crewpulse.ui.components.LocalLanguageControl
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.LaunchedEffect
@@ -73,12 +74,10 @@ import space.crewpulse.ui.health.HealthScreen
 import space.crewpulse.ui.home.HomeScreen
 import space.crewpulse.ui.home.HomeViewModel
 import space.crewpulse.ui.indicator.IndicatorScreen
-import space.crewpulse.ui.mission.MissionScreen
 import space.crewpulse.ui.pvt.PvtScreen
 import space.crewpulse.ui.readiness.ReadinessScreen
 import space.crewpulse.ui.settings.SettingsScreen
 import space.crewpulse.ui.trends.TrendsScreen
-import space.crewpulse.ui.twin.TwinScreen
 import space.crewpulse.ui.watch.WatchConnectScreen
 import space.crewpulse.ui.login.BadgeLoginScreen
 
@@ -87,8 +86,6 @@ object Routes {
     const val HOME = "home"
     const val HEALTH = "health"
     const val READINESS = "readiness"
-    const val TWIN = "twin"
-    const val MISSION = "mission"
     const val CHECKIN = "checkin"
     const val PVT = "pvt"
     const val TRENDS = "trends"
@@ -102,11 +99,10 @@ object Routes {
 private data class Tab(val route: String, val label: Int, val icon: ImageVector, val selectedIcon: ImageVector)
 
 private val TABS = listOf(
-    Tab(Routes.HOME, R.string.tab_home, Icons.Outlined.Home, Icons.Filled.Home),
-    Tab(Routes.HEALTH, R.string.tab_health, Icons.Outlined.FavoriteBorder, Icons.Filled.Favorite),
+    Tab(Routes.HOME, R.string.tab_operations, Icons.Outlined.RocketLaunch, Icons.Filled.RocketLaunch),
+    Tab(Routes.HEALTH, R.string.tab_physiology, Icons.Outlined.FavoriteBorder, Icons.Filled.Favorite),
     Tab(Routes.READINESS, R.string.tab_readiness, Icons.Outlined.MonitorHeart, Icons.Filled.MonitorHeart),
-    Tab(Routes.TWIN, R.string.tab_twin, Icons.Outlined.Groups, Icons.Filled.Groups),
-    Tab(Routes.MISSION, R.string.tab_mission, Icons.Outlined.RocketLaunch, Icons.Filled.RocketLaunch),
+    Tab(Routes.SETTINGS, R.string.tab_profile, Icons.Outlined.Person, Icons.Filled.Person),
 )
 
 private enum class LaunchStage { LOADING, LOGIN, WATCH, MAIN }
@@ -137,7 +133,11 @@ fun AppNavHost(container: AppContainer, onLanguageChange: (String) -> Unit) {
             LaunchStage.LOADING -> OrbitLoader(stringResource(R.string.loading_sync))
             LaunchStage.LOGIN -> BadgeLoginScreen(container.badges, onSignedIn = { loginDone = true })
             LaunchStage.WATCH -> WatchConnectScreen(container.watch, onDone = { watchDone = true })
-            LaunchStage.MAIN -> MainScaffold(container, nav, home, state, onLanguageChange)
+            LaunchStage.MAIN -> MainScaffold(container, nav, home, state, onLanguageChange) {
+                container.badges.signOut()
+                loginDone = false
+                watchDone = false
+            }
         }
     }
 }
@@ -149,10 +149,13 @@ private fun MainScaffold(
     home: HomeViewModel,
     state: space.crewpulse.ui.home.HomeUiState,
     onLanguageChange: (String) -> Unit,
+    onSignOut: () -> Unit,
 ) {
     val back: () -> Unit = { nav.popBackStack() }
     val go: (String) -> Unit = { nav.navigate(it) }
     val overall = space.crewpulse.domain.StatusEngine.worst(state.systems.map { it.status })
+    val language = LanguageControl(container.settings.language, onLanguageChange)
+    CompositionLocalProvider(LocalLanguageControl provides language) {
     Box(Modifier.fillMaxSize()) {
     SpaceBackground(overall)
     Scaffold(
@@ -177,16 +180,35 @@ private fun MainScaffold(
                     userName = user?.name?.substringBefore(' '),
                     onIndicator = { go(Routes.indicator(it)) },
                     onNavigate = { route -> if (TABS.any { it.route == route }) nav.switchTab(route) else go(route) },
+                    onReminder = home::sendReminderNow,
                 )
             }
             composable(Routes.HEALTH) {
-                HealthScreen(state, onIndicator = { go(Routes.indicator(it)) }, onNavigate = go)
+                HealthScreen(
+                    state,
+                    onIndicator = { go(Routes.indicator(it)) },
+                    onNavigate = go,
+                    projectTwin = { a, phases -> home.projectTwin(a, phases = phases) },
+                )
             }
             composable(Routes.READINESS) { ReadinessScreen(state, home::refreshSpaceWeather, onBack = null) }
-            composable(Routes.TWIN) {
-                TwinScreen(project = { a, phases -> home.projectTwin(a, phases = phases) }, onBack = null)
+            composable(Routes.SETTINGS) {
+                val watch by container.watch.snapshot.collectAsStateWithLifecycle()
+                val user by container.badges.current.collectAsStateWithLifecycle()
+                SettingsScreen(
+                    state = state,
+                    member = user,
+                    onProfile = home::setProfile,
+                    onEnvironment = home::setEnvironment,
+                    watchConnected = watch != null,
+                    onWatchConnect = { go(Routes.WATCH) },
+                    onWatchDisconnect = container.watch::disconnect,
+                    onSignOut = {
+                        nav.switchTab(Routes.HOME)
+                        onSignOut()
+                    },
+                )
             }
-            composable(Routes.MISSION) { MissionScreen(state, home::sendReminderNow, onBack = null) }
 
             // Detail screens
             composable(Routes.INDICATOR) { entry ->
@@ -199,21 +221,8 @@ private fun MainScaffold(
             composable(Routes.WATCH) {
                 WatchConnectScreen(container.watch, onDone = back, drawBackground = false)
             }
-            composable(Routes.SETTINGS) {
-                val watch by container.watch.snapshot.collectAsStateWithLifecycle()
-                SettingsScreen(
-                    state = state,
-                    currentLanguage = container.settings.language,
-                    onLanguage = onLanguageChange,
-                    onProfile = home::setProfile,
-                    onEnvironment = home::setEnvironment,
-                    watchConnected = watch != null,
-                    onWatchConnect = { go(Routes.WATCH) },
-                    onWatchDisconnect = container.watch::disconnect,
-                    onBack = back,
-                )
-            }
         }
+    }
     }
     }
 }
