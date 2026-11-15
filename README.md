@@ -10,11 +10,11 @@ CrewPulse is an offline-first Android app that lets astronauts run a quick self-
 | Folder | What | Owner |
 |---|---|---|
 | `android/` | Android app (Kotlin, Jetpack Compose) | whole dev team, see zones below |
-| `android/app/src/main/java/space/crewpulse/ui/` | Screens | @harvio1 |
-| `android/app/src/main/java/space/crewpulse/data/`, `domain/` | Room, data loading, status engine, sensors, NASA API | @jarororoor |
-| `android/app/src/main/assets/` | Science data (JSON) | @LoranSent, @interpolfuckyou |
-| `science/` | Python: demo data, models, algorithm checks | @LoranSent, @interpolfuckyou |
-| `docs/` | Plan, roles, contract, design, pitch, submission | team lead, @gutsonithemvp |
+| `android/app/src/main/java/space/crewpulse/ui/` | Screens | @harvio |
+| `android/app/src/main/java/space/crewpulse/data/`, `domain/` | Room, data loading, status engine, sensors, NASA API | @creawer |
+| `android/app/src/main/assets/` | Science data (JSON) | @LoranSent, @toma322 |
+| `science/` | Python: demo data, models, algorithm checks | @LoranSent, @toma322 |
+| `docs/` | Plan, roles, contract, design, pitch, submission | team lead, @gutsoni |
 | root, `.github/`, `.claude/`, `.cursor/` | Configs, CI | team lead |
 
 ## Quick start
