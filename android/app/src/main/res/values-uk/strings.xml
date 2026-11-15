@@ -82,7 +82,7 @@
     <string name="pvt_saved">Результат збережено</string>
     <string name="pvt_unreliable">Замало відповідей для збереження</string>
     <string name="level">Рівень %1$d</string>
-    <string name="xp">%1$d XP · %2$d до наступного рівня</string>
+    <string name="xp">%1$d балів дотримання протоколу · %2$d до наступного рівня</string>
     <string name="days">%1$d дн.</string>
     <string name="current_streak">Поточна серія</string>
     <string name="todays_mission">Місія на сьогодні</string>
@@ -91,7 +91,7 @@
     <string name="send_reminder">Надіслати нагадування</string>
     <string name="reminder_sent">Нагадування надіслано (дозволь сповіщення, якщо його не видно)</string>
     <string name="reminder_none">Зараз нічого вимірювати не треба</string>
-    <string name="badges">Значки</string>
+    <string name="badges">Відзнаки</string>
     <string name="badge_7">7 днів поспіль</string>
     <string name="badge_30">30 днів поспіль</string>
     <string name="badge_100">100 днів поспіль</string>
@@ -200,10 +200,10 @@
     <string name="greeting_afternoon">Доброго дня</string>
     <string name="greeting_evening">Доброго вечора</string>
     <string name="home_subtitle">%1$s · День %2$d · До Землі %3$s хв</string>
-    <string name="todays_plan">План на сьогодні</string>
+    <string name="todays_plan">Протокол на сьогодні</string>
     <string name="op_eva_sub">Робота поза кораблем</string>
     <string name="op_landing_sub">Спуск і повернення до гравітації</string>
-    <string name="streak_days">Серія %1$d дн.</string>
+    <string name="streak_days">Безперервність: %1$d дн.</string>
     <string name="level_short">Рів. %1$d</string>
     <string name="loading_sync">Синхронізація з місією…</string>
     <string name="mission_details_transit">День %1$d з ~%2$d днів перельоту до Марса (зазвичай переліт триває 6–9 місяців). Сигнал іде %3$.0f хв в один бік, тому Земля завжди відповідає із затримкою.</string>
@@ -339,4 +339,18 @@
     <string name="role_cmo">Медик екіпажу</string>
     <string name="role_engineer">Інженер бази</string>
     <string name="role_staff">Персонал бази</string>
+
+    <!-- Four-tab layout -->
+    <string name="tab_operations">Операції</string>
+    <string name="tab_physiology">Фізіологія</string>
+    <string name="tab_profile">Профіль</string>
+    <string name="title_operations">Щоденні операції</string>
+    <string name="title_physiology">Фізіологічний стан</string>
+    <string name="title_fitness">Придатність до виконання завдань</string>
+    <string name="title_profile">Профіль члена екіпажу</string>
+    <string name="seg_current">Поточний стан</string>
+    <string name="seg_projection">Прогноз</string>
+    <string name="sign_out">Вийти</string>
+    <string name="qualification_level">Рівень кваліфікації %1$d</string>
+    <string name="badge_id">Бейдж %1$s</string>
 </resources>

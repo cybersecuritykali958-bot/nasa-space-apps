@@ -82,7 +82,7 @@
     <string name="pvt_saved">Ergebnis gespeichert</string>
     <string name="pvt_unreliable">Zu wenige Reaktionen zum Speichern</string>
     <string name="level">Stufe %1$d</string>
-    <string name="xp">%1$d XP · %2$d bis zur nächsten Stufe</string>
+    <string name="xp">%1$d Protokollpunkte · %2$d bis zur nächsten Stufe</string>
     <string name="days">%1$d Tage</string>
     <string name="current_streak">Aktuelle Serie</string>
     <string name="todays_mission">Heutige Mission</string>
@@ -91,7 +91,7 @@
     <string name="send_reminder">Erinnerung jetzt senden</string>
     <string name="reminder_sent">Erinnerung gesendet (Benachrichtigungen erlauben, falls nicht sichtbar)</string>
     <string name="reminder_none">Gerade nichts zu messen</string>
-    <string name="badges">Abzeichen</string>
+    <string name="badges">Auszeichnungen</string>
     <string name="badge_7">7-Tage-Serie</string>
     <string name="badge_30">30-Tage-Serie</string>
     <string name="badge_100">100-Tage-Serie</string>
@@ -200,10 +200,10 @@
     <string name="greeting_afternoon">Guten Tag</string>
     <string name="greeting_evening">Guten Abend</string>
     <string name="home_subtitle">%1$s · Tag %2$d · Erde %3$s Min. entfernt</string>
-    <string name="todays_plan">Heutiger Plan</string>
+    <string name="todays_plan">Heutiges Protokoll</string>
     <string name="op_eva_sub">Arbeit außerhalb des Raumschiffs</string>
     <string name="op_landing_sub">Abstieg und Rückkehr zur Schwerkraft</string>
-    <string name="streak_days">%1$d-Tage-Serie</string>
+    <string name="streak_days">Kontinuität: %1$d Tage</string>
     <string name="level_short">St. %1$d</string>
     <string name="loading_sync">Synchronisierung mit der Mission…</string>
     <string name="mission_details_transit">Tag %1$d eines ~%2$d-tägigen Transfers zum Mars (üblich sind 6–9 Monate). Das Signal braucht %3$.0f Min. pro Richtung, daher antwortet die Erde immer verzögert.</string>
@@ -339,4 +339,18 @@
     <string name="role_cmo">Crew-Mediziner</string>
     <string name="role_engineer">Basisingenieur</string>
     <string name="role_staff">Basispersonal</string>
+
+    <!-- Four-tab layout -->
+    <string name="tab_operations">Betrieb</string>
+    <string name="tab_physiology">Physiologie</string>
+    <string name="tab_profile">Profil</string>
+    <string name="title_operations">Tagesbetrieb</string>
+    <string name="title_physiology">Physiologischer Status</string>
+    <string name="title_fitness">Diensttauglichkeit</string>
+    <string name="title_profile">Crewmitglied-Profil</string>
+    <string name="seg_current">Aktueller Zustand</string>
+    <string name="seg_projection">Prognose</string>
+    <string name="sign_out">Abmelden</string>
+    <string name="qualification_level">Qualifikationsstufe %1$d</string>
+    <string name="badge_id">Ausweis %1$s</string>
 </resources>

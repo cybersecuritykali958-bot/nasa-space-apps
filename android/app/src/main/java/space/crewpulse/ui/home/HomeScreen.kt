@@ -16,9 +16,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.PriorityHigh
-import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,6 +35,9 @@ import space.crewpulse.ui.components.CardRow
 import space.crewpulse.ui.components.CrewIcons
 import space.crewpulse.ui.components.DayRing
 import space.crewpulse.ui.components.MissionTrajectory
+import space.crewpulse.ui.components.TabHeader
+import space.crewpulse.ui.mission.Commendations
+import space.crewpulse.ui.mission.GameSummary
 import space.crewpulse.ui.i18n.alertText
 import space.crewpulse.ui.i18n.environmentName
 import space.crewpulse.ui.i18n.indicatorName
@@ -45,8 +46,8 @@ import space.crewpulse.ui.navigation.Routes
 import space.crewpulse.ui.theme.StatusColors
 
 /**
- * Home is a daily briefing: who and where, one status line, and today's plan.
- * Measurements live in the Health tab.
+ * Daily Operations: mission position, gamification, one health status line and today's protocol.
+ * Measurements live in the Physiology tab.
  */
 @Composable
 fun HomeScreen(
@@ -63,14 +64,10 @@ fun HomeScreen(
             .padding(horizontal = 20.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        Row(Modifier.fillMaxWidth().padding(top = 16.dp), verticalAlignment = Alignment.Top) {
-            Column(Modifier.weight(1f)) {
-                Text(userName?.let { "${greeting()}, $it" } ?: greeting(), style = MaterialTheme.typography.headlineMedium)
-            }
-            IconButton(onClick = { onNavigate(Routes.SETTINGS) }) {
-                Icon(Icons.Outlined.Settings, contentDescription = stringResource(R.string.settings_title))
-            }
-        }
+        TabHeader(
+            title = stringResource(R.string.title_operations),
+            subtitle = userName?.let { "${greeting()}, $it" } ?: greeting(),
+        )
 
         when {
             state.loading -> Text(stringResource(R.string.loading))
@@ -101,6 +98,9 @@ private fun Briefing(state: HomeUiState, onIndicator: (String) -> Unit, onNaviga
         details = if (planned > 0 && envId == "mars_transit") stringResource(R.string.mission_details_transit, state.missionDay, planned, state.commDelayMin ?: 0.0)
         else stringResource(R.string.mission_details_other, state.commDelayMin ?: 0.0),
     )
+
+    // Gamification first: level, points, continuity.
+    state.report.game?.let { GameSummary(it) }
 
     // One status line.
     val overall = StatusEngine.worst(state.systems.map { it.status })
@@ -147,6 +147,8 @@ private fun Briefing(state: HomeUiState, onIndicator: (String) -> Unit, onNaviga
         DayRing(done, total)
     }
     if (plan != null) PlanByPartOfDay(state, onNavigate)
+
+    state.report.game?.let { Commendations(it) }
 
     Text(
         stringResource(R.string.demo_data_note),

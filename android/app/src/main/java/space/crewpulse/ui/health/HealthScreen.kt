@@ -40,20 +40,60 @@ import space.crewpulse.ui.i18n.indicatorName
 import space.crewpulse.ui.i18n.systemLabel
 import space.crewpulse.ui.navigation.Routes
 import space.crewpulse.ui.theme.StatusColors
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
+import androidx.compose.runtime.saveable.rememberSaveable
+import space.crewpulse.domain.DigitalTwin
+import space.crewpulse.ui.components.TabHeader
+import space.crewpulse.ui.twin.TwinScreen
 
-/** Health tab: each body system as a card with its indicators. */
+/** Physiological Status tab: current state of each body system, or the digital-twin projection. */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HealthScreen(state: HomeUiState, onIndicator: (String) -> Unit, onNavigate: (String) -> Unit) {
+fun HealthScreen(
+    state: HomeUiState,
+    onIndicator: (String) -> Unit,
+    onNavigate: (String) -> Unit,
+    projectTwin: (adherence: Double, phases: List<DigitalTwin.Phase>?) -> List<DigitalTwin.State>,
+) {
+    var projection by rememberSaveable { mutableStateOf(false) }
+    Column(Modifier.fillMaxSize().statusBarsPadding()) {
+        Column(Modifier.padding(horizontal = 20.dp)) {
+            TabHeader(stringResource(R.string.title_physiology))
+            val views = listOf(false to stringResource(R.string.seg_current), true to stringResource(R.string.seg_projection))
+            SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth().padding(bottom = 8.dp)) {
+                views.forEachIndexed { i, (isProjection, label) ->
+                    SegmentedButton(
+                        selected = projection == isProjection,
+                        onClick = { projection = isProjection },
+                        shape = SegmentedButtonDefaults.itemShape(i, views.size),
+                        icon = {},
+                    ) { Text(label, maxLines = 1) }
+                }
+            }
+        }
+        if (projection) {
+            TwinScreen(project = projectTwin, onBack = null, embedded = true)
+        } else {
+            CurrentState(state, onIndicator, onNavigate, Modifier.weight(1f))
+        }
+    }
+}
+
+/** Each body system as a card with its indicators, under the holographic body. */
+@Composable
+private fun CurrentState(state: HomeUiState, onIndicator: (String) -> Unit, onNavigate: (String) -> Unit, modifier: Modifier) {
     val list = rememberLazyListState()
     var selected by remember { mutableStateOf<String?>(null) }
     LazyColumn(
-        Modifier.fillMaxSize().statusBarsPadding().padding(horizontal = 20.dp),
+        modifier.fillMaxSize().padding(horizontal = 20.dp),
         state = list,
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         item {
-            Row(Modifier.fillMaxWidth().padding(top = 16.dp, bottom = 4.dp), verticalAlignment = Alignment.CenterVertically) {
-                Text(stringResource(R.string.tab_health), style = MaterialTheme.typography.headlineMedium, modifier = Modifier.weight(1f))
+            Row(Modifier.fillMaxWidth().padding(bottom = 4.dp), verticalAlignment = Alignment.CenterVertically) {
                 Button(onClick = { onNavigate(Routes.CHECKIN) }) { Text(stringResource(R.string.qa_checkin)) }
                 OutlinedButton(onClick = { onNavigate(Routes.TRENDS) }, modifier = Modifier.padding(start = 8.dp)) {
                     Text(stringResource(R.string.qa_trends))
