@@ -16,7 +16,6 @@
     <string name="qa_twin">ツイン</string>
     <string name="qa_trends">推移</string>
     <string name="readiness_title">準備状況とトリアージ</string>
-    <string name="mission_title">ミッションとあなた</string>
     <string name="responder_self">自分で対応</string>
     <string name="responder_cmo">クルー医療担当に相談</string>
     <string name="responder_surgeon">地上のフライトサージャンに連絡</string>
@@ -82,16 +81,15 @@
     <string name="pvt_saved">結果を保存しました</string>
     <string name="pvt_unreliable">応答が少なすぎて保存できません</string>
     <string name="level">レベル %1$d</string>
-    <string name="xp">%1$d XP · 次のレベルまで %2$d</string>
+    <string name="xp">プロトコル遵守ポイント %1$d · 次のレベルまで %2$d</string>
     <string name="days">%1$d日</string>
     <string name="current_streak">現在の連続記録</string>
-    <string name="todays_mission">今日のミッション</string>
     <string name="all_done">今日はすべて完了</string>
     <string name="minutes_saved">今日は約%1$.0f分、%2$.0f分節約</string>
     <string name="send_reminder">今すぐリマインダーを送信</string>
     <string name="reminder_sent">リマインダーを送信しました (表示されない場合は通知を許可)</string>
     <string name="reminder_none">今は測定するものはありません</string>
-    <string name="badges">バッジ</string>
+    <string name="badges">表彰</string>
     <string name="badge_7">7日連続</string>
     <string name="badge_30">30日連続</string>
     <string name="badge_100">100日連続</string>
@@ -113,13 +111,9 @@
     <string name="sys_musculoskeletal">骨と筋肉</string>
     <string name="sys_vision">目 (SANS)</string>
     <string name="sys_radiation">放射線</string>
-    <string name="tab_home">ホーム</string>
     <string name="tab_health">健康</string>
     <string name="tab_readiness">準備</string>
-    <string name="tab_twin">ツイン</string>
-    <string name="tab_mission">ミッション</string>
     <string name="health_subtitle">すべての身体システムと測定値</string>
-    <string name="settings_title">設定</string>
     <string name="language">言語</string>
     <string name="data_source_setting">表示するデータ</string>
     <string name="profile_demo_hint">デモ用の180日間の合成ミッション</string>
@@ -200,10 +194,10 @@
     <string name="greeting_afternoon">こんにちは</string>
     <string name="greeting_evening">こんばんは</string>
     <string name="home_subtitle">%1$s · %2$d日目 · 地球まで%3$s分</string>
-    <string name="todays_plan">今日の予定</string>
+    <string name="todays_plan">本日のプロトコル</string>
     <string name="op_eva_sub">宇宙船外での作業</string>
     <string name="op_landing_sub">降下と重力への復帰</string>
-    <string name="streak_days">%1$d日連続</string>
+    <string name="streak_days">継続: %1$d日</string>
     <string name="level_short">Lv. %1$d</string>
     <string name="loading_sync">ミッションと同期中…</string>
     <string name="mission_details_transit">火星への約%2$d日間の移動の%1$d日目(通常6〜9か月)。信号は片道%3$.0f分かかるため、地球の応答は常に遅れます。</string>
@@ -320,4 +314,37 @@
     <string name="watch_value_heart_rate">%1$s bpm</string>
     <string name="watch_value_sleep_hours">%1$s 時間</string>
     <string name="watch_value_body_temp">%1$s °C</string>
+    <string name="body3d_hint">ドラッグで回転。臓器をタップするとシステムを表示します。</string>
+    <!-- Badge sign-in (draft) -->
+    <string name="login_title">クルーアクセス</string>
+    <string name="login_tap">基地のバッジをスマートフォンの背面にかざしてください。</string>
+    <string name="login_only_staff">発行されたバッジを持つ基地職員のみサインインできます。</string>
+    <string name="login_nfc_off">このスマートフォンでは NFC がオフか利用できません。デモバッジを使用してください。</string>
+    <string name="login_reading">バッジを読み取り中…</string>
+    <string name="login_greeting">%1$s、%2$s さん！</string>
+    <string name="login_badge_id">バッジ %1$s</string>
+    <string name="login_denied">バッジを認識できません</string>
+    <string name="login_denied_hint">基地職員専用です。</string>
+    <string name="login_demo_crew">デモ：クルーバッジ</string>
+    <string name="login_demo_unknown">デモ：不明なカード</string>
+    <string name="login_demo_note">デモバッジ、架空のクルー</string>
+    <string name="login_continue">続ける</string>
+    <string name="role_commander">コマンダー · 宇宙飛行士</string>
+    <string name="role_cmo">クルー医療担当</string>
+    <string name="role_engineer">基地エンジニア</string>
+    <string name="role_staff">基地職員</string>
+
+    <!-- Four-tab layout -->
+    <string name="tab_operations">運用</string>
+    <string name="tab_physiology">生理</string>
+    <string name="tab_profile">プロフィール</string>
+    <string name="title_operations">日次運用</string>
+    <string name="title_physiology">生理状態</string>
+    <string name="title_fitness">任務適性</string>
+    <string name="title_profile">搭乗員プロフィール</string>
+    <string name="seg_current">現在の状態</string>
+    <string name="seg_projection">予測</string>
+    <string name="sign_out">サインアウト</string>
+    <string name="qualification_level">資格レベル %1$d</string>
+    <string name="badge_id">バッジ %1$s</string>
 </resources>

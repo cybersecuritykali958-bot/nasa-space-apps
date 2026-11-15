@@ -16,7 +16,6 @@
     <string name="qa_twin">Twin</string>
     <string name="qa_trends">Trends</string>
     <string name="readiness_title">Readiness &amp; triage</string>
-    <string name="mission_title">Mission &amp; you</string>
     <string name="responder_self">Handle it yourself</string>
     <string name="responder_cmo">Talk to the crew medical officer</string>
     <string name="responder_surgeon">Contact the flight surgeon on Earth</string>
@@ -82,16 +81,15 @@
     <string name="pvt_saved">Result saved</string>
     <string name="pvt_unreliable">Too few responses to save</string>
     <string name="level">Level %1$d</string>
-    <string name="xp">%1$d XP · %2$d to next level</string>
+    <string name="xp">%1$d protocol compliance points · %2$d to next level</string>
     <string name="days">%1$d days</string>
     <string name="current_streak">Current streak</string>
-    <string name="todays_mission">Today’s mission</string>
     <string name="all_done">All set for today</string>
     <string name="minutes_saved">~%1$.0f min today, %2$.0f min saved</string>
     <string name="send_reminder">Send reminder now</string>
     <string name="reminder_sent">Reminder sent (allow notifications if you don’t see it)</string>
     <string name="reminder_none">Nothing to measure right now</string>
-    <string name="badges">Badges</string>
+    <string name="badges">Commendations</string>
     <string name="badge_7">7-day streak</string>
     <string name="badge_30">30-day streak</string>
     <string name="badge_100">100-day streak</string>
@@ -113,13 +111,9 @@
     <string name="sys_musculoskeletal">Bones &amp; muscles</string>
     <string name="sys_vision">Eyes (SANS)</string>
     <string name="sys_radiation">Radiation</string>
-    <string name="tab_home">Home</string>
     <string name="tab_health">Health</string>
     <string name="tab_readiness">Readiness</string>
-    <string name="tab_twin">Twin</string>
-    <string name="tab_mission">Mission</string>
     <string name="health_subtitle">All body systems and measurements</string>
-    <string name="settings_title">Settings</string>
     <string name="language">Language</string>
     <string name="data_source_setting">Whose data to show</string>
     <string name="profile_demo_hint">180-day synthetic mission for the demo</string>
@@ -200,10 +194,10 @@
     <string name="greeting_afternoon">Good afternoon</string>
     <string name="greeting_evening">Good evening</string>
     <string name="home_subtitle">%1$s · Day %2$d · Earth %3$s min away</string>
-    <string name="todays_plan">Today’s plan</string>
+    <string name="todays_plan">Today’s protocol</string>
     <string name="op_eva_sub">Work outside the spacecraft</string>
     <string name="op_landing_sub">Descent and return to gravity</string>
-    <string name="streak_days">%1$d-day streak</string>
+    <string name="streak_days">Continuity: %1$d days</string>
     <string name="level_short">Lv. %1$d</string>
     <string name="loading_sync">Syncing with the mission…</string>
     <string name="mission_details_transit">Day %1$d of a ~%2$d-day transfer to Mars (a Mars transfer usually takes 6–9 months). The signal needs %3$.0f min one way, so Earth always answers with a delay.</string>
@@ -320,4 +314,37 @@
     <string name="watch_value_heart_rate">%1$s bpm</string>
     <string name="watch_value_sleep_hours">%1$s h</string>
     <string name="watch_value_body_temp">%1$s °C</string>
+    <string name="body3d_hint">Drag to rotate. Tap an organ to see its system.</string>
+    <!-- Badge sign-in (draft) -->
+    <string name="login_title">Crew access</string>
+    <string name="login_tap">Hold your base badge to the back of the phone.</string>
+    <string name="login_only_staff">Only base personnel with an issued badge can sign in.</string>
+    <string name="login_nfc_off">NFC is off or not available on this phone. Use a demo badge.</string>
+    <string name="login_reading">Reading badge…</string>
+    <string name="login_greeting">%1$s, %2$s!</string>
+    <string name="login_badge_id">Badge %1$s</string>
+    <string name="login_denied">Badge not recognized</string>
+    <string name="login_denied_hint">Access is for base personnel only.</string>
+    <string name="login_demo_crew">Demo: crew badge</string>
+    <string name="login_demo_unknown">Demo: unknown card</string>
+    <string name="login_demo_note">Demo badges, fictional crew</string>
+    <string name="login_continue">Continue</string>
+    <string name="role_commander">Commander · Astronaut</string>
+    <string name="role_cmo">Crew medical officer</string>
+    <string name="role_engineer">Base engineer</string>
+    <string name="role_staff">Base personnel</string>
+
+    <!-- Four-tab layout -->
+    <string name="tab_operations">Operations</string>
+    <string name="tab_physiology">Physiology</string>
+    <string name="tab_profile">Profile</string>
+    <string name="title_operations">Daily Operations</string>
+    <string name="title_physiology">Physiological Status</string>
+    <string name="title_fitness">Fitness for Duty</string>
+    <string name="title_profile">Crew Member Profile</string>
+    <string name="seg_current">Current State</string>
+    <string name="seg_projection">Projection</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="qualification_level">Qualification level %1$d</string>
+    <string name="badge_id">Badge %1$s</string>
 </resources>
