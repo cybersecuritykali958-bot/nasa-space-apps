@@ -54,6 +54,7 @@ private enum class Scenario { MARS, ISS, CURRENT }
 fun TwinScreen(
     project: (adherence: Double, phases: List<DigitalTwin.Phase>?) -> List<DigitalTwin.State>,
     onBack: (() -> Unit)?,
+    embedded: Boolean = false,
 ) {
     var scenario by remember { mutableStateOf(Scenario.MARS) }
     var exercise by remember { mutableStateOf(true) }
@@ -65,9 +66,12 @@ fun TwinScreen(
     }
     val states = remember(scenario, exercise) { project(if (exercise) 1.0 else 0.0, phases) }
 
-    Column(Modifier.fillMaxSize().statusBarsPadding()) {
+    // Embedded under the Physiology header: no own title or status-bar inset.
+    Column(if (embedded) Modifier.fillMaxSize() else Modifier.fillMaxSize().statusBarsPadding()) {
         Column(Modifier.padding(horizontal = 20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            Text(stringResource(R.string.twin_title), style = MaterialTheme.typography.headlineMedium, modifier = Modifier.padding(top = 16.dp))
+            if (!embedded) {
+                Text(stringResource(R.string.twin_title), style = MaterialTheme.typography.headlineMedium, modifier = Modifier.padding(top = 16.dp))
+            }
             val labels = listOf(
                 Scenario.MARS to stringResource(R.string.scenario_mars),
                 Scenario.ISS to stringResource(R.string.scenario_iss),

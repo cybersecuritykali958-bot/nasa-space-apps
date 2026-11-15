@@ -169,6 +169,13 @@ private fun MetricTextField(field: CheckInField, onValueChange: (String) -> Unit
             textStyle = MaterialTheme.typography.titleMedium,
             colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = MaterialTheme.colorScheme.primary),
         )
+        if (field.fromWatch) {
+            Text(
+                stringResource(R.string.watch_from_watch),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.primary,
+            )
+        }
         HintBlock(field.hintExpanded, indicatorHow(field.indicator), onToggleHint)
     }
 }

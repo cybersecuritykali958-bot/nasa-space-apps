@@ -29,24 +29,96 @@ import space.crewpulse.ui.components.CrewIcons
 import space.crewpulse.ui.components.ListRow
 import space.crewpulse.ui.components.StatusPill
 import space.crewpulse.ui.home.HomeUiState
+import space.crewpulse.ui.body3d.TurntableBody
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import space.crewpulse.ui.i18n.indicatorName
 import space.crewpulse.ui.i18n.systemLabel
 import space.crewpulse.ui.navigation.Routes
 import space.crewpulse.ui.theme.StatusColors
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
+import androidx.compose.runtime.saveable.rememberSaveable
+import space.crewpulse.domain.DigitalTwin
+import space.crewpulse.ui.components.TabHeader
+import space.crewpulse.ui.twin.TwinScreen
 
-/** Health tab: each body system as a card with its indicators. */
+/** Physiological Status tab: current state of each body system, or the digital-twin projection. */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HealthScreen(state: HomeUiState, onIndicator: (String) -> Unit, onNavigate: (String) -> Unit) {
+fun HealthScreen(
+    state: HomeUiState,
+    onIndicator: (String) -> Unit,
+    onNavigate: (String) -> Unit,
+    projectTwin: (adherence: Double, phases: List<DigitalTwin.Phase>?) -> List<DigitalTwin.State>,
+) {
+    var projection by rememberSaveable { mutableStateOf(false) }
+    Column(Modifier.fillMaxSize().statusBarsPadding()) {
+        Column(Modifier.padding(horizontal = 20.dp)) {
+            TabHeader(stringResource(R.string.title_physiology))
+            val views = listOf(false to stringResource(R.string.seg_current), true to stringResource(R.string.seg_projection))
+            SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth().padding(bottom = 8.dp)) {
+                views.forEachIndexed { i, (isProjection, label) ->
+                    SegmentedButton(
+                        selected = projection == isProjection,
+                        onClick = { projection = isProjection },
+                        shape = SegmentedButtonDefaults.itemShape(i, views.size),
+                        icon = {},
+                    ) { Text(label, maxLines = 1) }
+                }
+            }
+        }
+        if (projection) {
+            TwinScreen(project = projectTwin, onBack = null, embedded = true)
+        } else {
+            CurrentState(state, onIndicator, onNavigate, Modifier.weight(1f))
+        }
+    }
+}
+
+/** Each body system as a card with its indicators, under the holographic body. */
+@Composable
+private fun CurrentState(state: HomeUiState, onIndicator: (String) -> Unit, onNavigate: (String) -> Unit, modifier: Modifier) {
+    val list = rememberLazyListState()
+    var selected by remember { mutableStateOf<String?>(null) }
     LazyColumn(
-        Modifier.fillMaxSize().statusBarsPadding().padding(horizontal = 20.dp),
+        modifier.fillMaxSize().padding(horizontal = 20.dp),
+        state = list,
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         item {
-            Row(Modifier.fillMaxWidth().padding(top = 16.dp, bottom = 4.dp), verticalAlignment = Alignment.CenterVertically) {
-                Text(stringResource(R.string.tab_health), style = MaterialTheme.typography.headlineMedium, modifier = Modifier.weight(1f))
+            Row(Modifier.fillMaxWidth().padding(bottom = 4.dp), verticalAlignment = Alignment.CenterVertically) {
                 Button(onClick = { onNavigate(Routes.CHECKIN) }) { Text(stringResource(R.string.qa_checkin)) }
                 OutlinedButton(onClick = { onNavigate(Routes.TRENDS) }, modifier = Modifier.padding(start = 8.dp)) {
                     Text(stringResource(R.string.qa_trends))
+                }
+            }
+        }
+        // Holographic body: tap an organ to see that system's status and indicators right below.
+        item {
+            Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
+                TurntableBody(
+                    systems = state.systems,
+                    heartRate = state.evaluation("heart_rate")?.value,
+                    selected = selected,
+                    onSystem = { id -> selected = if (selected == id) null else id },
+                    modifier = Modifier.fillMaxWidth().height(380.dp),
+                )
+                val picked = state.systems.firstOrNull { it.systemId == selected }
+                if (picked != null) {
+                    SelectedSystemCard(picked, onIndicator, onClose = { selected = null })
+                } else {
+                    Text(
+                        stringResource(R.string.body3d_hint),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
                 }
             }
         }
@@ -86,5 +158,37 @@ fun HealthScreen(state: HomeUiState, onIndicator: (String) -> Unit, onNavigate: 
             }
         }
         item { Text("", Modifier.padding(bottom = 8.dp)) }
+    }
+}
+
+/** Status and indicators of the organ tapped on the body figure. */
+@Composable
+private fun SelectedSystemCard(system: space.crewpulse.domain.SystemStatus, onIndicator: (String) -> Unit, onClose: () -> Unit) {
+    Card(
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHighest),
+        modifier = Modifier.fillMaxWidth().clickable(onClick = onClose),
+    ) {
+        Column(Modifier.padding(horizontal = 16.dp, vertical = 4.dp)) {
+            ListRow(
+                title = systemLabel(system.systemId),
+                icon = CrewIcons.system(system.systemId),
+                iconTint = StatusColors.of(system.status),
+                trailing = { StatusPill(system.status) },
+            )
+            system.evaluations.forEach { eval ->
+                Row(
+                    Modifier.fillMaxWidth().clickable { onIndicator(eval.indicator.id) }.padding(vertical = 10.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Text(indicatorName(eval.indicator), style = MaterialTheme.typography.bodyLarge, modifier = Modifier.weight(1f))
+                    Text(
+                        "${"%.1f".format(eval.value)} ${eval.indicator.unit}",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = if (eval.status == Status.GREEN) MaterialTheme.colorScheme.onSurface else StatusColors.of(eval.status),
+                    )
+                }
+            }
+        }
     }
 }
