@@ -12,6 +12,7 @@ import androidx.compose.material.icons.outlined.WaterDrop
 import androidx.compose.material.icons.outlined.WbSunny
 import androidx.compose.material.icons.outlined.Speed
 import androidx.compose.material.icons.outlined.Mood
+import androidx.compose.material.icons.outlined.SentimentSatisfied
 import androidx.compose.ui.graphics.vector.ImageVector
 
 /** Outlined icons for body systems and indicators. */
@@ -33,6 +34,7 @@ object CrewIcons {
         "body_temp" -> Icons.Outlined.Thermostat
         "sleep_hours" -> Icons.Outlined.Bedtime
         "mood" -> Icons.Outlined.Mood
+        "who5" -> Icons.Outlined.SentimentSatisfied
         "pvt_mean_rt" -> Icons.Outlined.Psychology
         "cumulative_dose" -> Icons.Outlined.WbSunny
         else -> Icons.Outlined.Speed

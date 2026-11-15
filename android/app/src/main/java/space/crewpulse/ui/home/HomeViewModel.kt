@@ -133,6 +133,18 @@ class HomeViewModel(private val container: AppContainer) : ViewModel() {
         return true
     }
 
+    /** Saves a camera (contact PPG) heart rate. Marked as source "camera", so confidence treats it as estimated. */
+    fun saveCameraPulse(bpm: Double): Boolean {
+        val s = static ?: return false
+        val result = InputValidator.validate(mapOf("heart_rate" to bpm), s.indicators, s.rules.input)
+        if (!result.isValid) return false
+        viewModelScope.launch { container.readings.saveCheckIn(result.accepted, source = "camera") }
+        return true
+    }
+
+    /** Saves a WHO-5 well-being score (0-100 %). */
+    fun saveWho5(percent: Double): Boolean = saveCheckIn(mapOf("who5" to percent)).isValid
+
     /**
      * Digital Twin projection. Defaults to the current environment for [days] days.
      * For a full mission pass phases, e.g. DigitalTwin.SCENARIOS["mars_mission"].

@@ -24,6 +24,7 @@ import androidx.compose.material.icons.outlined.WbSunny
 import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -39,6 +40,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import space.crewpulse.R
 import space.crewpulse.ui.components.TabHeader
+import androidx.compose.material.icons.automirrored.outlined.Send
 import space.crewpulse.data.model.Status
 import space.crewpulse.domain.SpaceWeatherLevel
 import space.crewpulse.domain.Verdict
@@ -57,7 +59,7 @@ import space.crewpulse.ui.theme.StatusColors
 
 /** Triage with communication delay, step-by-step plan, GO / NO-GO, space weather, radiation budget. */
 @Composable
-fun ReadinessScreen(state: HomeUiState, onRefreshWeather: () -> Unit, onBack: (() -> Unit)?) {
+fun ReadinessScreen(state: HomeUiState, onRefreshWeather: () -> Unit, onBack: (() -> Unit)?, onEarthReport: () -> Unit = {}) {
     val report = state.report
     val t = report.triage
     var help by remember { mutableStateOf(false) }
@@ -80,6 +82,10 @@ fun ReadinessScreen(state: HomeUiState, onRefreshWeather: () -> Unit, onBack: ((
                 Text(responderLabel(t.responder), style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(start = 12.dp))
             }
             Text(triageReason(report), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 6.dp))
+            OutlinedButton(onClick = onEarthReport, modifier = Modifier.padding(top = 10.dp)) {
+                Icon(Icons.AutoMirrored.Outlined.Send, contentDescription = null)
+                Text(stringResource(R.string.earth_open), Modifier.padding(start = 8.dp))
+            }
         }
 
         // Concrete steps.

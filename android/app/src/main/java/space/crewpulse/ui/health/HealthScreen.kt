@@ -4,6 +4,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -83,6 +85,7 @@ fun HealthScreen(
 }
 
 /** Each body system as a card with its indicators, under the holographic body. */
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun CurrentState(state: HomeUiState, onIndicator: (String) -> Unit, onNavigate: (String) -> Unit, modifier: Modifier) {
     val list = rememberLazyListState()
@@ -93,11 +96,15 @@ private fun CurrentState(state: HomeUiState, onIndicator: (String) -> Unit, onNa
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         item {
-            Row(Modifier.fillMaxWidth().padding(bottom = 4.dp), verticalAlignment = Alignment.CenterVertically) {
+            FlowRow(
+                Modifier.fillMaxWidth().padding(bottom = 4.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp),
+            ) {
                 Button(onClick = { onNavigate(Routes.CHECKIN) }) { Text(stringResource(R.string.qa_checkin)) }
-                OutlinedButton(onClick = { onNavigate(Routes.TRENDS) }, modifier = Modifier.padding(start = 8.dp)) {
-                    Text(stringResource(R.string.qa_trends))
-                }
+                OutlinedButton(onClick = { onNavigate(Routes.CAMERA_PULSE) }) { Text(stringResource(R.string.qa_camera_pulse)) }
+                OutlinedButton(onClick = { onNavigate(Routes.WHO5) }) { Text(stringResource(R.string.qa_who5)) }
+                OutlinedButton(onClick = { onNavigate(Routes.TRENDS) }) { Text(stringResource(R.string.qa_trends)) }
             }
         }
         // Holographic body: tap an organ to see that system's status and indicators right below.

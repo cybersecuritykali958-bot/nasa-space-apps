@@ -15,6 +15,7 @@ import space.crewpulse.AppContainer
 import space.crewpulse.data.Profile
 import space.crewpulse.data.model.Indicator
 import space.crewpulse.domain.InputValidator
+import space.crewpulse.domain.Who5
 
 data class CheckInField(
     val indicator: Indicator,
@@ -36,7 +37,14 @@ data class CheckInUiState(
     val bloodPressure: BloodPressureState = BloodPressureState(),
     val fields: List<CheckInField> = emptyList(),
     val savedMessage: String? = null,
-)
+    /** Optional WHO-5 well-being test, opened from the mood card. */
+    val who5Expanded: Boolean = false,
+    val who5Answers: List<Int?> = List(Who5.ITEMS) { null },
+    /** The test is open and only partly answered: finish it or close it before saving. */
+    val who5Incomplete: Boolean = false,
+) {
+    val who5Score: Double? get() = Who5.percent(who5Answers)
+}
 
 class CheckInViewModel(private val container: AppContainer) : ViewModel() {
 
@@ -84,6 +92,12 @@ class CheckInViewModel(private val container: AppContainer) : ViewModel() {
         }
     }
 
+    fun toggleWho5() = _state.update { it.copy(who5Expanded = !it.who5Expanded, who5Incomplete = false) }
+
+    fun setWho5Answer(item: Int, value: Int) = _state.update { s ->
+        s.copy(who5Answers = s.who5Answers.mapIndexed { i, v -> if (i == item) value else v }, who5Incomplete = false, savedMessage = null)
+    }
+
     fun toggleFieldHint(index: Int) {
         _state.update { s -> s.copy(fields = s.fields.mapIndexed { i, f -> if (i == index) f.copy(hintExpanded = !f.hintExpanded) else f }) }
     }
@@ -91,7 +105,14 @@ class CheckInViewModel(private val container: AppContainer) : ViewModel() {
     fun consumeSavedMessage() = _state.update { it.copy(savedMessage = null) }
 
     fun submit() {
-        val values = validate() ?: return
+        val s0 = _state.value
+        val answered = s0.who5Answers.count { it != null }
+        if (s0.who5Expanded && answered in 1 until Who5.ITEMS) {
+            _state.update { it.copy(who5Incomplete = true) }
+            return
+        }
+        // A finished WHO-5 is saved with the check-in; an untouched or closed test is skipped.
+        val values = (validate() ?: return) + listOfNotNull(s0.who5Score?.let { "who5" to it })
         viewModelScope.launch {
             // Backend validation (plausibility limits), then save to Room and show the user's own data.
             val result = InputValidator.validate(values.toMap(), container.assets.indicators(), container.assets.engineRules().input)

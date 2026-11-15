@@ -75,6 +75,9 @@ import space.crewpulse.ui.home.HomeScreen
 import space.crewpulse.ui.home.HomeViewModel
 import space.crewpulse.ui.indicator.IndicatorScreen
 import space.crewpulse.ui.pvt.PvtScreen
+import space.crewpulse.ui.who5.Who5Screen
+import space.crewpulse.ui.pulse.CameraPulseScreen
+import space.crewpulse.ui.earth.EarthReportScreen
 import space.crewpulse.ui.readiness.ReadinessScreen
 import space.crewpulse.ui.settings.SettingsScreen
 import space.crewpulse.ui.trends.TrendsScreen
@@ -91,6 +94,9 @@ object Routes {
     const val TRENDS = "trends"
     const val SETTINGS = "settings"
     const val WATCH = "watch"
+    const val WHO5 = "who5"
+    const val CAMERA_PULSE = "camera_pulse"
+    const val EARTH = "earth"
     const val INDICATOR = "indicator/{id}"
 
     fun indicator(id: String) = "indicator/$id"
@@ -191,7 +197,9 @@ private fun MainScaffold(
                     projectTwin = { a, phases -> home.projectTwin(a, phases = phases) },
                 )
             }
-            composable(Routes.READINESS) { ReadinessScreen(state, home::refreshSpaceWeather, onBack = null) }
+            composable(Routes.READINESS) {
+                ReadinessScreen(state, home::refreshSpaceWeather, onBack = null, onEarthReport = { go(Routes.EARTH) })
+            }
             composable(Routes.SETTINGS) {
                 val watch by container.watch.snapshot.collectAsStateWithLifecycle()
                 val user by container.badges.current.collectAsStateWithLifecycle()
@@ -217,6 +225,16 @@ private fun MainScaffold(
             }
             composable(Routes.CHECKIN) { CheckInScreen(container, back) }
             composable(Routes.PVT) { PvtScreen(onSave = home::savePvt, onBack = back) }
+            composable(Routes.WHO5) { Who5Screen(onSave = home::saveWho5, onBack = back) }
+            composable(Routes.CAMERA_PULSE) {
+                // Demo signal around the astronaut's latest heart rate, so the simulated result looks plausible.
+                val demoBpm = state.evaluation("heart_rate")?.value ?: 72.0
+                CameraPulseScreen(onSave = home::saveCameraPulse, onBack = back, demoBpm = demoBpm)
+            }
+            composable(Routes.EARTH) {
+                val user by container.badges.current.collectAsStateWithLifecycle()
+                EarthReportScreen(state, user, onBack = back)
+            }
             composable(Routes.TRENDS) { TrendsScreen(state, onShowDemo = { home.setProfile(space.crewpulse.data.Profile.DEMO) }, onBack = back) }
             composable(Routes.WATCH) {
                 WatchConnectScreen(container.watch, onDone = back, drawBackground = false)

@@ -150,6 +150,49 @@ object DigitalTwin {
         else -> Status.YELLOW
     }
 
+    /**
+     * Countermeasure coach: the inverse of [simulate]. Given a scenario, finds the smallest share of the ARED
+     * exercise protocol (0..1) that keeps bone and muscle at or above a limit until the last mission day.
+     */
+    data class Coach(
+        /** Smallest adherence that keeps bone and muscle green on the last day; null if 100 % is not enough. */
+        val forGreen: Double?,
+        /** Smallest adherence that keeps bone and muscle out of red on the last day; null if 100 % is not enough. */
+        val forNoRed: Double?,
+        /** With the full protocol, the first day bone or muscle turns red; null if it never does. */
+        val firstRedDayAtFull: Int?,
+        val lastDay: Int,
+    )
+
+    /** [simulateAt] runs the scenario for a given adherence, e.g. `{ a -> simulate(phases, envs, a) }`. */
+    fun coach(simulateAt: (Double) -> List<State>): Coach? {
+        val full = simulateAt(1.0)
+        val last = full.lastOrNull() ?: return null
+        return Coach(
+            forGreen = minAdherence(simulateAt) { it.bonePct >= BONE_GREEN_MIN && it.musclePct >= MUSCLE_GREEN_MIN },
+            forNoRed = minAdherence(simulateAt) { it.bonePct >= BONE_RED_BELOW && it.musclePct >= MUSCLE_RED_BELOW },
+            firstRedDayAtFull = full.firstOrNull { it.boneStatus == Status.RED || it.muscleStatus == Status.RED }?.day,
+            lastDay = last.day,
+        )
+    }
+
+    /**
+     * Bone and muscle only fall in flight, and they fall more slowly with more exercise, so the last day is the
+     * worst day and the result is monotonic in adherence: bisection finds the threshold. Rounded up to 1 %.
+     */
+    internal fun minAdherence(simulateAt: (Double) -> List<State>, ok: (State) -> Boolean): Double? {
+        fun passes(a: Double) = simulateAt(a).lastOrNull()?.let(ok) ?: false
+        if (!passes(1.0)) return null
+        if (passes(0.0)) return 0.0
+        var lo = 0.0
+        var hi = 1.0
+        repeat(14) {
+            val mid = (lo + hi) / 2
+            if (passes(mid)) hi = mid else lo = mid
+        }
+        return (kotlin.math.ceil(hi * 100) / 100).coerceAtMost(1.0)
+    }
+
     private fun lerp(low: Double, high: Double, adherence: Double): Double {
         val a = adherence.coerceIn(0.0, 1.0)
         return low + (high - low) * a
