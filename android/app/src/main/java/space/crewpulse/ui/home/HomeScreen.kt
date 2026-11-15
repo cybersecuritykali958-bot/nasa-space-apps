@@ -48,6 +48,7 @@ import space.crewpulse.ui.i18n.alertText
 import space.crewpulse.ui.i18n.environmentName
 import space.crewpulse.ui.i18n.indicatorName
 import space.crewpulse.ui.i18n.responderLabel
+import space.crewpulse.ui.i18n.systemLabel
 import space.crewpulse.ui.navigation.Routes
 import space.crewpulse.ui.theme.StatusColors
 
@@ -115,7 +116,7 @@ private fun Briefing(state: HomeUiState, onIndicator: (String) -> Unit, onNaviga
     val ok = attention == 0
     CardRow(
         title = if (ok) stringResource(R.string.all_nominal) else stringResource(R.string.systems_attention, attention),
-        subtitle = if (ok) null else responderLabel(state.report.triage.responder),
+        subtitle = if (ok) null else attentionDetails(state) + "\n" + responderLabel(state.report.triage.responder),
         leading = { StatusMark(overall) },
         onClick = { onNavigate(if (ok) Routes.HEALTH else Routes.READINESS) },
         modifier = Modifier.padding(top = 8.dp),
@@ -184,6 +185,28 @@ private fun ReminderRow(plan: space.crewpulse.domain.MeasurementPlan, onReminder
     result?.let {
         Text(stringResource(if (it) R.string.reminder_sent else R.string.reminder_none), style = MaterialTheme.typography.bodyMedium)
     }
+}
+
+/**
+ * What exactly needs attention: one line per off-nominal system (red first) with its off-nominal indicators,
+ * e.g. "Heart & vessels: Diastolic pressure 83.7 mmHg, Resting heart rate 71.5 bpm".
+ */
+@Composable
+private fun attentionDetails(state: HomeUiState): String {
+    val lines = mutableListOf<String>()
+    val systems = state.systems
+        .filter { it.status == Status.YELLOW || it.status == Status.RED }
+        .sortedByDescending { it.status == Status.RED }
+    for (system in systems) {
+        val items = mutableListOf<String>()
+        for (e in system.evaluations) {
+            if (e.status == Status.YELLOW || e.status == Status.RED) {
+                items += "${indicatorName(e.indicator)} ${"%.1f".format(e.value)} ${e.indicator.unit}"
+            }
+        }
+        lines += systemLabel(system.systemId) + if (items.isEmpty()) "" else ": " + items.joinToString(", ")
+    }
+    return lines.joinToString("\n")
 }
 
 /** Round status mark: green check, or amber / red exclamation. */
