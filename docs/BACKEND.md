@@ -59,10 +59,18 @@ home.setEnvironment("mars_surface")   // id from environments.json
 home.refreshSpaceWeather()            // fresh NASA data, safe offline
 home.runBenchmark()                   // engine self-validation → state.benchmark
 home.sendReminderNow()                // demo: post the reminder for the current plan now
+home.saveCameraPulse(71.0)            // camera pulse as heart_rate, source "camera" (estimated)
+home.saveWho5(64.0)                   // WHO-5 score in percent (0-100)
 
 // Digital Twin: one State per mission day
 val days = home.projectTwin(adherence = 1.0, days = 900)                    // current environment
 val mars = home.projectTwin(1.0, phases = DigitalTwin.SCENARIOS["mars_mission"])
+
+// Countermeasure coach: smallest ARED adherence that keeps bone and muscle in range
+val coach = DigitalTwin.coach { a -> home.projectTwin(a, phases = DigitalTwin.SCENARIOS["iss_6mo"]) }
+
+// Report for Earth: plain-text packet for the flight surgeon
+val packet = EarthPacket.build(state.report, crewName, badgeId, state.missionDay, state.environmentName, now)
 ```
 
 ### PVT screen (the UI owns the clock, the backend owns the protocol)
@@ -189,5 +197,5 @@ Before any task the agent reads `CLAUDE.md`, this file and `docs/DATA_CONTRACT.m
 - The triage response window is a team assumption.
 - Decision support and training, not a medical device.
 - PVT is stored as mean reaction time (`pvt_mean_rt`) because that is the current contract; lapses and speed are computed and returned, and switching the stored metric to lapses is a pending team decision (see `docs/SCIENCE.md`, Limitations 2).
-- Reminders and the camera pulse need UI work (notification permission, camera screen).
+- Camera pulse has been checked only on synthetic signals; it needs a real phone with a flash (see `docs/SCIENCE.md`, Limitations 4).
 - The DONKI flare feed (FLR) currently returns 404; SEP and CME are used. The code already handles FLR when the feed returns.

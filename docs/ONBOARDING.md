@@ -22,7 +22,7 @@ git checkout -b feat/<nick>-<task>
 1. Android Studio → **Open** → the `android/` folder (not the repo root).
 2. Wait for **Gradle Sync** (5–10 minutes the first time).
 3. **Device Manager** → create a Pixel with Android 14, or connect a phone (Settings → About phone → tap "Build number" 7 times → Developer options → USB debugging).
-4. Press ▶ **Run**. The CrewPulse home screen with body systems should open.
+4. Press ▶ **Run**. CrewPulse opens with the badge sign-in: tap **Demo: crew badge** (emulators have no NFC), then **Enter manually** on the watch screen, and the Daily Operations tab opens.
 
 Optional: add `NASA_API_KEY=...` to `android/local.properties` for live NASA DONKI data. Never commit this file.
 

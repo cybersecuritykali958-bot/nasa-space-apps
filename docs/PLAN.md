@@ -17,7 +17,7 @@ Early warning, confidence, patterns with discordance detector, triage with commu
 2. Digital Twin: projected bone, muscle and dose up to the 600 mSv limit.
 3. ~~Environment switch and communication delay~~ (backend done, needs UI).
 4. ~~NASA DONKI~~ (backend done, needs UI).
-5. Camera pulse (rPPG). If it does not make it, manual input stays.
+5. ~~Camera pulse~~ (done 15.11 as contact PPG: fingertip on the camera, not face rPPG; demo mode with a simulated finger).
 
 ## Steps
 | # | When | What | Who | Done when |

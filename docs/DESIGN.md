@@ -12,24 +12,25 @@ Owner: @gutsonithemvp. Figma link: _add here_
 7. Later: PVT, Digital Twin (mission day slider), validation screen.
 
 ## Implemented (Compose, matches the mockup)
-Navigation: bottom bar with five tabs; detail screens open on top. Settings via the gear on Home.
+Navigation: launch flow Loading → NFC badge sign-in → watch (optional) → app; bottom bar with four tabs; detail screens open on top. Every tab has a language dropdown in the top-right corner.
 
 | Tab / screen | File | Data |
 |---|---|---|
-| **Home** (daily briefing): greeting, mission line, one status row, one warning only when needed, today's plan (tap opens check-in or the reaction test). No measurements on Home | `ui/home/HomeScreen.kt` | `state.report`, `state.environment` |
-| **Health**: all body systems and indicators, entry to check-in and trends | `ui/health/HealthScreen.kt` | `state.systems` |
-| **Readiness**: Earth response vs response window, EVA / landing GO-NO-GO with reasons, space weather, radiation budget | `ui/readiness/ReadinessScreen.kt` | `report.triage`, `readiness`, `spaceWeather`, `radiation` |
-| **Twin**: skeleton, bone / muscle / dose charts, day slider, exercise switch, scenarios | `ui/twin/TwinScreen.kt` | `projectTwin` |
-| **Mission**: level, streak, today's mission, reminder, badges | `ui/mission/MissionScreen.kt` | `report.game`, `report.plan` |
+| **Operations** (Daily Operations): greeting, mission route, qualification level / compliance points / continuity, one status row, one warning only when needed, today's protocol (tap opens check-in, the reaction test or WHO-5), reminder, commendations | `ui/home/HomeScreen.kt`, `ui/mission/MissionScreen.kt` (`GameSummary`, `Commendations`) | `state.report`, `state.environment` |
+| **Physiology** (Physiological Status): *Current State* = holographic 3D body, systems and indicators, entry to check-in, camera pulse, WHO-5 and trends; *Projection* = Digital Twin with the countermeasure coach | `ui/health/HealthScreen.kt`, `ui/body3d/`, `ui/twin/TwinScreen.kt` | `state.systems`, `projectTwin` |
+| **Readiness** (Fitness for Duty): Earth response vs response window, report for Earth, EVA / landing GO-NO-GO with reasons, space weather, radiation budget | `ui/readiness/ReadinessScreen.kt` | `report.triage`, `readiness`, `spaceWeather`, `radiation` |
+| **Profile** (Crew Member Profile): badge holder, watch, demo / my data, mission environment, about, sign out | `ui/settings/SettingsScreen.kt` | `SettingsStore`, `BadgeRepository` |
 | Why this matters (detail): value, chart with threshold and forecast, advice, sources, confidence | `ui/indicator/IndicatorScreen.kt` | evaluation, history, alerts |
-| Daily check-in (detail): validated by the backend, saved to Room | `ui/checkin/` | `InputValidator`, `ReadingRepository` |
+| Daily check-in (detail): validated by the backend, saved to Room; the mood card unfolds an optional WHO-5 test | `ui/checkin/` | `InputValidator`, `ReadingRepository` |
+| WHO-5 (detail) | `ui/who5/Who5Screen.kt` | `Who5`, `saveWho5` |
+| Camera pulse (detail), with a simulated-finger demo mode | `ui/pulse/CameraPulseScreen.kt` | `PulseFromCamera`, `saveCameraPulse` |
+| Report for Earth (detail) | `ui/earth/EarthReportScreen.kt` | `EarthPacket`, `report.triage` |
 | Reaction test (detail, PVT-B) | `ui/pvt/PvtScreen.kt` | `PvtSession`, `savePvt` |
 | Trends (detail) | `ui/trends/TrendsScreen.kt` | `state.history` |
-| Settings (detail): language, demo / my data, mission environment, about | `ui/settings/SettingsScreen.kt` | `SettingsStore` |
 
 Shared components: `BodyFigure` (Canvas), `LineChart` (Canvas, no chart library), `Pill`/`StatusPill`/`VerdictPill`/`ConfidencePill`, `InfoRow`, `CrewCard`, `CrewScaffold`.
 
-**Languages:** English, Ukrainian, Japanese, German. Switch in Settings (gear on Home); the choice is saved and the screen is recreated. Translations live in `res/values*/strings.xml` (machine-assisted, please review: especially Japanese).
+**Languages:** English, Ukrainian, Japanese, German. Switch with the language dropdown in the top-right corner of every tab; the choice is saved and the screen is recreated. Translations live in `res/values*/strings.xml` (machine-assisted, please review: especially Japanese).
 
 ## Body figure
 - SVG, each system is a separate `path` with an `id`: `cardiovascular`, `metabolic`, `immune`, `behavioral`, `musculoskeletal`, `vision`, `radiation` (radiation is a halo around the figure).

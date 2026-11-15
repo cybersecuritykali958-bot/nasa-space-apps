@@ -18,9 +18,9 @@ Defense: 17–18.11 at 14:00, Zoom, **5 minutes** + questions. Owners: team lead
 ## Likely questions from scientists
 | Question | Answer (prepared by @LoranSent) |
 |---|---|
-| Where do the thresholds come from? | _table in SCIENCE.md_ |
-| Why a personal baseline and not only norms? | _…_ |
-| How accurate is the camera pulse? | _…_ |
+| Where do the thresholds come from? | Each indicator in the app shows its sources; the full table with what is taken directly and what is derived is in `docs/SCIENCE.md` |
+| Why a personal baseline and not only norms? | A value can be normal for the population and still abnormal for this astronaut. Resting heart rate varies ~10 % day to day (Buchheit 2014), so we flag changes above 15 % and 30 % of the personal baseline; the worse of the two checks wins |
+| How accurate is the camera pulse? | Contact PPG apps had a mean absolute error of about 2–4.5 bpm against ECG (Coppetti 2017), below our 15 % yellow threshold. Our algorithm has been checked on synthetic signals only, so results are saved as estimated |
 | Is the data real? | Demo astronaut data is synthetic, built on published rates and labeled as such. Space weather is real NASA DONKI data |
 | How is this different from a fitness tracker? | HRP space risks, early warning against personal variation, autonomous triage with communication delay, scientific sources |
 | How did you validate the early warning? | Day-by-day replay of the mission: events caught, lead time, false alarms (`docs/BACKEND.md`, section 5) |
