@@ -16,7 +16,6 @@
     <string name="qa_twin">Zwilling</string>
     <string name="qa_trends">Trends</string>
     <string name="readiness_title">Bereitschaft &amp; Triage</string>
-    <string name="mission_title">Mission &amp; du</string>
     <string name="responder_self">Selbst handeln</string>
     <string name="responder_cmo">Mit dem Bordarzt sprechen</string>
     <string name="responder_surgeon">Flugarzt auf der Erde kontaktieren</string>
@@ -85,7 +84,6 @@
     <string name="xp">%1$d Protokollpunkte · %2$d bis zur nächsten Stufe</string>
     <string name="days">%1$d Tage</string>
     <string name="current_streak">Aktuelle Serie</string>
-    <string name="todays_mission">Heutige Mission</string>
     <string name="all_done">Für heute erledigt</string>
     <string name="minutes_saved">~%1$.0f Min. heute, %2$.0f Min. gespart</string>
     <string name="send_reminder">Erinnerung jetzt senden</string>
@@ -113,13 +111,9 @@
     <string name="sys_musculoskeletal">Knochen &amp; Muskeln</string>
     <string name="sys_vision">Augen (SANS)</string>
     <string name="sys_radiation">Strahlung</string>
-    <string name="tab_home">Start</string>
     <string name="tab_health">Gesundheit</string>
     <string name="tab_readiness">Bereitschaft</string>
-    <string name="tab_twin">Zwilling</string>
-    <string name="tab_mission">Mission</string>
     <string name="health_subtitle">Alle Körpersysteme und Messwerte</string>
-    <string name="settings_title">Einstellungen</string>
     <string name="language">Sprache</string>
     <string name="data_source_setting">Wessen Daten anzeigen</string>
     <string name="profile_demo_hint">Synthetische 180-Tage-Mission für die Demo</string>

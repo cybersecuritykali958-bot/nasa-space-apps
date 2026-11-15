@@ -200,7 +200,7 @@ private fun BadgeTapArt(state: LoginState, modifier: Modifier) {
 }
 
 @Composable
-private fun roleLabel(role: String): String = stringResource(
+internal fun roleLabel(role: String): String = stringResource(
     when (role) {
         "commander" -> R.string.role_commander
         "cmo" -> R.string.role_cmo

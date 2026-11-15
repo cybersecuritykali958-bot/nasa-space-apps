@@ -17,6 +17,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.PriorityHigh
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material.icons.outlined.NotificationsNone
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -54,6 +60,7 @@ fun HomeScreen(
     state: HomeUiState,
     onIndicator: (String) -> Unit,
     onNavigate: (String) -> Unit,
+    onReminder: () -> Boolean,
     userName: String? = null,
 ) {
     Column(
@@ -72,13 +79,13 @@ fun HomeScreen(
         when {
             state.loading -> Text(stringResource(R.string.loading))
             state.error != null -> Text(stringResource(R.string.data_error, state.error), color = MaterialTheme.colorScheme.error)
-            else -> Briefing(state, onIndicator, onNavigate)
+            else -> Briefing(state, onIndicator, onNavigate, onReminder)
         }
     }
 }
 
 @Composable
-private fun Briefing(state: HomeUiState, onIndicator: (String) -> Unit, onNavigate: (String) -> Unit) {
+private fun Briefing(state: HomeUiState, onIndicator: (String) -> Unit, onNavigate: (String) -> Unit, onReminder: () -> Boolean) {
     // Where the mission is: animated route with the ship at today's position.
     val envId = state.environment?.id
     val planned = PLANNED_DAYS[envId] ?: 0
@@ -146,7 +153,10 @@ private fun Briefing(state: HomeUiState, onIndicator: (String) -> Unit, onNaviga
         }
         DayRing(done, total)
     }
-    if (plan != null) PlanByPartOfDay(state, onNavigate)
+    if (plan != null) {
+        PlanByPartOfDay(state, onNavigate)
+        ReminderRow(plan, onReminder)
+    }
 
     state.report.game?.let { Commendations(it) }
 
@@ -156,6 +166,24 @@ private fun Briefing(state: HomeUiState, onIndicator: (String) -> Unit, onNaviga
         color = MaterialTheme.colorScheme.onSurfaceVariant,
         modifier = Modifier.padding(top = 8.dp, bottom = 16.dp),
     )
+}
+
+/** Time saved by the adaptive schedule, and a button that sends the next reminder now (demo). */
+@Composable
+private fun ReminderRow(plan: space.crewpulse.domain.MeasurementPlan, onReminder: () -> Boolean) {
+    var result by remember { mutableStateOf<Boolean?>(null) }
+    Text(
+        stringResource(R.string.minutes_saved, plan.minutesNext24h, plan.minutesSaved),
+        style = MaterialTheme.typography.bodyMedium,
+        color = MaterialTheme.colorScheme.primary,
+    )
+    OutlinedButton(onClick = { result = onReminder() }) {
+        Icon(Icons.Outlined.NotificationsNone, contentDescription = null)
+        Text(stringResource(R.string.send_reminder), Modifier.padding(start = 8.dp))
+    }
+    result?.let {
+        Text(stringResource(if (it) R.string.reminder_sent else R.string.reminder_none), style = MaterialTheme.typography.bodyMedium)
+    }
 }
 
 /** Round status mark: green check, or amber / red exclamation. */

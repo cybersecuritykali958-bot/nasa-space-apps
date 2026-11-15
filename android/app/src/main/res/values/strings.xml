@@ -16,7 +16,6 @@
     <string name="qa_twin">Twin</string>
     <string name="qa_trends">Trends</string>
     <string name="readiness_title">Readiness &amp; triage</string>
-    <string name="mission_title">Mission &amp; you</string>
     <string name="responder_self">Handle it yourself</string>
     <string name="responder_cmo">Talk to the crew medical officer</string>
     <string name="responder_surgeon">Contact the flight surgeon on Earth</string>
@@ -85,7 +84,6 @@
     <string name="xp">%1$d protocol compliance points · %2$d to next level</string>
     <string name="days">%1$d days</string>
     <string name="current_streak">Current streak</string>
-    <string name="todays_mission">Today’s mission</string>
     <string name="all_done">All set for today</string>
     <string name="minutes_saved">~%1$.0f min today, %2$.0f min saved</string>
     <string name="send_reminder">Send reminder now</string>
@@ -113,13 +111,9 @@
     <string name="sys_musculoskeletal">Bones &amp; muscles</string>
     <string name="sys_vision">Eyes (SANS)</string>
     <string name="sys_radiation">Radiation</string>
-    <string name="tab_home">Home</string>
     <string name="tab_health">Health</string>
     <string name="tab_readiness">Readiness</string>
-    <string name="tab_twin">Twin</string>
-    <string name="tab_mission">Mission</string>
     <string name="health_subtitle">All body systems and measurements</string>
-    <string name="settings_title">Settings</string>
     <string name="language">Language</string>
     <string name="data_source_setting">Whose data to show</string>
     <string name="profile_demo_hint">180-day synthetic mission for the demo</string>

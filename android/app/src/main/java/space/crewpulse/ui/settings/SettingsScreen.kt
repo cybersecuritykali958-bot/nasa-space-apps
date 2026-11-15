@@ -32,6 +32,7 @@ import androidx.compose.material.icons.outlined.Badge
 import androidx.compose.material3.Icon
 import space.crewpulse.ui.home.HomeUiState
 import space.crewpulse.ui.i18n.environmentName
+import space.crewpulse.ui.login.roleLabel
 
 /** Crew Member Profile tab: who is signed in, devices, data source, mission environment, sign-out. */
 @Composable
@@ -54,7 +55,7 @@ fun SettingsScreen(
             CrewCard {
                 ListRow(
                     title = member.name,
-                    subtitle = "${member.role} · ${stringResource(R.string.badge_id, member.badgeId)}",
+                    subtitle = "${roleLabel(member.role)} · ${stringResource(R.string.badge_id, member.badgeId)}",
                     icon = Icons.Outlined.Badge,
                 )
             }

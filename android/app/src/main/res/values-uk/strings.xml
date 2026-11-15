@@ -16,7 +16,6 @@
     <string name="qa_twin">Двійник</string>
     <string name="qa_trends">Тренди</string>
     <string name="readiness_title">Готовність і тріаж</string>
-    <string name="mission_title">Місія і ти</string>
     <string name="responder_self">Впорайся самостійно</string>
     <string name="responder_cmo">Звернись до лікаря екіпажу</string>
     <string name="responder_surgeon">Зв’яжись з лікарем на Землі</string>
@@ -85,7 +84,6 @@
     <string name="xp">%1$d балів дотримання протоколу · %2$d до наступного рівня</string>
     <string name="days">%1$d дн.</string>
     <string name="current_streak">Поточна серія</string>
-    <string name="todays_mission">Місія на сьогодні</string>
     <string name="all_done">На сьогодні все</string>
     <string name="minutes_saved">~%1$.0f хв сьогодні, заощаджено %2$.0f хв</string>
     <string name="send_reminder">Надіслати нагадування</string>
@@ -113,13 +111,9 @@
     <string name="sys_musculoskeletal">Кістки й м’язи</string>
     <string name="sys_vision">Очі (SANS)</string>
     <string name="sys_radiation">Радіація</string>
-    <string name="tab_home">Головна</string>
     <string name="tab_health">Здоров’я</string>
     <string name="tab_readiness">Готовність</string>
-    <string name="tab_twin">Двійник</string>
-    <string name="tab_mission">Місія</string>
     <string name="health_subtitle">Усі системи організму та вимірювання</string>
-    <string name="settings_title">Налаштування</string>
     <string name="language">Мова</string>
     <string name="data_source_setting">Чиї дані показувати</string>
     <string name="profile_demo_hint">Синтетична місія на 180 днів для демо</string>

@@ -180,6 +180,7 @@ private fun MainScaffold(
                     userName = user?.name?.substringBefore(' '),
                     onIndicator = { go(Routes.indicator(it)) },
                     onNavigate = { route -> if (TABS.any { it.route == route }) nav.switchTab(route) else go(route) },
+                    onReminder = home::sendReminderNow,
                 )
             }
             composable(Routes.HEALTH) {

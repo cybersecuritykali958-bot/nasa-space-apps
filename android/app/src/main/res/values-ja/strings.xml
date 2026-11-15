@@ -16,7 +16,6 @@
     <string name="qa_twin">ツイン</string>
     <string name="qa_trends">推移</string>
     <string name="readiness_title">準備状況とトリアージ</string>
-    <string name="mission_title">ミッションとあなた</string>
     <string name="responder_self">自分で対応</string>
     <string name="responder_cmo">クルー医療担当に相談</string>
     <string name="responder_surgeon">地上のフライトサージャンに連絡</string>
@@ -85,7 +84,6 @@
     <string name="xp">プロトコル遵守ポイント %1$d · 次のレベルまで %2$d</string>
     <string name="days">%1$d日</string>
     <string name="current_streak">現在の連続記録</string>
-    <string name="todays_mission">今日のミッション</string>
     <string name="all_done">今日はすべて完了</string>
     <string name="minutes_saved">今日は約%1$.0f分、%2$.0f分節約</string>
     <string name="send_reminder">今すぐリマインダーを送信</string>
@@ -113,13 +111,9 @@
     <string name="sys_musculoskeletal">骨と筋肉</string>
     <string name="sys_vision">目 (SANS)</string>
     <string name="sys_radiation">放射線</string>
-    <string name="tab_home">ホーム</string>
     <string name="tab_health">健康</string>
     <string name="tab_readiness">準備</string>
-    <string name="tab_twin">ツイン</string>
-    <string name="tab_mission">ミッション</string>
     <string name="health_subtitle">すべての身体システムと測定値</string>
-    <string name="settings_title">設定</string>
     <string name="language">言語</string>
     <string name="data_source_setting">表示するデータ</string>
     <string name="profile_demo_hint">デモ用の180日間の合成ミッション</string>
