@@ -14,8 +14,8 @@ CrewPulse is an offline-first Android app that lets astronauts run a quick self-
 | `android/app/src/main/java/space/crewpulse/data/`, `domain/` | Room, data loading, status engine, sensors, NASA API | @creawer |
 | `android/app/src/main/assets/` | Science data (JSON) | @LoranSent, @toma322 |
 | `science/` | Python: demo data, models, algorithm checks | @LoranSent, @toma322 |
-| `docs/` | Plan, roles, contract, design, pitch, submission | team lead, @gutsoni |
-| root, `.github/`, `.claude/`, `.cursor/` | Configs, CI | team lead |
+| `docs/` | Plan, roles, contract, design, pitch, submission | | @creawer, @gutsoni |
+| root, `.github/`, `.claude/`, `.cursor/` | Configs, CI | | @creawer |
 
 ## Quick start
 
