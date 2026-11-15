@@ -17,7 +17,7 @@ Owner: @LoranSent. The judges are scientists, so **every number in the app must 
 | Lunar surface dose | 1.37 mSv/day | Zhang 2020, Chang'e-4 LND | ☑ DOI checked |
 | Earth–Mars transit | 1.84 mSv/day | Zeitlin 2013, MSL RAD | ☑ DOI checked |
 | Mars surface | 0.64 mSv/day | Hassler 2014, Curiosity RAD | ☑ DOI checked |
-| Bone loss | 1.25 %/month without countermeasures, 0.5 %/month with ARED | NASA HRP Evidence Report, NASA/SP-20250000273, Smith 2012 | ☑ see "Digital Twin" |
+| Bone loss | 1.25 %/month without countermeasures, 0.5 %/month with ARED | [NASA HRP Evidence Report](https://ntrs.nasa.gov/citations/20170004597), [NASA/SP-20250000273](https://ntrs.nasa.gov/citations/20250000273), [Smith 2012](https://doi.org/10.1002/jbmr.1647) | ☑ see "Digital Twin" |
 | CSA radiation | Monitoring radiation for astronaut health (2026-02-26) | CSA | ☑ link replaced with the exact article |
 | Camera pulse accuracy | contact PPG: mean absolute error 2–4.5 bpm vs ECG | Coppetti 2017, Eur J Prev Cardiol, https://doi.org/10.1177/2047487317702044 | ☑ for the defense Q&A |
 | `risks.json` | 9 risks, each linked to its own Human Research Roadmap page; names and summaries follow the official HRP risk statements; `fitness` added for the Digital Twin muscle model | NASA Human Research Roadmap | ☑ checked 2026-11-14 |
@@ -44,21 +44,21 @@ Reference implementation: `science/digital_twin.py`, which prints test vectors. 
 | Quantity | Formula | Constants | Source |
 |---|---|---|---|
 | Bone, hip BMD, % of pre-flight | `bone −= r(a) · u / 30.44` | `r(1) = 0.5`, `r(0) = 1.25` %/month, `r(a)` linear in between | NASA HRP Evidence Report (1–1.5 %/month without countermeasures); NASA/SP-20250000273 (ARED era 0.5–1.0 %/month); Smith 2012 (ARED + nutrition preserve BMD) |
-| Muscle, leg strength, % | `muscle ·= exp(−k(a) · u)` | `k(1) = −ln(0.91)/180`, `k(0) = −ln(0.68)/180` per day, `k(a)` linear | NASA/SP-20250000273 (ARED: −9 % leg strength over ~6 months); Trappe 2009 (−32 % calf peak power over 6 months, worst case) |
+| Muscle, leg strength, % | `muscle ·= exp(−k(a) · u)` | `k(1) = −ln(0.91)/180`, `k(0) = −ln(0.68)/180` per day, `k(a)` linear | NASA/SP-20250000273 (ARED: −9 % leg strength over ~6 months); [Trappe 2009](https://doi.org/10.1152/japplphysiol.91578.2008) (−32 % calf peak power over 6 months, worst case) |
 | Dose, mSv | `dose += radiationMsvPerDay` (+ solar events) | from `environments.json` | see the table above |
 | Days to limit | `(600 − dose) / radiationMsvPerDay` | 600 mSv | NASA-STD-3001 Vol. 1 |
 | REID, % | `3 · dose / 600` | 600 mSv ↔ 3 % REID | NASA OCHMO: the limit was set at 3 % risk of exposure-induced cancer death (35-year-old female); linear approximation |
-| Bone after landing | `100 − L0 · 0.5^(t / 255)` | `L0` = loss on landing day, 50 % recovery time 255 days | Sibonga 2007 (trochanter, the slowest site) |
+| Bone after landing | `100 − L0 · 0.5^(t / 255)` | `L0` = loss on landing day, 50 % recovery time 255 days | [Sibonga 2007](https://ntrs.nasa.gov/citations/20070032016) (trochanter, the slowest site) |
 
 **Statuses:**
 
 | Quantity | Green | Yellow | Red | Source |
 |---|---|---|---|---|
-| Bone | ≥ 95 % | 90–95 % | < 90 % | NASA-STD-3001 Vol. 1 Rev B: hip and spine ≥ 95 %, femoral neck ≥ 90 % |
+| Bone | ≥ 95 % | 90–95 % | < 90 % | [NASA-STD-3001 Vol. 1 Rev B](https://www.nasa.gov/wp-content/uploads/2020/10/2022-01-05_nasa-std-3001_vol.1_rev._b_final_draft_with_signature_010522.pdf): hip and spine ≥ 95 %, femoral neck ≥ 90 % |
 | Muscle | ≥ 90 % | 80–90 % | < 80 % | NASA-STD-3001 Vol. 1 Rev B: strength ≥ 80 %; yellow at half the margin is a team rule |
 | Dose | < 300 | 300–540 | ≥ 540 mSv | same as `indicators.json` |
 
-**`extrapolated` flag:** after 438 days (14.4 months) there are no human data (LeBlanc 2000: flights of 4–14.4 months). From that day on, the screen should show "extrapolation" and a dashed line instead of a solid one.
+**`extrapolated` flag:** after 438 days (14.4 months) there are no human data ([LeBlanc 2000](https://pubmed.ncbi.nlm.nih.gov/15758512/): flights of 4–14.4 months). From that day on, the screen should show "extrapolation" and a dashed line instead of a solid one.
 
 **Test vectors** (`python science/digital_twin.py`):
 
@@ -73,7 +73,7 @@ Reference implementation: `science/digital_twin.py`, which prints test vectors. 
 **Model check against real data:** ISS 6 months with ARED → bone −3 %; Scott 2023 crews averaged −3 % at the femoral neck (NASA/SP-20250000273). The Mars mission dose of 982 mSv agrees with MSL RAD: the round-trip transit alone is ~660 mSv (Zeitlin 2013).
 
 **Model assumptions (to state at the defense):**
-1. Unloading is linear in gravity, `1 − g`. There are no human data at 0.38 g; in rats, bone loss grows as loading decreases (Ko 2020, 20/40/70 % of body weight).
+1. Unloading is linear in gravity, `1 − g`. There are no human data at 0.38 g; in rats, bone loss grows as loading decreases ([Ko 2020](https://doi.org/10.1038/s41526-020-0105-0), 20/40/70 % of body weight).
 2. In-flight bone loss is linear, as in LeBlanc 2000 up to 14.4 months; whether it plateaus later is unknown.
 3. Muscle loss is exponential so that it slows down and never goes below zero. The worst case uses power (Trappe 2009), not strength, because there are no direct data on strength without exercise on long flights.
 4. Partial gravity does not restore bone or muscle, it only slows the loss. Recovery is modeled only after landing on Earth.
